@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+          
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <script>
+            PrimeFaces.widget.Dialog.prototype.applyFocus = function() {}
+        </script>
+        <script jsf:rendered="#{not empty gestionStockBean.filtroNumSerie}">
+            $( document ).ready(function() {
+                let filtro = $("#StockListForm\\:datalist\\:columns\\:2\\:filter");
+                filtro.val("#{gestionStockBean.filtroNumSerie}");
+                filtro.keyup();
+            });
+
+        </script>   
+        <p:panel id="panel-interior" header="Gestión Stock">
+            <h:form id="StockListForm">
+                <div class="ui-g" style="padding:8px 0">
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <p:inputText 
+                            id="filtro-transversal"
+                            styleClass="filtro-transversal"
+                            value="#{gestionStockBean.filtro}" 
+                            title="Filtro"
+                            placeholder="Filtro"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding:0">
+                        <h:panelGroup id="PanelBotones">
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Campos" 
+                                update="ColumnasDlg"
+                                oncomplete="PF('ColumnasDialog').show()"
+                                icon="fa fas fa-eye"
+                                immediate="true"
+                                process="@this"
+                            />
+                            <p:commandButton 
+                                id="trasladoButton"
+                                class="boton boton-primary" 
+                                disabled="#{empty gestionStockBean.selecteds}"
+                                value="Traslado"
+                                immediate="true"
+                                actionListener="#{gestionStockBean.prepareTraslado}"
+                                update="StockAccionDlg"
+                                oncomplete="PF('StockAccionDialog').show()"
+                            />
+                            <p:commandButton 
+                                disabled="#{empty gestionStockBean.selecteds}"
+                                id="menuEstadoButton"
+                                class="boton boton-primary"
+                                value="Estado"
+                                icon="fa fa-square"
+                                immediate="true"
+                            />
+                            <p:menu
+                                overlay="true"
+                                trigger="menuEstadoButton"
+                                my="left top"
+                                at="left bottom"
+                                style="width:20em"
+                            >
+                                <p:submenu label="Estado">
+                                    <p:menuitem 
+                                        value="Ver historico estados"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.prepareVerHistoricoEstados}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                        icon="fa fa-fw fa-folder-open"
+                                    />
+                                    <p:menuitem 
+                                        immediate="true"
+                                        icon="fa fa-fw fa-close"
+                                        value="Baja" 
+                                        actionListener="#{gestionStockBean.prepareBaja}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    <p:menuitem 
+                                        immediate="true"
+                                        icon="fas fa-undo"
+                                        value="Anular Baja" 
+                                        actionListener="#{gestionStockBean.prepareAnularBaja}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    <p:menuitem 
+                                        immediate="true"
+                                        icon="fa fa-fw fa-lock"
+                                        value="Bloquear" 
+                                        actionListener="#{gestionStockBean.prepareBloquear}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    <p:menuitem 
+                                        immediate="true"
+                                        icon="fa fa-fw fa-unlock"
+                                        value="Fin.Bloqueo"
+                                        actionListener="#{gestionStockBean.prepareDesbloquear}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    
+                                </p:submenu>
+                                <p:submenu label="Condicion">
+                                    <p:menuitem                                         
+                                        immediate="true"
+                                        icon="fa fa-fw fa-exclamation-triangle"
+                                        value="Cambiar a AVERIADO"
+                                        actionListener="#{gestionStockBean.prepareCambiarCondicion}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    <p:menuitem                                         
+                                        immediate="true"
+                                        icon="fa fa-fw fa-wrench"
+                                        value="Cambiar a BAJO REPARACION"
+                                        actionListener="#{gestionStockBean.prepareCambiarCondicion}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    <p:menuitem                                         
+                                        immediate="true"
+                                        icon="fa fa-fw fa-check"
+                                        value="Cambiar a OK"
+                                        actionListener="#{gestionStockBean.prepareCambiarCondicion}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                    <p:menuitem                                         
+                                        immediate="true"
+                                        icon="fa fa-fw fa-search"
+                                        value="Cambiar a PENDIENTE PERITAR"
+                                        actionListener="#{gestionStockBean.prepareCambiarCondicion}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                    />
+                                </p:submenu>                                    
+                            </p:menu>
+                            <p:commandButton 
+                                disabled="#{empty gestionStockBean.selecteds}"
+                                id="menuPropietarioButton"
+                                class="boton boton-primary"
+                                value="Propietario"
+                                icon="fa fa-fw fa-industry"
+                                immediate="true"
+                            />
+                            <p:menu
+                                overlay="true"
+                                trigger="menuPropietarioButton"
+                                my="left top"
+                                at="left bottom"
+                                style="width:20em"
+                            >
+                                <p:submenu label="Detalle">
+                                    <p:menuitem 
+                                        value="Ver historico propietarios"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.prepareVerHistoricoPropietarios}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                        icon="fa fa-fw fa-folder-open"
+                                    />
+                                    <p:menuitem 
+                                        value="Abrir propietario"
+                                        immediate="true"
+                                        icon="fa fa-fw fa-folder-open"
+                                        outcome="/empresas/modificar.xhtml"
+                                    >
+                                        <f:param name="id" value="#{gestionStockBean.selected.propietarioId}"/> 
+                                    </p:menuitem>
+                                </p:submenu>
+                                <p:submenu label="Cambios de propietario">
+                                    <p:menuitem 
+                                        value="Cambiar Propietario"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.prepareCambiarPropietario}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                        icon="fa fa-fw fa-edit"
+                                    />
+                                    <p:menuitem  icon="fa fa-fw fa-undo"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.deshacerUltimoCambioPropietario}" 
+                                        update=":growl,StockListForm"
+                                        value="Deshacer ultimo cambio propietario" 
+                                    >
+                                        <p:confirm 
+                                            header="Deshacer ultimo cambio propietario" 
+                                            message="¿Desea deshacer el ultimo cambio de propietario?" 
+                                            icon="fa fa-fw fa-question-circle" 
+                                        />
+                                    </p:menuitem>
+                                </p:submenu>                                    
+                            </p:menu>
+                            
+                            <p:commandButton 
+                                disabled="#{empty gestionStockBean.selecteds}"
+                                id="menuFlotaButton"
+                                class="boton boton-primary"
+                                value="Flota"
+                                icon="fa fa-fw fa-object-group"
+                                immediate="true"
+                            />
+                            <p:menu
+                                overlay="true"
+                                trigger="menuFlotaButton"
+                                my="left top"
+                                at="left bottom"
+                                style="width:20em"
+                            >
+                                <p:submenu label="Detalle">
+                                    <p:menuitem 
+                                        value="Ver historico flotas"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.prepareVerHistoricoFlotas}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                        icon="fa fa-fw fa-folder-open"
+                                    />
+                                    <p:menuitem 
+                                        value="Abrir flota"
+                                        immediate="true"
+                                        icon="fa fa-fw fa-folder-open"
+                                        outcome="/empresas/modificar.xhtml"
+                                    >
+                                        <f:param name="id" value="#{gestionStockBean.selected.flota.id}"/> 
+                                    </p:menuitem>
+                                </p:submenu>
+                                <p:submenu label="Cambios de flota">
+                                    <p:menuitem 
+                                        value="Cambiar Flota"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.prepareCambiarFlota}" 
+                                        update="StockAccionDlg"
+                                        oncomplete="PF('StockAccionDialog').show()"
+                                        icon="fa fa-fw fa-edit"
+                                    />
+                                    <p:menuitem  icon="fa fa-fw fa-undo"
+                                        immediate="true"
+                                        actionListener="#{gestionStockBean.deshacerUltimoCambioFlota}" 
+                                        update=":growl,StockListForm"
+                                        value="Deshacer ultimo cambio flota" 
+                                    >
+                                        <p:confirm 
+                                            header="Deshacer ultimo cambio flota" 
+                                            message="¿Desea deshacer el ultimo cambio de flota?" 
+                                            icon="fa fa-fw fa-question-circle" 
+                                        />
+                                    </p:menuitem>
+                                </p:submenu>                                    
+                            </p:menu>
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                disabled="#{empty gestionStockBean.selecteds}"
+                                id="modificarButton"
+                                icon="fa fa-fw fa-edit" 
+                                value="Modificar" 
+                                actionListener="#{gestionStockBean.prepareModificar}" 
+                                update=":growl,:mi-layout-contenido"
+
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                id="crearButton"
+                                icon="fa fa-fw fa-plus" 
+                                value="Crear" 
+                                actionListener="#{gestionStockBean.prepareNuevo}" 
+                                update=":growl,:mi-layout-contenido"
+                            />
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                                <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                            </p:confirmDialog>
+                        </h:panelGroup>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding:0">
+                        <h:panelGroup id="PanelBotones2">
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                id="mostrarOcultarBajasButton"
+                                icon="fa fa-fw #{gestionStockBean.mostrarBajas ? 'fa-eye-slash' : 'fa-eye'}" 
+                                value="#{gestionStockBean.mostrarBajas ? 'Ocultar Bajas' : 'Mostrar Bajas'}" 
+                                actionListener="#{gestionStockBean.invertirMostrarBajas}" 
+                                update=":growl,datalist,mostrarOcultarBajasButton" 
+                            />
+                        </h:panelGroup>
+                        
+                    </div>
+                </div>
+                    <p:dataTable 
+                        id="datalist" 
+                        scrollRows="30" 
+                        virtualScroll="true" 
+                        reflow="false" 
+                        rowStyleClass="#{item.estado == 'BAJA' ? 'row-roja' : item.estado == 'BLOQUEADO' ? 'row-bloqueado' : ''}" 
+                        scrollHeight="#{viewController.contentHeight-280}"
+                        value="#{gestionStockBean.items}" 
+                        var="item"
+                        selectionMode="multiple"
+                        selection="#{gestionStockBean.selecteds}"
+                        rowKey="#{item.id}"
+                        lazy="true"
+                        emptyMessage="No se ha encontrado ningún registro."
+                        sortBy="#{item.id}"
+                        sortOrder="descending"
+                        scrollable="true"
+                        rows="30"
+                    >           
+                    <p:ajax event="rowSelect"   update=":StockListForm:PanelBotones"/>
+                    <p:ajax event="rowUnselect" update=":StockListForm:PanelBotones"/>
+                   
+                   <p:columns 
+                        id="columns"
+                        var="column"
+                        value="#{gestionStockBean.dataTableSelectedColumns}"
+                        priority="#{column.priority}"
+                        width="#{column.width}"
+                        resizable="#{column.resizable}"
+                        filterBy="#{column.filter}"
+                        filterMatchMode="#{column.filterMatchMode}"
+                        sortBy="#{column.sortBy}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="#{column.caption}" />
+                        </f:facet>
+                        <h:outputText 
+                            rendered="#{column.view eq 'TEXTO'}"
+                            value="#{item[column.property]}"
+                        />
+                        <h:outputText 
+                            rendered="#{column.view == 'FECHA'}"
+                            value="#{item[column.property]}"
+                        >
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/> 
+                        </h:outputText>
+                        <h:outputText 
+                           rendered="#{column.view eq 'PRODUCTO' and item.tipoProducto != null}"
+                           value="#{item.tipoProducto.id}-#{item.tipoProducto.descripcion}"
+                        />
+                        <h:outputText 
+                           rendered="#{column.view eq 'FAMILIA' and item.tipoProducto != null and item.tipoProducto.familia != null}"
+                           value="#{item.tipoProducto.familia.id}-#{item.tipoProducto.familia.nombre}"
+                        />
+                        <h:outputText 
+                            rendered="#{column.view eq 'NUM_SERIE'}"
+                            value="#{item[column.property]}"
+                        />
+                        <h:outputText 
+                            rendered="#{column.view eq 'FLOTA' and item.flota != null}"
+                            value="#{item.flota.nombre}"
+                        />
+                        <h:outputText 
+                            rendered="#{column.view eq 'ESTADO' and item.estado != null}"
+                            value="#{item.estado.nombre}"
+                            class="app-estado app-estado-#{ item.estado.id == 'AL' ? 'BL' : item.estado.id }"
+                        />
+                        <div jsf:rendered="#{column.view eq 'ESTADO_CONTRATO' and item.estadoContratoId != null}" style="text-align: center">
+                            <h:link 
+                                class="app-codigo"
+                                value="#{item.estadoContratoFriendlyId}" 
+                                outcome="/contratos/modificar.xhtml"
+                            >
+                                <f:param name="tab" value="1" />
+                                <f:param name="producto_id" value="#{item.id}" />
+                                <f:param name="id" value="#{item.estadoContratoId}" />
+                            </h:link>
+                        </div>
+                        <h:outputText 
+                            rendered="#{column.view eq 'UBICACION' and item.ubicacion != null}"
+                            value="#{item.ubicacion.nombre} (#{item.ubicacion.direccion.poblacion.nom})"
+                        />
+                        <div jsf:rendered="#{column.view eq 'CONDICION' and item.condicion != null}">
+                            <div style="text-align:center">
+                                <h:outputText 
+                                    class="app-estado app-estado-#{item.condicion.id}"
+                                    value="#{item.condicion.nombre}"
+                                />
+                            </div>
+                        </div>
+                        <div jsf:rendered="#{column.view eq 'EMPRESA' and item.propietario != null}" style="position:relative">
+                            <div class="my-row">
+                                <div class="my-col" style="width:calc(100% - 20px)">
+                                    <h:outputText value="#{item.propietario}"/>
+                                </div>
+                            </div>
+                            <div 
+                                rendered="#{item.propietarioId != null}"
+                                class="" 
+                                style="position:absolute;top:50%;margin-top:-10px;right:0;width:20px"
+                            >
+                                <h:button
+                                    class="boton boton-primary boton-peque boton-compacto" 
+                                    style="float:right;border-radius:4px;cursor:pointer;padding:0"
+                                    value="..."
+                                    outcome="/empresas/modificar.xhtml"
+
+                                >
+                                    <f:param name="id" value="#{item.propietarioId}"/> 
+                                </h:button>
+                            </div>
+                        </div>
+                    </p:columns>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+        <style>
+            #StockAccionDlg_content {
+                overflow:visible;
+            }
+        </style>
+        <p:dialog 
+            id="StockAccionDlg"
+            responsive="true"
+            widgetVar="StockAccionDialog"
+            modal="true"
+            resizable="true"
+            appendTo="@(body)"
+            header="#{gestionStockBean.dialogoActual.titulo}" 
+            dynamic="true"
+            position="center center"
+            style="overflow:visible"
+            
+        >
+            <div id="dlg-content" style="max-height: 80vh"> 
+                <ui:include src="#{gestionStockBean.dialogoActual.id}.xhtml" rendered="#{gestionStockBean.dialogoActual != AccionDialogo.NONE}"/>
+            </div>
+        </p:dialog>
+        <p:dialog 
+            id="ColumnasDlg"
+            responsive="true"
+            widgetVar="ColumnasDialog"
+            modal="true"
+            resizable="false"
+            appendTo="@(body)"
+            header="Campos visibles"
+            dynamic="true"
+            position="center center"
+            maximizable="false"
+        >
+            <h:form id="StockColumnasForm">
+                <p:messages 
+                    id="messages"
+                    showSummary="false"
+                    showDetail="true"
+                    closable="true"
+                >
+                    <p:autoUpdate />
+                </p:messages>
+                <p:selectManyCheckbox 
+                    id="columnsCheckBox" 
+                    value="#{gestionStockBean.dataTableSelectedColumns}"
+                    widgetVar="columnsCheckBoxVar"
+                    layout="grid"
+                    columns="3"
+                    styleClass="grid-checkbox"
+                    converter="gestionStockColumnConverter"
+                >
+                    <f:selectItems
+                        value="#{gestionStockBean.dataTableColumns}"
+                        var="item"
+                        itemLabel="#{item.caption}"
+                        itemValue="#{item}"
+                    />
+                </p:selectManyCheckbox>
+                <div style="text-align: right; padding-top:6px">
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Ninguna" 
+                        update="StockColumnasForm"
+                        actionListener="#{gestionStockBean.selectMostrarNingunaColumna}"
+                        icon="fa fa-square"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Todas" 
+                        update="StockColumnasForm"
+                        actionListener="#{gestionStockBean.selectMostrarTodasColumnas}"
+                        icon="fa fa-check-square"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Aceptar" 
+                        update=":growl,StockColumnasForm,panel-interior"
+                        actionListener="#{gestionStockBean.cambiarSeleccionColumnas}"
+                        oncomplete="handleSubmit(args,'ColumnasDialog');"
+                        icon="fa fa-check"
+                    />                    
+                </div>
+            </h:form>
+        </p:dialog> 
+    </ui:composition>
+</html>

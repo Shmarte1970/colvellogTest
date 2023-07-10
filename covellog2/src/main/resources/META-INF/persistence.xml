@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="covellog2-pu" transaction-type="JTA">
+    <jta-data-source>java:app/covellog2</jta-data-source>
+    <class>es.zarca.covellog.domain.model.adreces.pais.Pais</class>
+    <class>es.zarca.covellog.domain.model.adreces.poblacio.Poblacio</class>
+    <class>es.zarca.covellog.domain.model.adreces.provincia.Provincia</class>
+    <class>es.zarca.covellog.domain.model.app.App</class>
+    <class>es.zarca.covellog.domain.model.app.PropietatsApp</class>
+    <class>es.zarca.covellog.domain.model.clients.client.Client</class>
+    <class>es.zarca.covellog.domain.model.comercials.comercial.Comercial</class>
+    <class>es.zarca.covellog.domain.model.comercials.divisiocomercial.DivisioComercial</class>
+    <class>es.zarca.covellog.domain.model.crm.oportunitat.EstatOportunitat</class>
+    <class>es.zarca.covellog.domain.model.crm.oportunitat.Oportunitat</class>
+    <class>es.zarca.covellog.domain.model.crm.oportunitat.OrigenOportunitat</class>
+    <class>es.zarca.covellog.domain.model.crm.repartidoroportunitats.ReglaReparticioOportunitats</class>
+    <class>es.zarca.covellog.domain.model.crm.repartidoroportunitats.RepartidorOportunitats</class>
+    <class>es.zarca.covellog.domain.model.email.PoolServidorsEmail</class>
+    <class>es.zarca.covellog.domain.model.email.ServidorEmail</class>
+    <class>es.zarca.covellog.domain.model.factures.factura.Factura</class>
+    <class>es.zarca.covellog.domain.model.notificacions.Notificacio</class>
+    <class>es.zarca.covellog.domain.model.usuarios.Grupo</class>
+    <class>es.zarca.covellog.domain.model.usuarios.Usuario</class>
+    <class>es.zarca.covellog.domain.model.empresa.Empresa</class>
+    <class>es.zarca.covellog.domain.model.empresa.Potencialillo</class>
+    <class>es.zarca.covellog.domain.model.empresa.formapago.TipoPago</class>
+    <class>es.zarca.covellog.domain.model.empresa.formapago.TipoVencimiento</class>
+    <class>es.zarca.covellog.domain.model.idiomas.idioma.Idioma</class>
+    <class>es.zarca.covellog.domain.model.empresa.proveedor.Proveedor</class>
+    <class>es.zarca.covellog.domain.model.empresa.proveedor.ProveedorFormaPagoLinea</class>
+    <class>es.zarca.covellog.domain.model.empresa.cliente.Cliente</class>
+    <class>es.zarca.covellog.domain.model.empresa.Potencial</class>
+    <class>es.zarca.covellog.domain.model.empresa.cliente.ClienteFormaPagoLineaAlquiler</class>
+    <class>es.zarca.covellog.domain.model.empresa.cliente.ClienteFormaPagoLineaVenta</class>
+    <class>es.zarca.covellog.domain.model.empresa.cliente.TipoCliente</class>
+    <class>es.zarca.covellog.domain.model.empresa.ContactoRol</class>
+    <class>es.zarca.covellog.domain.model.empresa.ContactoContactoRolRelation</class>
+    <class>es.zarca.covellog.domain.model.empresa.DireccionEnvioContactoRelation</class>
+    <class>es.zarca.covellog.domain.model.empresa.EmpresaContacto</class>
+    <property name="eclipselink.logging.level.sql" value="FINE"/>
+    <property name="org.eclipse.persistence.level" value="FINE"/>
+    <property name="eclipselink.logging.parameters" value="true"/>
+    <class>es.zarca.covellog.domain.model.empresa.EmpresaDireccionEnvio</class>
+    <class>es.zarca.covellog.domain.model.contrato.Contrato</class>
+    <class>es.zarca.covellog.domain.model.stock.Stock</class>
+    <class>es.zarca.covellog.domain.model.stock.StockHistoricoEstado</class>
+  </persistence-unit>
+  <persistence-unit name="webzarca-pu" transaction-type="JTA">
+    <jta-data-source>java:app/webzarca</jta-data-source>
+    <class>es.zarca.covellog.domain.model.crm.peticiocontacte.AtributPeticioContacte</class>
+    <class>es.zarca.covellog.domain.model.crm.peticiocontacte.PeticioContacte</class>
+  </persistence-unit>
+</persistence>

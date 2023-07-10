@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+    <ui:composition>
+        <h:panelGroup id="ModificarProveedorPanel">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <h:panelGroup
+                        layout="block" 
+                        rendered="#{proveedorController.model.proveedor.fechaBloqueo != null}"
+                    >
+                        <div class="ui-message-error">
+                            <h2 style="padding-top: 4px;padding-left:4px;margin:0">Bloqueado</h2>
+                            <p:outputLabel 
+                                value="#{proveedorController.model.proveedor.fechaBloqueo}" 
+                            />
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="text-align: right">
+                    <h:form>
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque boton-error" 
+                            actionListener="#{proveedorController.eliminar}" 
+                            value="Eliminar" 
+                            update=":mi-layout-contenido,:growl"
+                            icon="fa fa-fw fa-trash"
+                        >
+                            <p:confirm header="Eliminar Proveedor" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        <p:commandButton 
+                            rendered="#{proveedorController.model.proveedor.fechaBloqueo == null}"
+                            class="boton boton-primary boton-peque boton-error" 
+                            actionListener="#{proveedorController.bloquear}" 
+                            value="Bloquear" 
+                            update="@parent:@parent:ModificarProveedorPanel,:growl" 
+                            icon="fa fa-fw fa-lock"
+                        >
+                            <p:confirm header="Bloquear Proveedor" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        <p:commandButton 
+                            rendered="#{proveedorController.model.proveedor.fechaBloqueo != null}"
+                            class="boton boton-primary boton-peque" 
+                            actionListener="#{proveedorController.desbloquear}" 
+                            value="Desbloquear" 
+                            update="@parent:@parent:ModificarProveedorPanel,:growl" 
+                            icon="fa fa-fw fa-unlock"
+                        >
+                            <p:confirm header="Desbloquear Proveedor" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                            <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                            <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                        </p:confirmDialog>
+                    
+                            
+                    </h:form>
+                    <p:commandButton 
+                        id="GuardarButtonProveedor"
+                        class="boton boton-primary"
+                        form="ProveedorForm"
+                        icon="fa fa-fw fa-save" 
+                        actionListener="#{proveedorController.modificar}" 
+                        value="Guardar" 
+                        update="ModificarProveedorPanel,:growl" 
+                    />
+                </div>
+            </div>
+            <ui:include src="proveedor-form.xhtml"/>            
+        </h:panelGroup>
+    </ui:composition>
+</html>

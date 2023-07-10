@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <ui:composition template="/template-print-a5.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{reservaPrintBean.reserva.tipo.id == 'S' ? 'ENTREGUESE' : 'ADMITASE'}"></h:outputText>
+        </ui:define>
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam id="id" name="id" value="#{reservaPrintBean.id}" required="true">
+                    <f:validateLongRange minimum="1" />
+                </f:viewParam>
+                <f:viewAction action="#{reservaPrintBean.prepare}" />
+            </f:metadata>
+            <h:message for="id" />
+        </ui:define>
+        <ui:define name="documento-tipo">
+            <h:outputText value="#{reservaPrintBean.reserva.tipo.id == 'S' ? 'ENTREGUESE' : 'ADMITASE'}"></h:outputText>
+        </ui:define>
+        <ui:define name="documento-id">
+            <h:outputText value="#{reservaPrintBean.reserva.friendlyId}"></h:outputText>
+        </ui:define>
+        <ui:define name="info-empresa-contenido">
+            <div>
+                <img style="width:27px" src="#{resourcesController.getImage('fa-warehouse-gray.png')}"/>
+                <div style="display:inline;line-height:24px;vertical-align: top;font-size: 2em">
+                    #{reservaPrintBean.reserva.ubicacion.nombre}
+                </div>
+            </div>
+        </ui:define>
+        <ui:define name="cabecera">
+            <div jsf:rendered="#{not empty reservaPrintBean.reserva}" class="print-row">
+                <div class="print-col" style="width:100%;padding:10px">
+                    <div class="print-row">
+                        <div class="print-col" style="width:53%;">
+                            <div class="print-row" style="background-color: #DDD;padding:10px;height:58px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-user-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li style="font-size:0.8em;">
+                                            <h:outputText 
+                                                value="#{reservaPrintBean.reserva.cliente.cif}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputText 
+                                                value="#{reservaPrintBean.reserva.cliente.nombre}" 
+                                                style="font-weight:bold"
+                                            />
+                                        </li>
+                                        <li style="font-size:0.6em;">
+                                            <h:outputText 
+                                                value="#{reservaPrintBean.reserva.cliente.friendlyId}"
+                                                style="font-style: italic"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;height:58px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-truck-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li jsf:rendered="#{not empty reservaPrintBean.reserva.transportistaNombre}">
+                                            <h:outputText 
+                                                value="#{reservaPrintBean.reserva.transportistaNombre}" 
+                                                style="font-weight:bold"
+                                            />
+                                        </li>
+                                        <li 
+                                            jsf:rendered="#{not empty reservaPrintBean.reserva.chofer}"
+                                            style="font-size:0.8em;"
+                                        >
+                                            <h:outputText value="Chofer: "/>
+                                            <h:outputText value="#{reservaPrintBean.reserva.chofer}"/>
+                                        </li>
+                                        <li 
+                                            jsf:rendered="#{not empty reservaPrintBean.reserva.matricula}"
+                                            style="font-size:0.8em;"
+                                        >
+                                            <h:outputText value="Matricula: "/>
+                                            <h:outputText value="#{reservaPrintBean.reserva.matricula}"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="print-col" style="width:45%;float:right">
+                            <div class="print-row" style="background-color: #DDD;padding:10px;height:58px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-calendar-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li style="font-size:1.4em;">
+                                            <h:outputLabel style="display:block"
+                                                value="Fecha Transporte" 
+                                            />
+                                            <h:outputText
+                                                style="display:block;padding-left:0.5em;font-weight:bold"
+                                                value="#{reservaPrintBean.reserva.fecha}" 
+                                            >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="CET"/>
+                                            </h:outputText>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;height:58px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-file-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px;padding-left: 1em">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel style="display:block"
+                                                value="Booking" 
+                                            />
+                                            <h:outputText 
+                                                value="#{reservaPrintBean.reserva.booking}" 
+                                                style="display:block;padding-left:.5em"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+        <ui:define name="contenido">
+            <table id="contenido-tabla" jsf:rendered="#{reservaPrintBean.reserva != null}">
+                <tr>
+                    <th id="primera-col-tabla" style="width: 85%" class="column-header fondo-oscuro">Producto</th>
+                    <th id="ultima-col-tabla" style="width: 15%" class="column-header fondo-claro">Cantidad</th>
+                </tr>
+                <tr class="linea par" jsf:rendered="#{empty reservaPrintBean.reserva.lineas}">
+                    <td class="celda-concepto ui-state-error" colspan="5">
+                        <div class="content-concepto">
+                            <div style="font-size:1.3em;font-weight:bold">No hay lineas.</div>
+                        </div>
+                    </td>
+                </tr>
+                <ui:repeat
+                    rendered="#{not empty reservaPrintBean.reserva.lineas}"
+                    value="#{reservaPrintBean.reserva.lineas}"
+                    var="item"
+                    varStatus="estado"
+                >
+                    <tr class="linea #{(estado.index % 2)==0 ? 'impar' : 'par'}">
+                        <td class="celda-concepto">
+                            <div class="content-concepto" >
+                                <div jsf:rendered="#{not empty item.stock}" style="font-size:1.2em;font-weight:bold">#{item.stock.numSerie}</div>
+                                <div jsf:rendered="#{empty item.stock}" style="font-size:1.2em;font-weight:bold">SIN ASIGNAR</div>
+                                <div style="font-size:1em">#{item.tipoProducto.id}-#{item.tipoProducto.descripcion}</div>
+                                <div style="font-style: italic">#{item.lote}</div>
+                                <div jsf:rendered="#{not empty item.checkList}" style="padding:0.3em 1em" >
+                                    <span style="font-style: italic;font-weight: bold">Checklist</span>
+                                    <ul class="datos" style="font-size:0.8em">
+                                    <ui:repeat
+                                        value="#{item.checkList}"
+                                        var="checkListItem"
+                                        varStatus="checkListEstado"
+                                    >
+                                        <li>#{checkListItem}</li>
+                                    </ui:repeat>
+                                    </ul>
+                                </div>
+                                <div jsf:rendered="#{empty item.checkList}" >
+                                    Sin checklist
+                                </div>
+                            </div>
+                        </td>
+                        <td class="celda-cantidad">1</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </ui:define>
+        <ui:define name="content-footer">
+            <div class="print-row">
+                <div class="print-col" style="width:100%;min-height: 2em">
+                    <div><strong>Observaciones</strong></div>
+                    <div>
+                        #{reservaPrintBean.reserva.observaciones}
+                    </div>
+                </div>
+            </div>
+            
+            
+        </ui:define>
+        <ui:define name="condiciones">
+        </ui:define>     
+        <ui:define name="numeracion">
+            #{reservaPrintBean.numPagina}/#{reservaPrintBean.totalPaginas}
+        </ui:define>
+    </ui:composition>
+</html>

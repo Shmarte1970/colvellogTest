@@ -1,0 +1,37 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+            <composite:attribute name="styleclass" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel 
+                id="content" 
+                style="position: relative;min-height: 5rem"
+                class="#{cc.attrs.updateId} #{cc.attrs.styleclass}"
+            >
+                <p:outputLabel 
+                    rendered="#{not empty cc.attrs.value.cif or not empty cc.attrs.value.alias}" 
+                    class="fa fa-industry" 
+                    style="font-size:48px;color:#EEE;position:absolute;right:6px; top:6px;z-index: 0"
+                />
+                <p:outputLabel 
+                    rendered="#{empty cc.attrs.value.cif and empty cc.attrs.value.alias}" 
+                    class="fa fa-industry" 
+                    style="font-size:2em;color:#EEE;position:absolute;right:6px; top:6px;z-index: 0"
+                />
+                <div style="position:relative;z-index: 1">
+                    <div style="font-size:1em"><span>#{cc.attrs.value.cif}</span></div>
+                    <div style="font-size:2em"><span><strong>#{cc.attrs.value.nombre}</strong></span></div>
+                    <div style="font-size:1.2em;font-style: italic"><span>#{cc.attrs.value.alias}</span></div>
+                </div>
+                
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

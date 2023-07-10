@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FamiliaCreateDlg" responsive="true" widgetVar="FamiliaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Familia">
+            <h:form id="FamiliaCreateForm">
+                <h:panelGroup id="display" rendered="#{gestionFamiliaProductoBean.createForm != null}">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Nombre" for="nombre" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="nombre" 
+                                value="#{gestionFamiliaProductoBean.createForm.nombre}" 
+                                title="Nombre" 
+                                required="true" 
+                                requiredMessage="El nombre es obligatorio"
+                            />
+                            <p:message for="nombre"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones" for="observaciones" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="observaciones" 
+                                value="#{gestionFamiliaProductoBean.createForm.observaciones}" 
+                                title="Observaciones"
+                                required="false"/>                                 
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding-top:16px">                        
+                        <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{gestionFamiliaProductoBean.cancelNuevo}" value="Cancelar" oncomplete="closeDialog('FamiliaCreateDialog')" immediate="true"/>
+                        <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{gestionFamiliaProductoBean.nuevo}" value="Guardar" update="display,:FamiliaListForm:datalist,:growl" oncomplete="handleSubmit(args,'FamiliaCreateDialog');"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

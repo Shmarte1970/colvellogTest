@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.web.empresas.model.DetalleContratacionBean"/>
+            <composite:attribute name="onAceptar" method-signature="void actionListener(javax.faces.event.ActionEvent)" required="true"/>
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="update" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+            <h:panelGroup id="DetalleContratacionEditPanel">
+                <p:outputLabel value="No hay detalle contratación" rendered="#{cc.attrs.value == null}"/>
+                <h:form id="DetalleContratacionEditForm" rendered="#{cc.attrs.value != null}">                
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-9 ui-lg-6">
+                            <p:outputLabel value="Facturar Por Adelantado" for="facturarAdelantado"/>
+                            <p:panel id="facturarAdelantado" class="ui-inputfield cov-input" styleClass="ui-inputfield cov-input">
+                                <div><p:selectBooleanCheckbox value="#{clienteController.model.detalleContratacionBean.transporteEntregaAdelantado}" itemLabel="Transporte Entrega" /></div>
+                                <div><p:selectBooleanCheckbox value="#{clienteController.model.detalleContratacionBean.transporteRecogidaAdelantado}" itemLabel="Transporte Recogida" /></div>
+                                <div><p:selectBooleanCheckbox value="#{clienteController.model.detalleContratacionBean.montajeAdelantado}" itemLabel="Montajes" /></div>
+                                <div><p:selectBooleanCheckbox value="#{clienteController.model.detalleContratacionBean.desmontajeAdelantado}" itemLabel="Desmontajes" /></div>
+                            </p:panel>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-9 ui-lg-6">
+                            <p:outputLabel value="Meses Fianza" for="mesesFianza" />
+                            <p:selectOneMenu 
+                                class="cov-input" 
+                                id="mesesFianza" 
+                                value="#{clienteController.model.detalleContratacionBean.mesesFianza}"
+                            >
+                                <f:selectItem itemLabel="Sin Fianza" itemValue="0" />
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                                <f:selectItem itemLabel="3" itemValue="3" />
+                                <f:selectItem itemLabel="4" itemValue="4" />
+                                <f:selectItem itemLabel="5" itemValue="5" />
+                                <f:selectItem itemLabel="6" itemValue="6" />
+                                <f:selectItem itemLabel="7" itemValue="7" />
+                                <f:selectItem itemLabel="8" itemValue="8" />
+                                <f:selectItem itemLabel="9" itemValue="9" />
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                                <f:selectItem itemLabel="11" itemValue="11" />
+                                <f:selectItem itemLabel="12" itemValue="12" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-9 ui-lg-6">
+                            <p:outputLabel value="Tipo Facturación" for="tipoFacturacion"/>
+                            <p:selectOneMenu 
+                                class="cov-input" 
+                                id="tipoFacturacion" 
+                                value="#{clienteController.model.detalleContratacionBean.tipoFacturacion}"
+                            >
+                                <f:selectItem itemLabel="Mes vencido" itemValue="MES_VENCIDO" />
+                                <f:selectItem itemLabel="Mes por adelantado" itemValue="MES_ADELANTADO" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-9 ui-lg-6" style="text-align: right; padding-top:16px">
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                icon="fa fa-fw fa-save" 
+                                actionListener="#{clienteController.guardar}" 
+                                value="Guardar" 
+                                update=":growl" 
+                            />
+                        </div>
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

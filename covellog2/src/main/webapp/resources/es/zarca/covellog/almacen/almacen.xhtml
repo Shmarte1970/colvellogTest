@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel 
+                id="content"                
+                styleClass="#{cc.attrs.updateId} panel-info"
+                style="position: relative;min-height: 4.5em"
+            >
+                <div style="position:relative;z-index: 1">
+                    <div style="font-size:1em"><span>#{cc.attrs.value.empresa.nombre}</span></div>
+                    <div style="font-size:1.3em"><span><strong>#{cc.attrs.value.nombre}</strong></span></div>
+                    <p:outputPanel 
+                        layout="block" 
+                        rendered="#{cc.attrs.value.direccion != null and cc.attrs.value.direccion.poblacion != null}" 
+                        style="font-size:0.8em;font-style: italic" 
+                    >
+                        <span>#{cc.attrs.value.direccion.poblacion.nom}</span>
+                    </p:outputPanel>
+                    <p:outputPanel 
+                        layout="block" 
+                        rendered="#{cc.attrs.value.direccion == null or cc.attrs.value.direccion.poblacion == null}" 
+                        style="font-size:0.8em;font-style: italic" 
+                    >
+                        <span>Sin direccion</span>
+                    </p:outputPanel>
+                </div>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

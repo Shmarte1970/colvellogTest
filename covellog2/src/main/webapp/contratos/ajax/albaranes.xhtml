@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+>
+    <ui:composition>
+        <h:form id="ContratoAlbaranesForm">
+            <div>
+                <h1>Albaranes</h1>
+            </div>
+
+            <p:panel 
+                id="AlbaranesEntregaPanel"
+                header="Albaranes Entrega (#{contratoAlbaranesBean.albaranesEntrega.size()})" 
+                styleClass="panel-datatable header-mediano" 
+                style=""
+            >
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
+                        <p:commandButton
+                            disabled="#{empty contratoAlbaranesBean.albaranesEntregaSeleccionados}"
+                            class="boton boton-primary boton-peque"
+                            value="Eliminar"    
+                            partialSubmit="true"
+                            icon="fa fa-fw fa-close"
+                            actionListener="#{contratoAlbaranesBean.eliminarAlbaranEntrega}"
+                            update=":mi-layout-contenido"
+                        />
+                        <p:button 
+                            outcome="/albaranes/modificar"
+                            disabled="#{empty contratoAlbaranesBean.albaranesEntregaSeleccionados}"
+                            class="boton boton-primary boton-peque"
+                            value="Modificar"    
+                            icon="fa fa-fw fa-edit"
+                        >
+                            <f:param name="id" value="#{contratoAlbaranesBean.albaranEntregaSeleccionado.id}"/>
+                        </p:button>
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque"
+                            value="Nuevo"    
+                            immediate="true"
+                            icon="fa fa-fw fa-plus"
+                        />
+                    </div>
+                </div>
+                <p:scrollPanel 
+                    mode="native" 
+                    rendered="#{not empty contratoAlbaranesBean.albaranesEntrega}"
+                    style="max-height:60vh;border:none"
+                >
+                    <p:outputLabel 
+                        value="No hay albaranes" 
+                        rendered="#{empty contratoAlbaranesBean.albaranesEntrega}"
+                    />
+                    <p:selectManyMenu 
+                        style="width:100%;box-sizing: border-box" 
+                        id="AlbaranesEntrega" 
+                        converter="contratoAlbaranDtoConverter"
+                        value="#{contratoAlbaranesBean.albaranesEntregaSeleccionados}"
+                        var="p"
+                    >
+                        <f:selectItems 
+                            value="#{contratoAlbaranesBean.albaranesEntrega}"
+                            var="item"
+                            itemLabel="#{item}"
+                            itemValue="#{item}"/>
+                        
+                        <p:ajax 
+                            event="change"                             
+                            update="ContratoAlbaranesForm"
+                        />
+                        <p:ajax 
+                           
+                            event="dblclick" 
+                            listener="#{contratoAlbaranesBean.openAlbaranEntrega}"                          
+                        />
+                        <p:column>
+                            <e:albaranItemList value="#{p}" />
+                        </p:column>
+                    </p:selectManyMenu>
+                </p:scrollPanel>
+            </p:panel>
+            <p:panel 
+                id="AlbaranesRecogidaPanel"
+                header="Albaranes Recogida (#{contratoAlbaranesBean.albaranesRecogida.size()})" 
+                styleClass="panel-datatable header-mediano" 
+                style=""
+            >
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
+                        <p:commandButton
+                            disabled="#{empty contratoAlbaranesBean.albaranesRecogidaSeleccionados}"
+                            class="boton boton-primary boton-peque"
+                            value="Eliminar"    
+                            partialSubmit="true"
+                            icon="fa fa-fw fa-close"
+                            actionListener="#{contratoAlbaranesBean.eliminarAlbaranRecogida}"
+                            update=":mi-layout-contenido"
+                        />
+                        <p:button 
+                            outcome="/albaranes/modificar"
+                            disabled="#{empty contratoAlbaranesBean.albaranesRecogidaSeleccionados}"
+                            class="boton boton-primary boton-peque"
+                            value="Modificar"    
+                            icon="fa fa-fw fa-edit"
+                        >
+                            <f:param name="id" value="#{contratoAlbaranesBean.albaranRecogidaSeleccionado.id}"/>
+                        </p:button>
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque"
+                            value="Nuevo"    
+                            immediate="true"
+                            icon="fa fa-fw fa-plus"
+                        />
+                    </div>
+                </div>
+                <p:scrollPanel 
+                    mode="native" 
+                    rendered="#{not empty contratoAlbaranesBean.albaranesRecogida}"
+                    style="max-height:60vh;border:none"
+                >
+                    <p:outputLabel 
+                        value="No hay albaranes" 
+                        rendered="#{empty contratoAlbaranesBean.albaranesRecogida}"
+                    />
+                    <p:selectManyMenu 
+                        style="width:100%;box-sizing: border-box" 
+                        id="AlbaranesRecogida" 
+                        converter="contratoAlbaranDtoConverter"
+                        value="#{contratoAlbaranesBean.albaranesRecogidaSeleccionados}"
+                        var="p"
+                    >
+                        <f:selectItems 
+                            value="#{contratoAlbaranesBean.albaranesRecogida}"
+                            var="item"
+                            itemLabel="#{item}"
+                            itemValue="#{item}"/>
+                        
+                        <p:ajax 
+                            event="change" 
+                            update="ContratoAlbaranesForm"
+                        />
+                        <p:ajax 
+                           
+                            event="dblclick" 
+                            listener="#{contratoAlbaranesBean.openAlbaranRecogida}"                          
+                        />
+                        <p:column>
+                            <e:albaranItemList value="#{p}" />
+                        </p:column>
+                    </p:selectManyMenu>
+                </p:scrollPanel>
+            </p:panel>
+        </h:form>
+    </ui:composition>
+</html>

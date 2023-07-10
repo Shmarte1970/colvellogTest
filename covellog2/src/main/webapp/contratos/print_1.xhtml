@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:d="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contacto"
+      xmlns:u="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+
+    <ui:composition template="/template-print.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Contrato"></h:outputText>
+        </ui:define>
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam id="id" name="id" value="#{contratoPrintBean.id}" required="true">
+                    <f:validateLongRange minimum="1" />
+                </f:viewParam>
+                <f:viewAction action="#{contratoPrintBean.prepare}" />
+            </f:metadata>
+            <h:message for="id" />
+        </ui:define>
+        <ui:define name="documento-tipo">
+            <h:outputText value="CONTRATO" style="display: inline-block;width: 15.8cm"></h:outputText>
+        </ui:define>
+        <ui:define name="documento-id">
+            <h:outputText value="#{contratoPrintBean.contrato.friendlyId}"></h:outputText>
+        </ui:define>
+        <ui:define name="cabecera">
+            <div jsf:rendered="#{contratoPrintBean.contrato != null}" class="print-row">
+                <div class="print-col" style="width:100%;padding:10px">
+                    <div class="print-row">
+                        <div class="print-col" style="width:50%;padding-right:5px">
+                            <div class="print-row" style="background-color: #DDD;padding:10px;height:96px;width:100%">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-file-gray.png')}"/>
+                                </div>                                
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos" style="font-">
+                                        <li>
+                                            <h:outputLabel value="Id Contrato: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.friendlyId}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Fecha: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.fechaContrato}" 
+                                            >
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET"/> 
+                                            </h:outputText>
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Comercial " /> 
+                                            <h:outputText 
+                                                rendered="#{contratoPrintBean.comercialPrincipal != null}"
+                                                value="#{contratoPrintBean.comercialPrincipal.nombreCompleto}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Telf. Comercial: " /> 
+                                            <h:outputText 
+                                                rendered="#{contratoPrintBean.comercialPrincipal != null and contratoPrintBean.comercialPrincipal.telefono != null}"
+                                                value="#{contratoPrintBean.comercialPrincipal.telefono}" 
+                                                style="font-style: italic"
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Email: " /> 
+                                            <h:outputText 
+                                                rendered="#{contratoPrintBean.comercialPrincipal != null and contratoPrintBean.comercialPrincipal.email != null}"
+                                                value="#{contratoPrintBean.comercialPrincipal.email}" 
+                                                style="font-style: italic"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>          
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;height:65px;width:100%">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-info-circle-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Código Pedido: " />
+                                            <h:outputText value="#{contratoPrintBean.contrato.codigoPedidoCliente}" />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Código Proveedor: " />
+                                            <h:outputText value="#{contratoPrintBean.contrato.codigoProveedor}" />
+                                        </li>
+                                        <li jsf:rendered="#{contratoPrintBean.contrato.previsionMesesAlquiler > 0}">
+                                            <h:outputLabel value="Previsión Meses Alquiler: " />
+                                            <h:outputText value="#{contratoPrintBean.contrato.previsionMesesAlquiler}" />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;;width:100%">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-truck-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Dirección Entrega " /> 
+                                            <div style="padding-left: 1em">
+                                                <div>
+                                                    <h:outputText value="Contacto: " />
+                                                    <h:outputText value="#{contratoPrintBean.contrato.direccionEnvio.contactos.get(0).nombre}" />
+                                                    <h:outputText style="margin-left:1em" value="Telf: " />
+                                                    <h:outputText value="#{contratoPrintBean.contrato.direccionEnvio.contactos.get(0).telefono}" />
+                                                </div>
+                                                <d:direccionPrint value="#{contratoPrintBean.contrato.direccionEnvio.direccion}" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="print-col" style="width:50%;padding-left:5px;float:right">
+                            <div class="print-row" style="background-color: #DDD;padding:10px;height:171px;width:100%">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-user-gray.png')}"/>
+                                </div>
+                                <div jsf:rendered="#{contratoPrintBean.contrato.cliente != null}" class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Cliente: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.cliente.friendlyId}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="CIF: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.cliente.cif}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="R.Social: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.cliente.nombre}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Dirección: " /> 
+                                            <div style="padding-left: 1em">
+                                                <d:direccionPrint value="#{contratoPrintBean.contrato.direccionCorrespondencia}" />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="print-row">
+                                                <div class="print-col">
+                                                    <h:outputLabel value="Contacto: " /> 
+                                                </div>
+                                                <div class="print-col" style="padding-left:0.5em">
+                                                    <c:contactoPrint value="#{contratoPrintBean.contrato.firmante}" />
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;;width:100%">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-envelope.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Dirección Envío Facturas: " /> 
+                                            <div style="padding-left: 1em">
+                                                <d:direccionPostalPrint value="#{contratoPrintBean.contrato.facturacion.direccionPostal}" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+        <ui:define name="contenido">
+             <table id="contenido-tabla" jsf:rendered="#{contratoPrintBean.contrato != null}">
+                <tr>
+                    <th id="primera-col-tabla" style="width: 85%" class="column-header fondo-oscuro">Producto</th>
+                    <th id="ultima-col-tabla" style="width: 15%" class="column-header fondo-claro">Importe</th>
+                </tr>
+                <tr class="linea par" jsf:rendered="#{empty contratoPrintBean.contrato.lineas}">
+                    <td class="celda-concepto ui-state-error" colspan="5">
+                        <div class="content-concepto">
+                            <div style="font-size:1.3em;font-weight:bold">No hay lineas.</div>
+                        </div>
+                    </td>
+                </tr>
+                <ui:repeat
+                    rendered="#{not empty contratoPrintBean.contrato.lineas}"
+                    value="#{contratoPrintBean.contrato.lineas}"
+                    var="item"
+                    varStatus="estado"
+                >
+                    <tr class="linea #{(estado.index % 2)==0 ? 'impar' : 'par'}">
+                        <td class="celda-concepto">
+                            <div class="content-concepto">
+                                <div style="display:flex;justify-content:space-between">
+                                    <div>
+                                        <div style="font-weight:bold">#{item.stock.numSerie}</div>
+                                        <div>#{item.concepto}</div>
+                                        <div class="detalle">#{item.stock.tipoProducto.id}-#{item.stock.tipoProducto.descripcion}</div>
+                                    </div>
+                                    <div jsf:rendered="#{item.tipoOperacion.id == 'AL'}" style="display: flex;align-items: center; justify-content: center;">
+                                        #{item.importe}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                    </div>
+                                    <div jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                        #{item.importe}€
+                                    </div>
+                                </div>
+                                
+                                <h:panelGroup layout="block" rendered="#{!empty item.complementos}" style="padding-left:1em;padding-top:0.5em;font-size:0.9em">
+                                    <strong>COMPLEMENTOS</strong>
+                                    <div style="padding-left:1em">
+                                        <table style="width:100%;border:0;font-size:0.9em" cellpadding="0" cellspacing="0">
+                                            <ui:repeat value="#{item.complementos}" var="complemento">
+                                                <tr>
+                                                    <td style="text-align:left;width:60%">#{complemento.concepto}</td>
+                                                    <td style="text-align:right;width:10%">x#{complemento.cantidad}</td>
+                                                    <td style="text-align:right;width:15%" jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                                        #{complemento.importe}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                                    </td>
+                                                    <td style="text-align:right;width:15%" jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                                        #{complemento.importe}€
+                                                    </td>
+                                                    <td style="text-align:right;width:15%" jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                                        #{complemento.importeTotal}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                                    </td>
+                                                    <td style="text-align:right;width:15%" jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                                        #{complemento.importeTotal}€
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{!empty item.gastosAdicionales}" style="padding-left:1em;padding-top:0.5em;font-size:0.9em">
+                                    <strong>GASTOS ADICIONALES</strong>
+                                    <div style="padding-left:1em">
+                                        <table style="width:100%;border:0;font-size:0.9em" cellpadding="0" cellspacing="0">
+                                            <ui:repeat value="#{item.gastosAdicionales}" var="gastosAdicional">
+                                                <tr>
+                                                    <td style="text-align:left;width:60%">#{gastosAdicional.concepto}</td>
+                                                    <td style="text-align:right;width:10%">x#{gastosAdicional.cantidad}</td>
+                                                    <td style="text-align:right;width:15%">#{gastosAdicional.importe}€</td>
+                                                    <td style="text-align:right;width:15%">#{gastosAdicional.importeTotal}€</td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </td>
+                        <td class="celda-total">
+                            <div jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                #{item.importeTotal}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                            </div>
+                            <div jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                #{item.importeTotal}€
+                            </div>
+                            <div jsf:rendered="#{item.gastosAdicionalesImporte > 0}">
+                                +#{item.gastosAdicionalesImporte}€
+                            </div>
+                        </td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </ui:define>
+        <ui:define name="content-footer">
+            <div>Para la entrega y la recogida de las unidades hay que avisar con 7 días naturales de antelación.</div>
+            <div class="print-row">
+                <div class="print-col">
+                    Forma de pago:
+                </div>
+                <div class="print-col" style="padding-left:0.6em">
+                    <e:formaPagoPrint 
+                        rendered="#{empty contratoPrintBean.contrato.facturacion.formaPagoAlquiler}"
+                        value="#{contratoPrintBean.contrato.facturacion.formaPagoVenta}" 
+                    />
+                    <e:formaPagoPrint 
+                        rendered="#{not empty contratoPrintBean.contrato.facturacion.formaPagoAlquiler}"
+                        value="#{contratoPrintBean.contrato.facturacion.formaPagoAlquiler}" 
+                    />
+                </div>
+            </div>
+            <div style="padding-top:1em">La firma de este contrato por parte del arrendatario implica su acuerdo total y sin reservas de las condiciones generales que figuran al dorso.</div>
+            <div>Los precios no incluyen IVA.</div>
+            <div class="print-row" style="width:100%;height:3cm;padding-top:0.7em">
+                <div class="print-col" style="float:left;padding-left:3cm;width:50%">
+                    Por: #{contratoPrintBean.contrato.cliente.nombre}
+                </div>
+                <div class="print-col" style="float:right;padding-left:4cm;width:50%">
+                    <div>Por: ZARCA S.L.</div>
+                    <div>Eduard Zarzoso</div>
+                </div>
+            </div>
+        </ui:define>
+        <ui:define name="condiciones">
+        </ui:define>     
+        <ui:define name="numeracion">
+            #{contratoPrintBean.numPagina}/#{contratoPrintBean.totalPaginas}
+        </ui:define>
+    </ui:composition>
+</html>

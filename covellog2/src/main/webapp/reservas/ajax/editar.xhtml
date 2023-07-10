@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:t="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/transporte"
+      xmlns:al="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/almacen"
+      xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-numero-serie"   
+      xmlns:stock="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+      xmlns:r="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/reserva"  
+      xmlns:a="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/albaran"
+      xmlns:email="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/email"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>        
+        <h:panelGroup id="ReservaEditPanel" styleClass="#{cc.attrs.updateId}">
+            <p:panel header="#{reservaModificarBean.reserva.tipo.id == 'E' ? 'ADMITASE' : 'ENTREGUESE'}" class="panel-interior">
+                <h:form id="ReservaForm">
+                    <p:defaultCommand target="GuardarButton"/>
+                        <h:panelGroup id="display">
+                            <div class="ui-g">
+                                <div class="ui-g-6 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <div class="my-row">
+                                                <div class="my-col">
+                                                    <a:albaranLink value="#{reservaModificarBean.reserva.albaran}" style="margin-right:1em"/>
+                                                </div>
+                                                <div class="my-col">
+                                                    <div 
+                                                        class="app-estado-#{reservaModificarBean.estadoLowerCase} app-estado" 
+                                                        style="text-align:right"
+                                                    >
+                                                        <div>#{reservaModificarBean.reserva.estado.nombre}</div>
+                                                        <h:outputText
+                                                            style="display:block;padding-left:0.5em;font-weight:bold"
+                                                            value="#{reservaModificarBean.reserva.estadoFecha}" 
+                                                        >
+                                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="CET" />
+                                                        </h:outputText>
+                                                        <h:outputText
+                                                            style="display:block;padding-left:0.5em;font-weight:bold"
+                                                            value="#{reservaModificarBean.reserva.estadoFecha}" 
+                                                        >
+                                                            <f:convertDateTime pattern="HH:mm:ss" timeZone="CET" />
+                                                        </h:outputText>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Fecha" for="fecha" />
+                                            <p:datePicker 
+                                                id="fecha"
+                                                class="cov-input"
+                                                value="#{reservaModificarBean.reserva.fecha}"
+                                                locale="es"
+                                                monthNavigator="true"
+                                                pattern="dd-MM-yyyy"
+                                            />
+                                            <p:message for="fecha"/>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Booking" for="booking" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="booking" 
+                                                value="#{reservaModificarBean.reserva.booking}" 
+                                                title="Booking" 
+                                            />
+                                            <p:message for="booking"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Almacen"/>
+                                            <p:panel 
+                                                styleClass="panel-datatable header-mediano contrato-direccion-envio" 
+                                                style="margin-top:8px"
+                                            >
+                                                <ub:ubicacion 
+                                                    value="#{reservaModificarBean.reserva.ubicacion}"
+                                                    updateId="ReservaModificar-Almacen"
+                                                    showContactos="false"
+                                                />
+                                                <div style="text-align:right;padding-top:8px">
+                                                    <p:commandButton 
+                                                        rendered="#{reservaModificarBean.reserva.estado.id == 'XBO'}"
+                                                        class="boton boton-primary boton-peque" 
+                                                        value="Seleccionar"
+                                                        immediate="true"
+                                                        icon="fa fa-fw fa-search"
+                                                        actionListener="#{reservaModificarBean.prepareSelectAlmacen}"
+                                                        update="@(.ModificarReserva-AlmacenSelector)"
+                                                        oncomplete="PF('AlmacenSelectorPopupDialog').show()"
+                                                    />
+                                                </div>
+                                            </p:panel>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel class="ReservaModificar-Stocks" value="Productos (#{reservaModificarBean.reserva.lineas.size()})"/>
+                                            <p:selectManyMenu 
+                                                class="ReservaModificar-Stocks"
+                                                style="width:100%;box-sizing: border-box" 
+                                                id="Lineas" 
+                                                converter="ReservaLineaConverter"
+                                                value="#{reservaModificarBean.selecteds}"
+                                                var="p"
+                                            >
+                                                <f:selectItems 
+                                                    value="#{reservaModificarBean.reserva.lineas}"
+                                                    var="item"
+                                                    itemLabel="#{item}"
+                                                    itemValue="#{item}"/>
+                                                <p:ajax 
+                                                    event="change"
+                                                    update=":growl,@this,PanelBotones"
+                                                />
+                                                <p:column>
+                                                    <r:reservaLinea value="#{p}"/>
+                                                </p:column>
+                                            </p:selectManyMenu>
+                                            <h:panelGroup 
+                                                id="PanelBotones" 
+                                                layout="block" 
+                                                style="text-align:right;padding-top: 8px"
+                                                rendered="#{reservaModificarBean.reserva.estado.id == 'XBO'}"
+                                            >                    
+                                                <p:commandButton 
+                                                    class="boton boton-error boton-peque"
+                                                    value="Eliminar"
+                                                    immediate="true"
+                                                    update="Lineas"
+                                                    actionListener="#{reservaModificarBean.eliminarLinea}"
+                                                    icon="fa fa-fw fa-close"
+                                                />
+                                                <p:commandButton 
+                                                    class="boton boton-primary boton-peque"
+                                                    value="A;adir"
+                                                    immediate="true"
+                                                    update="@(.ReservaModificar-StockSelector)"
+                                                    oncomplete="PF('StockSelectorPopupDialog').show()"
+                                                    actionListener="#{reservaModificarBean.prepareSelectStock}"
+                                                    icon="fa fa-fw fa-search"
+                                                />
+                                            </h:panelGroup>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-6 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Cliente" />
+                                            <e:empresaSeleccionable 
+                                                id="cliente"
+                                                value="#{reservaModificarBean.reserva.cliente}"
+                                                dialog="EmpresaSelectorPopup"
+                                                updateId="ReservaModificar-EmpresaSeleccionable"
+                                                update="@(.ReservaModificar-EmpresaSelector)"
+                                                prepareAction="#{reservaModificarBean.prepareSelectCliente}"
+                                                renderButton="#{reservaModificarBean.reserva.estado.id == 'XBO'}"
+                                            />
+                                        </div>
+                                    </div>`
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Transportista" for="transportista" />
+                                            <p:inputText 
+                                                class="cov-input ReservaModificar-Transportista"
+                                                id="transportista" 
+                                                value="#{reservaModificarBean.reserva.transportistaNombre}" 
+                                                title="Transportista" 
+                                            />
+                                            <p:message for="transportista"></p:message>
+                                            <div style="text-align:right">
+                                                <p:commandButton
+                                                    rendered="#{reservaModificarBean.reserva.estado.id == 'XBO'}"
+                                                    id="buscarTransporteButton"
+                                                    class="boton boton-primary boton-peque" 
+                                                    value="Buscar"
+                                                    immediate="true"
+                                                    actionListener="#{reservaModificarBean.prepareSelectTransportista}"
+                                                    oncomplete="PF('EmpresaSelectorPopupDialog').show()"
+                                                    icon="fa fa-fw fa-search"
+                                                    update="@(.ReservaModificar-EmpresaSelector)"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Chofer" for="chofer" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="chofer" 
+                                                value="#{reservaModificarBean.reserva.chofer}" 
+                                                title="Chofer" 
+                                            />
+                                            <p:message for="chofer"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Matricula" for="matricula" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="matricula" 
+                                                value="#{reservaModificarBean.reserva.matricula}" 
+                                                title="Matricula" 
+                                            />
+                                            <p:message for="matricula"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones" for="observaciones" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="observaciones" 
+                                                value="#{reservaModificarBean.reserva.observaciones}" 
+                                                title="Observaciones"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        value="Volver"
+                                        immediate="true"
+                                        oncomplete="history.back()"
+                                        icon="fa fa-fw fa-close"
+                                    />
+                                    <p:commandButton
+                                        rendered="#{reservaModificarBean.reserva.canAnular}"
+                                        class="boton boton-primary boton-error"
+                                        value="Anular"
+                                        actionListener="#{reservaModificarBean.anular}"
+                                        immediate="true"
+                                        update=":growl,ReservaForm"
+                                        icon="fa fa-fw fa-close"
+                                    />
+                                    <p:commandButton
+                                        rendered="#{reservaModificarBean.reserva.canReabrir}"
+                                        class="boton boton-primary"
+                                        value="Reabrir"
+                                        immediate="true"
+                                        actionListener="#{reservaModificarBean.reabrir}"
+                                        update=":growl,ReservaForm"
+                                        icon="fa fa-lock-open"
+                                    />
+                                    <p:commandButton
+                                        rendered="#{reservaModificarBean.reserva.canActivar}"
+                                        class="boton boton-primary"
+                                        value="Activar"
+                                        immediate="true"
+                                        actionListener="#{reservaModificarBean.activar}"
+                                        update=":growl,ReservaForm"
+                                        icon="fa fa-share"
+                                    />
+                                    <p:commandButton
+                                        id="GuardarButton"
+                                        rendered="#{reservaModificarBean.reserva.canModificar}"
+                                        class="boton boton-primary"
+                                        value="Guardar"
+                                        actionListener="#{reservaModificarBean.guardar}"
+                                        update=":growl,ReservaForm"
+                                        icon="fa fa-save"
+                                    />
+                                    <p:commandButton 
+                                        rendered="#{not empty reservaModificarBean.reserva.id}"
+                                        class="boton boton-primary"
+                                        value="Enviar Por Email"
+                                        immediate="true"
+                                        actionListener="#{modificarContratoBean.prepareEnviarEmail}"
+                                        oncomplete="PF('EnviarEmailPopupDialog').show()"
+                                        icon="fa fa-fw fa-envelope"
+                                    />
+                                    <p:commandButton
+                                        rendered="#{not empty reservaModificarBean.reserva.id}"
+                                        class="boton boton-primary"
+                                        value="Imprimir"
+                                        actionListener="#{reservaModificarBean.imprimir}"
+                                        onclick="this.form.target = '_blank'"
+                                        ajax="false"
+                                        immediate="true"
+                                        icon="fa fa-print"
+                                    />
+                                    <p:commandButton 
+                                        id="MovimientoButton"
+                                        rendered="#{reservaModificarBean.canGenerarMovimientos}"
+                                        class="boton boton-primary" 
+                                        value="Generar Movimiento"
+                                        update="@(.ReservaModificar-StockAsignacion)"
+                                        oncomplete="PF('StockAsignacionPopupDialog').show()"
+                                        actionListener="#{reservaModificarBean.prepareMovimiento}"
+                                        icon="fa fa-fw fa-truck"
+                                    />
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </h:panelGroup>
+        <t:transporteSelectorDialog
+            id="TransporteSelectorPopup"
+            updateId="ModificarLinea-TransporteEntregaSelector"
+            items="#{contratoLineaModificarBean.busquedaSelectorTransporte.items}"
+            selected="#{contratoLineaModificarBean.entregaTransporte}"
+            update=":growl,@(.EntregaTransporteSeleccionable)"
+            actionListener="#{contratoLineaModificarBean.prepareSelectEntregaTransporte}"
+        />
+        <al:almacenSelectorDialog
+            id="AlmacenSelectorPopup"
+            updateId="ModificarReserva-AlmacenSelector"
+        />
+        <e:empresaSelectorDialog
+            id="EmpresaSelectorPopup"
+            updateId="ReservaModificar-EmpresaSelector"
+        />
+        <s:StockSelectorDialog
+            id="StockSelectorPopup"
+            updateId="ReservaModificar-StockSelector"
+        />
+        <stock:StockAsignacionDialog
+            id="StockAsignacionPopup"
+            updateId="ReservaModificar-StockAsignacion"
+        />
+        <email:enviarEmailDialog
+            id="EnviarEmailPopup"
+            updateId="enviar-email"          
+        />
+    </ui:composition>
+</html>

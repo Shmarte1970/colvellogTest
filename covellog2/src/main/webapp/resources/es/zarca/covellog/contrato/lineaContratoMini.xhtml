@@ -1,0 +1,185 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.contrato.dto.ContratoLineaDto"/>
+            <composite:attribute name="contrato" required="false" type="es.zarca.covellog.interfaces.facade.contrato.dto.ContratoDto"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel
+                id="content" 
+                styleClass="#{cc.attrs.updateId}"
+                style="position: relative;min-height: 5em;padding:6px"
+            >
+                <div>
+                    <div style="float:left;width:50%">
+                        <div style="text-align:left">
+                            <div style="font-size:1.5em">
+                                <strong>
+                                    <p:outputLabel style="padding:0" rendered="#{not empty cc.attrs.value.stock.numSerie}" value="#{cc.attrs.value.stock.numSerie}" />
+                                    <p:outputLabel style="padding:0;color:red" rendered="#{empty cc.attrs.value.stock.numSerie}" value="PENDIENTE ASIGNAR" />
+                                   
+                                </strong>
+                            </div>
+                            <div style="font-size:1.3em">
+                                #{cc.attrs.value.concepto}
+                            </div>
+                            <div>
+                                <div style="float:left">
+                                    #{cc.attrs.value.ubicacion.nombre}
+                                </div>
+                                <div style="float:left;font-size: 1em;padding:0 0.5em;font-weight: bold;">
+                                    =>
+                                </div>
+                                <div style="float:left">
+                                    #{cc.attrs.value.tipoProducto.familia.nombre}/#{cc.attrs.value.tipoProducto.id}
+                                    <h:panelGroup rendered="#{!empty cc.attrs.value.lote}">
+                                        <div>
+                                            <i>Lote: #{cc.attrs.value.lote}</i>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float:right;">
+                        <div style="text-align:right">
+                            <div style="font-size:1em">
+                                <strong>#{cc.attrs.value.tipoOperacion.nombre}<h:panelGroup rendered="#{cc.attrs.value.tipoOperacion.id=='AL'}">/#{cc.attrs.contrato != null ? cc.attrs.contrato.condiciones.facturarPor.nombre : 'ojito sin contrato'}</h:panelGroup></strong>
+                            </div>
+                            <div style="font-size:1.8em">
+                                <strong>#{cc.attrs.value.importeTotal}€</strong>
+                            </div>
+                            <h:panelGroup 
+                                layout="block" 
+                                style="font-size:1.2em"
+                                rendered="#{cc.attrs.value.gastosAdicionalesImporte > 0}"
+                            >
+                                <strong>GA: +#{cc.attrs.value.gastosAdicionalesImporte}€</strong>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div class="ui-g" style="text-align:left;font-size:0.8em;padding-left:2em">
+                        <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align:left">
+                            <div style="display:inline-block;text-align:left;">
+                                <h:panelGroup layout="block" rendered="#{!empty cc.attrs.value.complementos}">
+                                    <div style="display:flex;justify-content:space-between">
+                                        <strong>COMPLEMENTOS</strong>
+                                        <strong style="padding-left: 1em">#{cc.attrs.value.complementosImporte}€</strong>
+                                    </div>
+                                    <table style="margin-left:1em;width:100%">
+                                        <ui:repeat value="#{cc.attrs.value.complementos}" var="item">
+                                            <tr>
+                                                <td style="text-align:left">#{item.concepto}</td>
+                                                <td style="text-align:right">x#{item.cantidad}</td>
+                                                <td style="text-align:right">#{item.importe}€</td>
+                                                <td style="text-align:right">#{item.importeTotal}€</td>
+                                            </tr>
+                                        </ui:repeat>
+                                    </table>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align:left">
+                            <div style="display:inline-block;text-align:left">
+                                <h:panelGroup layout="block" rendered="#{!empty cc.attrs.value.gastosAdicionales}">
+                                    <div style="display:flex;justify-content:space-between">
+                                        <strong>GASTOS ADICIONALES</strong>
+                                        <strong style="padding-left: 1em">#{cc.attrs.value.gastosAdicionalesImporte}€</strong>
+                                    </div>
+                                    <table style="margin-left:1em;width:100%">
+                                        <ui:repeat value="#{cc.attrs.value.gastosAdicionales}" var="item">
+                                            <tr>
+                                                <td style="text-align:left">#{item.concepto}</td>
+                                                <td style="text-align:right">x#{item.cantidad}</td>
+                                                <td style="text-align:right">#{item.importe}€</td>
+                                                <td style="text-align:right">#{item.importeTotal}€</td>
+                                            </tr>
+                                        </ui:repeat>
+                                    </table>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:left;font-size:0.8rem">
+                            <h:panelGroup 
+                                rendered="#{not empty cc.attrs.value.fechaEntregaPrevista or not empty cc.attrs.value.fechaEntrega}" 
+                                style="display:inline-block;text-align:left"
+                            >
+                                <div><strong>ENTREGA</strong></div>
+                                <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.entregaAlbaran}">
+                                    <div style="padding-left:0.5em">
+                                        <span>Albaran: </span>
+                                        <span style="font-weight:bold;color:green">#{cc.attrs.value.entregaAlbaran.codigoAlbaran}</span>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.entregaTransporte.empresa}">
+                                    <span style="padding-left:0.5em">
+                                        #{cc.attrs.value.entregaTransporte.empresa.nombre}:
+                                    </span>
+                                    <p:outputLabel style="padding:0" rendered="#{not empty cc.attrs.value.entregaImporte}" value="#{cc.attrs.value.entregaImporte}€" />
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.fechaEntregaPrevista}">
+                                    <div style="display:flex;justify-content:space-between">
+                                        <span style="padding-left:1em">Prevista: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaEntregaPrevista}" style="padding-left:0.5em">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.fechaEntrega}">
+                                    <div style="display:flex;justify-content:space-between">
+                                        <span style="padding-left:1em">Real: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaEntrega}" style="padding-left:0.5em">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:left;font-size:0.8rem">
+                            <h:panelGroup 
+                                rendered="#{not empty cc.attrs.value.fechaDevolucionPrevista or not empty cc.attrs.value.fechaDevolucion}" 
+                                style="display:inline-block;text-align:left"
+                            >
+                                <div><strong>DEVOLUCION</strong></div>
+                                <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.recogidaAlbaran}">
+                                    <div style="padding-left:0.5em">
+                                        <span>Albaran: </span>
+                                        <span style="font-weight:bold;color:green">#{cc.attrs.value.recogidaAlbaran.codigoAlbaran}</span>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{not empty cc.attrs.value.recogidaTransporte.empresa}">
+                                    <span style="padding-left:0.5em">#{cc.attrs.value.recogidaTransporte.empresa.nombre}: #{cc.attrs.value.recogidaImporte}€</span>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{!empty cc.attrs.value.fechaDevolucionPrevista}">
+                                    <div style="display:flex;justify-content:space-between">
+                                        <span style="padding-left:1em">Prevista: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaDevolucionPrevista}" style="padding-left:0.5em">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="CET"/>
+                                        </h:outputText>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{!empty cc.attrs.value.fechaDevolucion}">
+                                    <div style="display:flex;justify-content:space-between">
+                                        <span style="padding-left:1em">Real: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaDevolucion}" style="padding-left:0.5em">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="CET"/>
+                                        </h:outputText>
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

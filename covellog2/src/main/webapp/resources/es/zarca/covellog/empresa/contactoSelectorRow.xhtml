@@ -1,0 +1,27 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+                <div style="background-color: red;width:200px">
+                    <div><span><strong>#{cc.attrs.value.id}</strong></span></div>
+                    <div><span><strong>#{cc.attrs.value.nombre}</strong></span></div>
+                    <div><span>#{cc.attrs.value.descripcion}</span></div>
+                    <div><span style="padding-right: 4em">#{cc.attrs.value.telefono}</span><span>#{cc.attrs.value.telefono2}</span></div>
+                    <div><a href="mailto:#{cc.attrs.value.email}">#{cc.attrs.value.email}</a></div>
+                    <div style="font-size:0.8em;line-height:1.5em;">
+                        <span>Idioma: </span>
+                        <p:outputLabel value="#{cc.attrs.value.idioma.nombre}"/>
+                        <span>Horario: </span>
+                        <span>#{cc.attrs.value.horario}</span></div>
+                    <div><p style="font-size: 0.8em;line-height:1em;font-style:italic;padding:0;margin:0">#{cc.attrs.value.observaciones}</p></div>                                                        
+                </div>
+    
+        </composite:implementation>  
+    </h:body>  
+</html>  

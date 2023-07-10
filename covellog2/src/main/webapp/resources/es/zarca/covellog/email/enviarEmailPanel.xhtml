@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">  
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="onCompleteAceptar" required="true"/>
+            <composite:attribute name="onCompleteCancelar" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface>  
+        <composite:implementation>
+            <h:panelGroup id="EnviarEmailPanel">  
+                <h:form id="EnviarEmailForm" styleClass="#{cc.attrs.updateId}">    
+                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Para" for="para" />
+                                <p:inputText
+                                    class="cov-input"
+                                    id="para"
+                                    value="#{enviarEmailBean.to}"
+                                    title="Para"
+                                    required="true"
+                                />
+                                <p:message for="para"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Copia" for="copia" />
+                                <p:inputText
+                                    class="cov-input"
+                                    id="copia"
+                                    value="#{enviarEmailBean.cc}"
+                                    title="Copia"
+                                />
+                                <p:message for="copia"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Copia Oculta" for="copiaOculta" />
+                                <p:inputText
+                                    class="cov-input"
+                                    id="copiaOculta"
+                                    value="#{enviarEmailBean.bcc}"
+                                    title="Copia Oculta"
+                                />
+                                <p:message for="copiaOculta"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Asunto" for="asunto" />
+                                <p:inputText
+                                    class="cov-input"
+                                    id="asunto"
+                                    value="#{enviarEmailBean.subject}"
+                                    title="Asunto"
+                                    required="true"
+                                />
+                                <p:message for="asunto"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <p:outputLabel value="FicherosAdjuntos" for="adjuntos" />
+                                <p:fileUpload 
+                                    class="cov-input"
+                                    value="#{enviarEmailBean.uploadDocs}" 
+                                    mode="advanced" 
+                                    skinSimple="true" 
+                                    multiple="false"
+                                    update="adjuntos"
+                                    fileUploadListener="#{enviarEmailBean.upload}" 
+                                />
+                                <p:selectManyMenu
+                                    class="cov-input"
+                                    id="adjuntos" 
+                                    value="#{enviarEmailBean.adjuntosSeleccionados}"
+                                    converter="emailAdjuntoConverter"
+                                >
+                                    <f:selectItems 
+                                        value="#{enviarEmailBean.adjuntos}" 
+                                        var="item" 
+                                        itemLabel="#{item.nombre}"
+                                    />
+                                </p:selectManyMenu>
+                                <p:message for="adjuntos"/>
+                                <div style="text-align:right">
+                                    <p:commandButton 
+                                        class="boton boton-error boton-peque" 
+                                        icon="fa fa-fw fa-close" 
+                                        actionListener="#{enviarEmailBean.adjuntoEliminar}" 
+                                        value="Eliminar" 
+                                        update="adjuntos,:growl"
+                                        partialSubmit="true"
+                                        process="@this,adjuntos"
+                                    />
+                                    <p:commandButton 
+                                        class="boton boton-primary boton-peque" 
+                                        icon="fa fa-fw fa-folder-open" 
+                                        actionListener="#{enviarEmailBean.adjuntoVer}" 
+                                        value="Ver" 
+                                        onclick="this.form.target = '_blank'"
+                                        ajax="false"
+                                        immediate="true"
+                                    >
+                                        <p:ajax 
+                                            update="adjuntos,:growl"
+                                            partialSubmit="true"
+                                            process="adjuntos"
+                                        />
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Cuerpo" for="cuerpo" />
+                                <p:textEditor
+                                    class="cov-input"
+                                    id="cuerpo"
+                                    value="#{enviarEmailBean.body}"
+                                    required="true"
+                                />
+                                <p:message for="cuerpo"/>
+                            </div>
+                        </div>
+                        <h:panelGroup id="PanelBotones" layout="block" style="text-align: right" styleClass="panel-botones-seleccion">
+                            <p:commandButton
+                                class="boton boton-primary"
+                                id="cancelButton"
+                                value="Cancelar"
+                                actionListener="#{enviarEmailBean.onCancelar}"
+                                update=":growl"
+                                oncomplete="#{cc.attrs.onCompleteCancelar}"
+                                immediate="true"
+
+                            /> 
+                            <p:commandButton
+                                class="boton boton-primary"
+                                id="selectButton"
+                                value="Enviar"
+                                actionListener="#{enviarEmailBean.guardar}"
+                                update=":growl"
+                                oncomplete="#{cc.attrs.onCompleteAceptar}"
+                            /> 
+                        </h:panelGroup>
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>

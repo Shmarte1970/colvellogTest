@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"      
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+        
+    xmlns:jsf="http://xmlns.jcp.org/jsf">  
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="style" required="false" default=""/>
+        </composite:interface> 
+        <composite:implementation>
+            <h:link 
+                rendered="#{not empty cc.attrs.value.codigoAlbaran}"
+                class="app-codigo app-estado-#{cc.attrs.value.estado}"
+                style="float:right;font-size:1rem;text-align:right;#{cc.attrs.style}"
+                outcome="/albaranes/modificar.xhtml"
+                onclick="event.stopPropagation();"
+            >
+                <div class="my-row">
+                    <div class="my-col" style="font-size: 1.5em;padding-top:0.4em;padding-right:0.2em">
+                        <i jsf:rendered="#{cc.attrs.value.tipo.id eq 'E'}" class="fa-solid fa-circle-up"></i>
+                        <i jsf:rendered="#{cc.attrs.value.tipo.id ne 'E'}" class="fa-solid fa-circle-down"></i>
+                    </div>
+                    <div class="my-col">
+                        <div style="font-size:0.8rem">#{cc.attrs.value.tipo.id eq 'E' ? "Albaran Ent" : "Albaran Rec"}</div>
+                        <div>#{cc.attrs.value.codigoAlbaran}</div>
+                        <div style="font-size:0.8rem">#{cc.attrs.value.estado}</div> 
+                    </div>
+                    
+                </div>
+                <f:param name="id" value="#{cc.attrs.value.id}" />
+            </h:link>
+        </composite:implementation>  
+    </h:body>  
+</html>  

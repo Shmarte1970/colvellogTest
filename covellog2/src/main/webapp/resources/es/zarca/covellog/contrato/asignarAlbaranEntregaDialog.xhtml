@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}Dlg"
+                responsive="true"
+                widgetVar="#{cc.id}Dialog"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="Asignar Albaran Entrega"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                styleClass="#{cc.attrs.updateId}"
+                style="min-width:340px"
+            >
+                <h:form id="RecogerProductosForm">
+                    <div style="padding:1em;text-align: center">
+                        <p:commandButton 
+                            id="BotonCrearAlbaranEnt"
+                            class="boton boton-primary"
+                            value="Crear Nuevo"
+                            icon="fa fa-fw fa-gear"
+                            actionListener="#{contratoAsignarAlbaranEntregaBean.create}"
+                            update=":growl,:mi-layout-contenido"
+                            oncomplete="handleSubmit(args,'#{cc.id}Dialog');"
+                        />
+                    </div>
+                    <p:panel 
+                        id="AlbaranesEntregaPanel"
+                        header="Albaranes Entrega (#{contratoAsignarAlbaranEntregaBean.albaranes.size()})" 
+                        styleClass="panel-datatable header-mediano" 
+                        style=""
+                    >
+                        <p:scrollPanel 
+                            mode="native" 
+                            rendered="#{not empty contratoAsignarAlbaranEntregaBean.albaranes}"
+                            style="max-height:60vh;border:none"
+                        >
+                            <p:outputLabel 
+                                value="No hay albaranes" 
+                                rendered="#{empty contratoAsignarAlbaranEntregaBean.albaranes}"
+                            />
+                            <p:selectOneListbox 
+                                style="width:100%;box-sizing: border-box" 
+                                id="AlbaranesEntrega" 
+                                converter="contratoAsignarAlbaranEntregaDtoConverter"
+                                value="#{contratoAsignarAlbaranEntregaBean.selected}"
+                                var="p"
+                            >
+                                <f:selectItems 
+                                    value="#{contratoAsignarAlbaranEntregaBean.albaranes}"
+                                    var="item"
+                                    itemLabel="#{item}"
+                                    itemValue="#{item}"/>
+                                <p:ajax
+                                    event="change"
+                                    listener="#{contratoAsignarAlbaranEntregaBean.onSelect}"
+                                    update=":growl,@this"
+                                    oncomplete="handleSubmit(args,'#{cc.id}Dialog');"
+                                />
+                                <p:column>
+                                    <e:albaranItemList value="#{p}" />
+                                </p:column>
+                            </p:selectOneListbox>
+                        </p:scrollPanel>
+                    </p:panel>
+                </h:form>
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>

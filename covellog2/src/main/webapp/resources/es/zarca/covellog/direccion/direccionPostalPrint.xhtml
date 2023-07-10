@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.adreces.facade.dto.DireccionPostalDto"/>
+        </composite:interface>  
+        <composite:implementation>          
+            <ul jsf:rendered="#{not empty cc.attrs.value}">
+                <li jsf:rendered="#{not empty cc.attrs.value.att}">
+                    <h:outputText value="Att: " />
+                    <h:outputText value="#{cc.attrs.value.att}"/>
+                </li>
+                <li jsf:rendered="#{not empty cc.attrs.value.direccion}">
+                    <h:outputText value="#{cc.attrs.value.direccion}"/>
+                </li>
+                <li jsf:rendered="#{not empty cc.attrs.value.direccion2}">
+                    <h:outputText value="#{cc.attrs.value.direccion2}"/>
+                </li>
+                <li jsf:rendered="#{not empty cc.attrs.value.codigoPostal}">
+                    <h:outputText value="#{cc.attrs.value.codigoPostal}"/> - <h:outputText value="#{cc.attrs.value.poblacion.nom}"/>
+                </li>
+                <li jsf:rendered="#{not empty cc.attrs.value.poblacion.provincia.pais.nom}">
+                    <h:outputText value="#{cc.attrs.value.poblacion.provincia.pais.nom}"/>
+                </li>
+            </ul>
+        </composite:implementation>  
+    </h:body>  
+</html>  

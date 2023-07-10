@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Convertir en oportunidades" ></h:outputText>
+        </ui:define>
+
+        <ui:define name="body" >
+            <script type="text/javascript">
+                function loading(anterior) {
+                    var boton = document.getElementById(PF('conButton').id).firstChild;
+                    boton.classList.replace(anterior, 'fa-refresh');
+                    boton.classList.add('fa-spin');
+                }
+                function finLoading(nueva) {
+                    var boton = document.getElementById(PF('conButton').id).firstChild;
+                    boton.classList.replace('fa-refresh', nueva);
+                    boton.classList.remove('fa-spin');
+                }
+            </script>
+            <h:form id="ConvertirForm" style="padding: 0; background-color: #FF0 !important">
+                <p:panel>
+                    <p>
+                        <h:outputText  value="Este proceso convierte todas las peticiones de contacto pendientes de atender en oportunidades." />
+                    </p>
+                    <p>
+                        <h:outputText value="A las nuevas oportunidades creadas se les asignará un comercial siguiendo el algoritmo de reparto de oportunidades." />
+                    </p>
+                    <p>
+                        <h:panelGroup rendered="#{!empty gestioPeticionsContacteController.ultimaPeticioContacteConvertida}">
+                            <h:outputText value="Última petición de contacto convertida: " />
+                            <h:outputText id="UltimaPeticioContacteConvertida" value="#{gestioPeticionsContacteController.ultimaPeticioContacteConvertida}" style="font-weight: bold">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                            </h:outputText>
+                        </h:panelGroup>
+                    </p>
+                    <p:commandButton 
+                        id="ConvertirButton"
+                        onstart="loading('fa-plus')" 
+                        onclick="PF('conButton').disable()" 
+                        oncomplete="PF('conButton').enable();finLoading('fa-plus')" 
+                        onsuccess=""
+                        widgetVar="conButton"
+                        class="boton boton-primary boton-loading" 
+                        icon="fa fa-fw fa-plus" 
+                        value="Importar" 
+                        actionListener="#{gestioPeticionsContacteController.convertirEnOportunitats()}" 
+                        update="UltimaPeticioContacteConvertida,:growl">
+                        
+                    </p:commandButton>
+
+                </p:panel>
+            </h:form>
+        </ui:define>
+        
+    </ui:composition>
+    
+</html>

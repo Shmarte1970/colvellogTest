@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" responsive="true" widgetVar="UsuarioEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Modificar Usuario">
+            <h:form id="UsuarioEditForm">
+                <h:panelGroup id="display" rendered="#{usuarioAdminServiceController.editarForm != null}">
+                    <div class="width-responsive" style="width:360px">
+                        <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Username" for="username" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="username" value="#{usuarioAdminServiceController.editarForm.username}" title="Username" required="true" requiredMessage="El username es obligatorio"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Nombre" for="nombre" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="nombre" value="#{usuarioAdminServiceController.editarForm.nombre}" title="Nombre" required="true" requiredMessage="El nombre es obligatorio"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Apellidos" for="apellidos" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="apellidos" value="#{usuarioAdminServiceController.editarForm.apellidos}" title="Apellidos" required="true" requiredMessage="Los apellidos son obligatorios"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Email" for="email" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="email" value="#{usuarioAdminServiceController.editarForm.email}" title="Email" required="true" requiredMessage="El email es obligatorio"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Grupos" for="grupos" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:selectManyMenu style="width:16em" id="grupos" value="#{usuarioAdminServiceController.editarForm.grupos}" converter="conversorGrupo">
+                                    <f:selectItems  value="#{usuarioAdminServiceController.gruposPosibles}" var="grupo" itemLabel="#{grupo.nombre}" itemValue="#{grupo}" />
+                                </p:selectManyMenu>
+                            </div>
+                        </div>
+                        <div style="text-align: right; padding-top:16px">
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{usuarioAdminServiceController.update}" value="Guardar" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioEditDialog');"/>
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{usuarioAdminServiceController.cancelEdit}" value="Cancelar" oncomplete="closeDialog('UsuarioEditDialog')" immediate="true"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

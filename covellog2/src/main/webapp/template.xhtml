@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <h:outputStylesheet library="css" name="primeicons.css"/>
+        <h:outputStylesheet library="webjars" name="font-awesome/6.0.0/css/all-jsf.css" />
+        <h:outputStylesheet library="css" name="app.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+        <h:outputScript library="js" name="main.js" />
+
+        
+        <!-- Fuente vintage relog Pedro -->
+        <link href="//db.onlinewebfonts.com/c/86203afc717c0d2960e0b34fd4041e95?family=Ticking+Timebomb+BB" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+       <h:outputStylesheet library="css" name="jsfcrud.css"/>
+       <h:outputStylesheet library="css" name="styles.css"/>
+        <p:growl id="growl" escape="false" life="3000" showDetail="true" sticky="true" rendered="#{not facesContext.validationFailed}" for="growl"/>
+            <div id="mi-layout-header">
+                <h:form id="menuForm">
+                    <p:menubar>
+                        <p:menuitem value="Menu" onclick="showHideMenu()" icon="fa fa-fw fa-bars"/>
+                        <p:menuitem value="#{appBundle.Home}" outcome="/index" icon="fa fa-fw fa-home"/>
+                        <p:submenu label="#{appBundle.Maintenance}" icon="fa fa-fw fa-gear">
+                            <p:menuitem value="Pais" outcome="/adreces/pais/List.xhtml" />
+                            <p:menuitem value="Poblacio" outcome="/adreces/poblacio/List.xhtml" />
+                            <p:menuitem value="Provincia" outcome="/adreces/provincia/List.xhtml" />
+                        </p:submenu>
+                            <f:facet name="options" >
+                                
+                                <div id="mi-layout-opciones">
+                                     <div id="datetime"></div>  
+                                    <h:panelGroup
+                                        layout="block"
+                                        id="viewControllerPanel" 
+                                        styleClass="view-controller-panel"
+                                    >
+                                            
+                                    <p:outputLabel value="#{viewController.width}" style="margin-right:0.5em"/>
+                                    <p:outputLabel value="#{viewController.height}" style="margin-right:1em"/>
+                                    <p:outputLabel value="#{viewController.contentWidth}" style="margin-right:0.5em"/>
+                                    <p:outputLabel value="#{viewController.contentHeight}" style="margin-right:0.5em"/> -->
+                                </h:panelGroup> 
+                                    <p:inputText style="margin:1px 10px 1px 1px;" placeholder="Search"/>
+                                    <p:commandButton type="button" value="#{appBundle.Search}" icon="fa fa-fw fa-search" style="margin-top: 0px !important"/>
+                                    Usuario: #{request.remoteUser} #{request.isUserInRole("ADMIN")} #{request.isUserInRole("USER")}
+                                </div>
+                            </f:facet>
+                    </p:menubar>
+                </h:form>
+            </div>
+            <div id="mi-layout-menu">
+                <h:form>
+                     <p:panelMenu>
+                    <p:submenu label="Gestión Usuarios" icon="fa fa-fw fa-close" rendered="#{request.isUserInRole('ADMIN')}">
+                        <p:menuitem value="Gestión Usuarios" outcome="/usuarios/admin/lista.xhtml"  icon="fa fa-fw fa-user" />
+                    </p:submenu>
+                    <p:submenu label="Mí Perfil" icon="fa fa-fw fa-close">
+                        <p:menuitem value="Modificar Perfil" url="/covellog2/faces/usuarios/perfil.xhtml" icon="fa fa-fw fa-user" />
+                        <p:menuitem value="Modificar Contraseña" url="/covellog2/faces/usuarios/cambiar-password.xhtml" icon="fa fa-fw fa-user" />
+                    </p:submenu>
+                    <p:submenu label="Empresas">
+                        <p:menuitem value="Empresas" url="/covellog2/faces/empresas/gestion.xhtml" icon="fa fa-fw fa-gear" />
+                        <p:menuitem value="Potenciales" url="/covellog2/faces/empresas/gestion.xhtml?tipo=potenciales" icon="fa fa-fw fa-gear" />
+                        <p:menuitem value="Clientes" url="/covellog2/faces/empresas/gestion.xhtml?tipo=clientes" icon="fa fa-fw fa-gear" />
+                        <p:menuitem value="Proveedores" url="/covellog2/faces/empresas/gestion.xhtml?tipo=proveedores" icon="fa fa-fw fa-gear" />
+                    </p:submenu>
+                    <p:submenu label="#{adrecesBundle.ModulTitle}">
+                        <p:menuitem value="#{adrecesBundle.GestioPaisosTitle}" url="/covellog2/faces/adreces/pais/List.xhtml" icon="fa fa-fw fa-gear" />
+                        <p:menuitem value="#{adrecesBundle.GestioProvinciesTitle}" url="/covellog2/faces/adreces/provincia/List.xhtml" icon="fa fa-fw fa-gear" />
+                        <p:menuitem value="#{adrecesBundle.GestioPoblacionsTitle}" url="/covellog2/faces/adreces/poblacio/List.xhtml" icon="fa fa-fw fa-gear" />
+                    </p:submenu>
+                         
+                    <p:submenu label="Productos" icon="fa fa-fw fa-close">
+                        <p:menuitem value="Familias" url="/covellog2/faces/productos/familias/gestion.xhtml" icon="fa fa-fw fa-gear" />
+                        <p:menuitem value="Tipos" url="/covellog2/faces/productos/tipos-producto/gestion.xhtml" icon="fa fa-fw fa-gear  " />
+                    </p:submenu>
+                    <p:submenu label="Gestión Comercial" icon="fa fa-fw fa-close">
+                        <p:menuitem value="Ofertas" url="/covellog2/faces/ofertas/gestion.xhtml" icon="fa fa-fw fa-file-contract" />
+                        <p:menuitem value="Contratos" url="/covellog2/faces/contratos/gestion.xhtml" icon="fa fa-fw fa-file-contract" />
+                        <p:menuitem value="Albaranes" url="/covellog2/faces/albaranes/gestion.xhtml" icon="fa fa-fw fa-truck" />
+                        <p:menuitem value="Stock" url="/covellog2/faces/stock/gestion.xhtml" icon="fa fa-fw fa-boxes-stacked" />
+                    </p:submenu>
+                    <p:submenu label="Logística" icon="fa fa-fw fa-close">
+                        <p:menuitem value="Entrada" url="/covellog2/faces/movimientos/entrada-asistida.xhtml" icon="fa fa-fw fa-right-to-bracket" />
+                        <p:menuitem value="Salida" url="/covellog2/faces/movimientos/salida-asistida.xhtml" icon="fa fa-fw fa-right-from-bracket" />
+                        <p:menuitem value="Reservas" url="/covellog2/faces/reservas/gestion.xhtml" icon="fa fa-fw fa-book" />
+                        <p:menuitem value="Movimientos" url="/covellog2/faces/movimientos/gestion.xhtml" icon="fa fa-fw fa-share-from-square" />
+                        <p:menuitem value="Almacenes" url="/covellog2/faces/almacenes/gestion.xhtml" icon="fa fa-fw fa-warehouse" />
+                        <p:menuitem value="Transportes" url="/covellog2/faces/transportes/gestion.xhtml" icon="fa fa-fw fa-truck" />
+                    </p:submenu>
+                    <p:submenu label="CRM" icon="fa fa-fw fa-close">
+                        <p:submenu label="Peticiones Contacto">
+                            <p:menuitem value="Convertir en oportunidades" action="/peticiones-contacto/convertir-en-oportunidades" icon="fa fa-fw fa-cog" />
+                            <p:menuitem value="Pendientes" action="/peticiones-contacto/listado-pendientes" icon="fa fa-fw fa-list" />
+                            <p:menuitem value="Todas" action="/peticiones-contacto/listado" icon="fa fa-fw fa-list" />
+                            <p:menuitem value="Algoritmo Repartición" action="/crm/algoritmo-reparticion-oportunidades/listado" icon="fa fa-fw fa-cog" />
+                        </p:submenu>
+                        <p:submenu label="Oportunidades">
+                            <p:menuitem value="Crear Acción" action="/proves/List" icon="fa fa-fw fa-plus" />
+                            <p:menuitem value="Todas" action="/crm/oportunidades/listado" icon="fa fa-fw fa-list" />
+                            <p:menuitem value="Listado acciones" action="/proves/List" icon="fa fa-fw fa-list" />
+                            <p:menuitem value="Algoritmo Repartición" action="/crm/algoritmo-reparticion-oportunidades/listado" icon="fa fa-fw fa-cog" />
+                        </p:submenu>
+                        <p:submenu label="Acciones">
+                            <p:menuitem value="Crear Acción" action="/proves/List" icon="fa fa-fw fa-plus" />
+                            <p:menuitem value="Listado acciones pendientes" action="/proves/List" icon="fa fa-fw fa-list" />
+                            <p:menuitem value="Listado acciones" action="/proves/List" icon="fa fa-fw fa-list" />
+                        </p:submenu>
+                        <p:menuitem value="Importar" action="/proves/List" icon="fa fa-fw fa-user" />
+                    </p:submenu>
+                </p:panelMenu>
+            </h:form>
+               <h:form id="MenuForm">
+                    <p:commandButton id="closeSessionButton"  icon="fa fa-fw fa-close" value="#{adrecesBundle.CloseSession}" actionListener="#{sessionController.closeSession}"/>
+                    <p:commandButton id="logoutButton"  icon="fa fa-fw fa-close" value="Logout" action="#{authController.logout}"/>
+                    <p:commandButton id="migrarButton"  icon="fa fa-fw fa-close" value="Migracion" action="#{migracionController.migracion}"/>
+                </h:form>
+                <ui:insert name="menu"/>
+    
+            </div>
+        <h:panelGroup id="mi-layout-contenido" class="con-menu">
+              
+                <f:facet name="header">
+                    <ui:insert name="title"/>
+                </f:facet>
+                <ui:insert name="body"/>
+    <h:form id="ResizeForm">
+            <p:remoteCommand 
+                name="updateSize"        
+                actionListener="#{viewController.updateSize}"
+                immediate="false"
+                update="@(.view-controller-panel)"
+            />
+            <h:inputHidden id="viewWidth" value="#{viewController.width}"/>
+            <h:inputHidden id="viewHeight" value="#{viewController.height}"/>
+            <h:inputHidden id="viewContentWidth" value="#{viewController.contentWidth}"/>
+            <h:inputHidden id="viewContentHeight" value="#{viewController.contentHeight}"/>
+
+    </h:form>
+        <script type="text/javascript">
+            $(window).resize(function() {
+                $("#ResizeForm\\:viewWidth").val($(window).width());
+                $("#ResizeForm\\:viewHeight").val($(window).height());
+                $("#ResizeForm\\:viewContentWidth").val(Math.ceil($("#mi-layout-contenido").width()));
+                $("#ResizeForm\\:viewContentHeight").val(Math.ceil($("#mi-layout-contenido").height()));
+               updateSize();
+            });
+            window.onload = function() {
+                $("#ResizeForm\\:viewWidth").val($(window).width());
+                $("#ResizeForm\\:viewHeight").val($(window).height());
+                $("#ResizeForm\\:viewContentWidth").val(Math.ceil($("#mi-layout-contenido").width()));
+                $("#ResizeForm\\:viewContentHeight").val(Math.ceil($("#mi-layout-contenido").height()));
+               updateSize();
+            };
+            var showMenu = true;
+            function showHideMenu() {
+                showMenu = !showMenu;
+                if (showMenu) {
+                    $("#mi-layout-menu").removeClass("invisible");
+                    $("#mi-layout-contenido").addClass("con-menu");
+                    con-menu
+                } else {
+                    $("#mi-layout-menu").addClass("invisible");
+                    $("#mi-layout-contenido").removeClass("con-menu");
+                }
+            }
+        </script>
+            </h:panelGroup>
+        
+        
+
+        <div id="mi-layout-footer" style="text-align: right">
+        </div>
+            <p:ajaxStatus >
+                <f:facet name="start">
+                    <div id="loading-panel">
+                        <span class="pi pi-spin pi-spinner"></span>
+                    </div>
+                </f:facet>
+            </p:ajaxStatus>
+        
+    </h:body>
+</html>

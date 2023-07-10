@@ -1,0 +1,49 @@
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Control Acceso</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <h:outputStylesheet library="css" name="primeicons.css"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
+        <h:outputScript library="js" name="jsfcrud.js"/>
+    </h:head>
+    
+    <h:body style="background-color: #7ea0b8; height:100%; width:100%">
+        <script type="text/javascript">
+            $(document).ready(function() {
+               $("#username").focus();
+            });
+         </script>
+        <div style="width:100%;max-width:500px;margin:100px auto; box-shadow: #222 1px 1px 1px">
+            <p:panel id="panel-interior" header="Control Acceso AJAX">
+                <div style="padding: 20px">
+                <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                    <p:autoUpdate />
+                </p:messages>
+                <h:form id="loginForm">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel for="username" value="Username" style="padding:3px 0"/>
+                            <p:inputText id="username" value="#{authController.username}" style="width:100%" required="true" requiredMessage="Introduzca el usuario"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel for="password" value="Password" style="padding:3px 0"/>
+                            <p:password id="password" value="#{authController.password}" style="width:100%" required="true" requiredMessage="Introduzca la contraseña"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding-top:16px">
+                            <p:commandButton class="boton boton-primary" value="Login" actionListener="#{authController.loginAjax}"/>
+                        </div>
+                    </div>
+                </h:form>
+                </div>
+            </p:panel>
+        </div>
+    </h:body>
+</html>

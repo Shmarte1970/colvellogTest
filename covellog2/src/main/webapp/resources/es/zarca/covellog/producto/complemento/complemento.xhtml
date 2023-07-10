@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel 
+                id="content" 
+                styleClass="#{cc.attrs.updateId}"
+                style="position: relative;min-height: 5em"
+            >
+                <div style="position:relative;z-index: 1">
+                    <div style="font-size:1em"><span>#{cc.attrs.value.id}</span></div>
+                    <div style="font-size:2em"><span><strong>#{cc.attrs.value.descripcion}</strong></span></div>
+                    <div style="font-size:1.2em;font-style: italic"><span>#{cc.attrs.value.familia.nombre}</span></div>
+                </div>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

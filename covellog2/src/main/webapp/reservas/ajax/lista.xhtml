@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+    <ui:composition>      
+        <script type="text/javascript">
+           $(document).ready(function() {
+              $("th > input:first").focus();
+           });
+        </script>
+        <p:panel id="gestion-reservas" header="Gestión Reservas" styleClass="gestion-reservas" >            
+            <h:form id="ReservaListForm">
+                <div style="text-align: right; padding:8px 0">
+                    <h:panelGroup id="PanelBotones">
+                        <p:commandButton 
+                            class="boton boton-primary" 
+                            id="mostrarOcultarAnuladosButton"
+                            icon="fa fa-fw #{reservaGestionBean.mostrarAnulados ? 'fa-eye-slash' : 'fa-eye'}" 
+                            value="#{reservaGestionBean.mostrarAnulados ? 'Ocultar Bajas' : 'Mostrar Bajas'}" 
+                            actionListener="#{reservaGestionBean.invertirMostrarAnulados}" 
+                            update=":growl,datalist,mostrarOcultarAnuladosButton" 
+                        />
+                        <p:commandButton
+                            class="boton boton-primary"
+                            id="createButton"
+                            icon="fa fa-fw fa-plus"
+                            value="#{appBundle.Create}"
+                            actionListener="#{reservaGestionBean.prepareNuevo}"
+                            update=":growl,:mi-layout-contenido"
+                        />
+                        <p:commandButton 
+                            disabled="#{empty reservaGestionBean.selected}"
+                            class="boton boton-primary"
+                            id="editButton"
+                            icon="fa fa-fw fa-edit"
+                            value="#{appBundle.Edit}"
+                            actionListener="#{reservaGestionBean.prepareModificar}"
+                            update=":growl,:mi-layout-contenido"
+                        />
+                        <p:commandButton 
+                            disabled="#{empty reservaGestionBean.selected and reservaGestionBean.selected.estado.id != 'AN'}" 
+                            class="boton boton-error" id="deleteButton"
+                            icon="fa fa-fw fa-trash" 
+                            value="Anular" 
+                            actionListener="#{reservaGestionBean.baja}" 
+                            update=":growl,ReservaListForm:datalist,ReservaListForm:PanelBotones"
+                        >                                
+                            <p:confirm header="Baja Reserva" message="¿Desea dar de baja el tipo de producto #{reservaGestionBean.selected.id}?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                            <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                            <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                        </p:confirmDialog>   
+                    </h:panelGroup>
+                </div>
+                <p:dataTable id="datalist" scrollRows="800" virtualScroll="true" reflow="false" 
+                        rowStyleClass="#{item.estado.id != 'AN' ? '' : 'row-roja'}" 
+                        scrollHeight="600"
+                        value="#{reservaGestionBean.items}" 
+                        var="item"
+                        selectionMode="multiple"
+                        selection="#{reservaGestionBean.selecteds}"
+                        rowKey="#{item.id}"
+                        lazy="true"
+                        emptyMessage="No se ha encontrado ningún registro."
+                        sortBy="#{item.id}"
+                        sortOrder="descending"
+                        scrollable="false">           
+                   <p:ajax 
+                       event="rowSelect"
+                       update=":ReservaListForm:PanelBotones"
+                   />
+                   <p:ajax 
+                       event="rowUnselect" 
+                       update=":ReservaListForm:PanelBotones"
+                   />
+                   <p:ajax 
+                        event="rowDblselect" 
+                        listener="#{reservaGestionBean.prepareModificar}"
+                        update=":growl,:mi-layout-contenido"
+                    />
+                   <p:column rendered="false">
+                       <f:facet name="header">
+                           <h:outputText value="id"/>       
+                       </f:facet>
+                       <h:outputText value="#{item.id}"/>
+                   </p:column>
+                   <p:column priority="1" resizable="true" filterBy="#{item.fecha}" filterMatchMode="contains" sortBy="#{item.fecha}">
+                       <f:facet name="header">
+                            <h:outputText value="Fecha"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"/>
+                        </h:outputText>
+                   </p:column>
+                   <p:column priority="1" resizable="true" filterBy="#{item.cliente.nombre}" filterMatchMode="contains" sortBy="#{item.cliente.nombre}">
+                       <f:facet name="header">
+                           <h:outputText value="Cliente"/>
+                       </f:facet>
+                       <h:outputText value="#{item.cliente.nombre}"/>
+                   </p:column>
+                   <p:column priority="1" resizable="true" filterBy="#{item.tipo.nombre}" filterMatchMode="contains" sortBy="#{item.tipo.nombre}">
+                       <f:facet name="header">
+                           <h:outputText value="Tipo"/>
+                       </f:facet>
+                       <h:outputText value="#{item.tipo.nombre}"/>
+                   </p:column>
+                   <p:column priority="1" resizable="true" filterBy="#{item.producto}" filterMatchMode="contains" sortBy="#{item.producto}">
+                       <f:facet name="header">
+                           <h:outputText value="Productos"/>
+                       </f:facet>
+                       <ui:repeat value="#{item.lineas}" var="lineasItem">
+                           <h:outputText rendered="#{lineasItem.numSerie != null}" value="#{lineasItem.numSerie} "/>
+                       </ui:repeat>
+                   </p:column>
+                   <p:column priority="1" resizable="true" filterBy="#{item.estado.nombre}" filterMatchMode="contains" sortBy="#{item.estado.nombre}">
+                       <f:facet name="header">
+                           <h:outputText value="Estado"/>
+                       </f:facet>
+                       <div style="text-align: center"><h:outputText class="app-estado app-estado-#{item.estado.id}" value="#{item.estado.nombre}"/></div>
+                   </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </ui:composition>
+</html>     

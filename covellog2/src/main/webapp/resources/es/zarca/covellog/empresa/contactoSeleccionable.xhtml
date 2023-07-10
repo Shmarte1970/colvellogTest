@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="dialog" required="true"/>
+            <composite:attribute name="prepareUpdateAction" method-signature="void actionListener(javax.faces.event.ActionEvent)" required="true"/>
+            <composite:attribute name="update" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface> 
+        <composite:implementation>            
+            <c:contacto 
+                id="contacto"
+                value="#{cc.attrs.value}" 
+                updateId="#{cc.attrs.updateId}"
+            />
+            <div style="text-align: right">
+                <p:commandButton 
+                    class="boton boton-primary boton-peque"
+                    value="Seleccionar Otro"
+                    immediate="true"
+                    actionListener="#{cc.attrs.prepareUpdateAction}"
+                    oncomplete="PF('#{cc.attrs.dialog}Dialog').show()"
+                    update="#{cc.attrs.update}"
+                />
+            </div>
+        </composite:implementation>  
+    </h:body>  
+</html>

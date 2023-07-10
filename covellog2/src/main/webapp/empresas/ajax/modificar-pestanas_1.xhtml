@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>  
+    <ui:composition>
+            <script type="text/javascript">
+               $(document).ready(function() {
+                  $("th > input:first").focus();
+               });
+            </script>
+            <p:outputLabel value="Sin modelo" rendered="#{empty modificarEmpresaController.model}"/>
+            <p:outputLabel value="Sin empresa" rendered="#{empty modificarEmpresaController.model.empresa}"/>
+            <h:form id="PestanasForm"></h:form>
+            <p:panel 
+                id="panel-interior" 
+                class="panel-interior panel-pestanas"
+                header="Modificar Empresa" 
+                style="padding-bottom: 10px"
+                rendered="#{not empty modificarEmpresaController.model.empresa}"
+            > 
+                <div class="ui-g">                
+                    <div class="ui-g-12 ui-md-12 ui-lg-6">
+                        <e:empresa-compacta
+                            value="#{modificarEmpresaController.model.empresa}"
+                            updateId="empresa-header"
+                        />
+                    </div>
+                </div>
+                <p:messages id="messages" showSummary="false" showDetail="true" closable="true" for="messages">
+                    <p:autoUpdate />
+                </p:messages>
+                <p:tabView 
+                    id="Pestanas" 
+                    activeIndex="#{modificarEmpresaController.model.tabIndex}" 
+                    cache="false"
+                    dynamic="true"
+                    style="padding:0"
+                >
+                    <p:ajax event="tabChange" form="PestanasForm" listener="#{modificarEmpresaController.onTabChange}" />
+                    <p:tab id="EmpresaTab" title="Empresa" rendered="#{modificarEmpresaController.model.mostrarTabEmpresa}">
+                        <ui:include src="empresa.xhtml"/>
+                    </p:tab>
+                    <p:tab id="ContactosTab" title="Contactos" rendered="#{modificarEmpresaController.model.mostrarTabContactos}">
+                        <ui:include src="contactos.xhtml"/>
+                    </p:tab>
+                    <p:tab id="DireccionesEnvioTab" title="Direcciones Envío" rendered="#{modificarEmpresaController.model.mostrarTabDireccionesEnvio}">
+                        <ui:include src="direcciones-envio.xhtml"/>
+                    </p:tab>
+                    <p:tab id="PotencialTab" title="Potencial" rendered="#{modificarEmpresaController.model.mostrarTabPotencial}">
+                        <ui:include src="potencial.xhtml"/>
+                    </p:tab>
+                    <p:tab id="ClienteTab" title="Cliente" class="tab-container" rendered="#{modificarEmpresaController.model.mostrarTabCliente}">
+                        <ui:include src="cliente.xhtml"/>
+                    </p:tab>
+                    <p:tab id="ProveedorTab" title="Proveedor" rendered="#{modificarEmpresaController.model.mostrarTabProveedor}">
+                        <ui:include src="proveedor.xhtml"/>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: center">
+                    <h:form rendered="#{empty modificarEmpresaController.model.esUrlWithParameters}">
+                        <p:commandButton
+                            class="boton boton-primary"
+                            value="Volver"
+                            actionListener="#{modificarEmpresaController.volver}"
+                            update=":mi-layout-contenido"
+                            immediate="true"
+                            icon="fa fa-fw fa-chevron-left"
+                            
+                        />
+                    </h:form>
+                    <h:form rendered="#{not empty modificarEmpresaController.model.esUrlWithParameters}">
+                        <p:commandButton
+                            class="boton boton-primary"
+                            value="Cerrar"
+                            oncomplete="close_window()"
+                            immediate="true"
+                        />
+                    </h:form>
+                </div>
+            </div>    
+    </ui:composition>
+</html> 

@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="updateId" />
+        </composite:interface>  
+        <composite:implementation>              
+            <h:panelGroup id="AlmacenEditPanel" styleClass="#{cc.attrs.updateId}">
+                <p:panel header="Editar Almacén" class="panel-interior">
+                <h:form id="AlmacenEditForm">
+                    <p:defaultCommand target="GuardarButton"/>
+                    <h:panelGroup id="display">
+                        <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+                        <div class="width-responsive">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Nombre" for="nombre" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="nombre" 
+                                                value="#{editarAlmacenBean.nombre}" 
+                                                title="Nombre" 
+                                                required="true" 
+                                            />
+                                            <p:message for="nombre"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Descripción" for="descripcion" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="descripcion" 
+                                                value="#{editarAlmacenBean.descripcion}" 
+                                                title="Descripción" 
+                                                required="false" 
+                                            />
+                                            <p:message for="descripcion"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Empresa" for="Panel:AlmacenEditForm:empresa:empresa:content" />
+                                            <e:empresaSeleccionable 
+                                                id="empresa"
+                                                value="#{editarAlmacenBean.empresa}"
+                                                dialog="EmpresaSelectorPopup"
+                                                updateId="Almacen-Empresa"
+                                                update="@(.#{cc.id}-empresa-selector)"
+                                                prepareAction="#{editarAlmacenBean.prepareSelectEmpresa}"
+                                                
+                                            />   
+                                            <p:message for="Panel:AlmacenEditForm:empresa:empresa:content"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Horario" for="horario" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="horario" 
+                                                value="#{editarAlmacenBean.horario}" 
+                                                title="Horario" 
+                                                required="false" 
+                                            />
+                                            <p:message for="horario"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Dirección"/>
+                                            <c:direccionEditable
+                                                id="direccion"
+                                                dialog="AlmacenDireccionPopup"
+                                                value="#{editarAlmacenBean.direccion}"
+                                                prepareAction="#{editarAlmacenBean.prepareUpdateDireccion}"
+                                                copyText="Copiar direccion empresa"
+                                                copyAction="#{editarAlmacenBean.copiarDireccionEmpresa}"
+                                                update="@(.Almacen-DireccionPopup)"
+                                                updateId="Almacen-Direccion"
+                                            />
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <e:contactosSeleccionable
+                                                id="contactos"
+                                                title="Contactos"
+                                                value="#{editarAlmacenBean.contactos}"
+                                                dialog="AlmacenContactosPopup"
+                                                updateId="Almacen-Contactos"
+                                                prepareUpdateAction="#{editarAlmacenBean.prepareUpdateContactos}"
+                                                conditionalShow="#{editarAlmacenBean.mostrarSelectorContactos}"
+                                                update="@(.Almacen-ContactosPopup),:growl"
+                                                height="350px"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="obsInternas" 
+                                                value="#{editarAlmacenBean.obsInternas}" 
+                                                title="Observaciones Internas"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="obsPublicas" 
+                                                value="#{editarAlmacenBean.obsPublicas}" 
+                                                title="Observaciones Públicas"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        value="Cancelar"
+                                        immediate="true"
+                                        actionListener="#{editarAlmacenBean.cancelar}"
+                                        icon="fa fa-fw fa-close"
+                                       
+                                    />
+                                    <p:commandButton 
+                                        id="GuardarButton"
+                                        class="boton boton-primary" 
+                                        value="Guardar"
+                                        actionListener="#{editarAlmacenBean.guardar}"
+                                        icon="fa fa-fw fa-save"
+                                        update=":growl,display"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+                </p:panel>
+                <c:direccionEditDialog
+                    id="AlmacenDireccionPopup"
+                    updateId="Almacen-DireccionPopup"
+                />
+                <e:contactosSelectorDialog 
+                    id="AlmacenContactosPopup"
+                    updateId="Almacen-ContactosPopup"
+                />
+                <e:empresaSelectorDialog
+                    id="EmpresaSelectorPopup"
+                    updateId="#{cc.id}-empresa-selector"
+                />
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PaisEditDlg" widgetVar="PaisEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{adrecesBundle.EditPaisTitle}">
+            <h:form id="PaisEditForm">                
+                <h:panelGroup id="display" rendered="#{gestioPaisController.editarForm != null}">
+                    <div class="width-responsive" style="width:420px">
+                        <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4 ui-lg-4 div-label">
+                                <p:outputLabel value="#{adrecesBundle.CreatePaisLabel_codiIso2}" for="codiIso2" />
+                            </div>
+                            <div class="ui-g-12 ui-md-8 ui-lg-8">
+                                <p:inputText id="codiIso2" style="width:80px" value="#{gestioPaisController.editarForm.codiIso2}" title="#{adrecesBundle.CreatePaisTitle_codiIso2}" required="true" requiredMessage="#{adrecesBundle.CreatePaisRequiredMessage_codiIso2}"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-4 ui-lg-4 div-label">
+                                <p:outputLabel value="#{adrecesBundle.CreatePaisLabel_nom}" for="nom" />
+                            </div>
+                            <div class="ui-g-12 ui-md-8 ui-lg-8">
+                                <p:inputText id="nom" style="width:100%" value="#{gestioPaisController.editarForm.nom}" title="#{adrecesBundle.CreatePaisTitle_nom}" required="true" requiredMessage="#{adrecesBundle.CreatePaisRequiredMessage_nom}"/>
+                            </div>
+                        </div>
+                        <div style="text-align: right; padding-top:16px">
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{gestioPaisController.update}" value="Guardar" update="display,:PaisListForm:datalist,:growl" oncomplete="handleSubmit(args,'PaisEditDialog');"/>
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{gestioPaisController.cancelEdit}" value="Cancelar" oncomplete="closeDialog('PaisEditDialog')" immediate="true"/>
+                        </div> 
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

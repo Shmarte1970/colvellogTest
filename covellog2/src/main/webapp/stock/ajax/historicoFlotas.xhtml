@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
+    <ui:composition>
+        <h:form id="DetalleFlotaStockForm">
+            <h:panelGroup id="display">
+                <div class="width-responsive">                    
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h2>Producto</h2>
+                            <s:stock
+                                rendered="#{historicoFlotasBean.model.stock != null}" 
+                                value="#{historicoFlotasBean.model.stock}" 
+                            />
+                            <h2>Flota</h2>
+                            <h3 jsf:rendered="#{historicoFlotasBean.flota != null}">#{historicoFlotasBean.flota.nombre}</h3>
+                            <h3 jsf:rendered="#{historicoFlotasBean.flota == null}">Sin flota</h3>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6" style="text-align: right">    
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Cambiar Flota"
+                                immediate="true"
+                                actionListener="#{historicoFlotasBean.prepareCambiarFlota}" 
+                                update="DetalleFlotaCambiarDlg"
+                                oncomplete="PF('DetalleFlotaCambiarDialog').show()"
+                                icon="fa fa-fw fa-edit"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Deshacer ultimo cambio flota"
+                                immediate="true"
+                                actionListener="#{historicoFlotasBean.deshacerUltimoCambioFlota}" 
+                                update="display"
+                                icon="fa fa-fw fa-undo"
+                            >
+                                <p:confirm 
+                                    header="Deshacer ultimo cambio flota" 
+                                    message="¿Esta seguro?" 
+                                    icon="fa fa-fw fa-question-circle" 
+                                />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                                <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <h2>Historico Flotas</h2>
+                            <p:dataTable 
+                                id="flotasAnterioresTable" 
+                                value="#{historicoFlotasBean.model.historico}" 
+                                var="item"
+                                emptyMessage="No hay informacion sobre flotas anteriores."
+                                style="max-width: 1200px "
+                                scrollable="true"
+                                scrollHeight="#{viewController.contentHeight-500}"
+                            >        
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Flota"/>
+                                </f:facet>
+                                <h:outputText value="#{empty item.flota.nombre ? item.flota.nombre : item.flota.nombre}"/>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                                width="120"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Inicio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaInicio}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                                width="120"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Fin"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaFin}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Observaciones"/>
+                                </f:facet>
+                                <h:outputText value="#{item.observaciones}"/>
+                            </p:column>
+                        </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+        <p:dialog 
+            id="DetalleFlotaCambiarDlg"
+            responsive="true"
+            widgetVar="DetalleFlotaCambiarDialog"
+            modal="true"
+            resizable="true"
+            appendTo="@(body)"
+            header="Cambiar Flota" 
+            dynamic="true"
+            position="center center"
+            style="overflow:visible"
+            
+        >
+            <div id="dlg-content" style="max-height: 80vh"> 
+                <ui:include src="cambiarFlota.xhtml"/>
+            </div>
+        </p:dialog>
+    </ui:composition>
+</html>

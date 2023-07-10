@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>  
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="onCompleteAceptar" required="true"/>
+            <composite:attribute name="onCompleteCancelar" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+            <h:panelGroup id="ContactoSelectorPanel" styleClass="ContactoSelectorPanel">
+                <h:form id="ContactoSelectorForm" styleClass="#{cc.attrs.updateId}">
+                    <p:remoteCommand 
+                        name="selectFirst"
+                        actionListener="#{selectorContactosController.onSelect}"
+                        oncomplete="#{cc.attrs.onCompleteAceptar}"
+                        update=":growl,#{selectorContactosController.model.update}"
+                    />
+                    <h:panelGroup id="display" style="max-height:70vh;min-height:70vh;border:none">
+                        <p:panel 
+                            styleClass="ui-inputfield"
+                            rendered="#{empty selectorContactosController.model.items}"
+                        >
+                            <p:outputLabel value="Sin contactos"/>
+                        </p:panel>
+                        <p:selectManyMenu 
+                            style="width:100%;box-sizing: border-box;"
+                            scrollHeight="#{viewController.height * 0.5}"
+                            id="contacto"
+                            rendered="#{not empty selectorContactosController.model.items}"
+                            converter="contactoConverter"
+                            value="#{selectorContactosController.model.selecteds}"
+                            var="p"
+                        >
+                            <f:selectItems 
+                                value="#{selectorContactosController.model.items}"
+                                var="item"
+                                itemLabel="#{item}"
+                                itemValue="#{item}"/>
+                            <p:ajax 
+                                listener="#{selectorContactosController.onSelect}"
+                                oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                update=":growl,#{selectorContactosController.model.update}"
+                            />
+                            <p:column>
+                                <c:contacto value="#{p}"/>
+                            </p:column>
+                        </p:selectManyMenu>
+                        <div style="text-align: right;padding:8px 0px">
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Sin contacto"
+                                immediate="true"
+                                actionListener="#{selectorContactosController.onSelect}"
+                                oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                update=":growl,#{selectorContactosController.model.update}"
+                                icon="fa fa-fw fa-close"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                actionListener="#{selectorContactosController.prepareNuevoContacto}" 
+                                oncomplete="PF('SelectorContactoContactoEditDialog').show()" 
+                                value="Añadir" 
+                                update=":growl,@(.SelectorContacto-ContactoEdit)"
+                                immediate="true"
+                                icon="fa fa-fw fa-plus"
+                            />
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+                <c:contactoEditDialog
+                    id="SelectorContactoContactoEdit"
+                    updateId="SelectorContacto-ContactoEdit"
+                />
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>

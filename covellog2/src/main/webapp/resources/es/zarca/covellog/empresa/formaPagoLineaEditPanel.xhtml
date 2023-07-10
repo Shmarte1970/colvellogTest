@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="update" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+            <h:panelGroup id="DetalleContratacionEditPanel" styleClass="#{cc.attrs.updateId}">
+                <p:outputLabel value="No hay línea de forma de pago" rendered="#{formaPagoEditController.formaPagoLinea == null}"/>
+                <h:form id="DetalleContratacionEditForm" rendered="#{formaPagoEditController.formaPagoLinea != null}">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Porcentaje" for="porcentaje" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="porcentaje" 
+                                value="#{formaPagoEditController.formaPagoLinea.porcentaje}" 
+                                title="Porcentaje" 
+                                required="true" 
+                                requiredMessage="El porcentaje es obligatorio"
+                            />
+                            <p:message for="porcentaje"></p:message>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Tipo Pago" for="tipoPago" />
+                            <p:selectOneMenu 
+                                id="tipoPago" 
+                                class="cov-input" 
+                                autoWidth="false" 
+                                converter="formaPagoEditTipoPagoConverter"
+                                value="#{formaPagoEditController.formaPagoLinea.tipoPago}" 
+                                required="true"  
+                                requiredMessage="Seleccione una forma de pago"
+                            >
+                                <f:selectItem itemLabel="Seleccione un tipo de pago" />
+                                <f:selectItems 
+                                    value="#{formaPagoEditController.tiposPagoPosibles}"
+                                    var="item"
+                                    itemLabel="#{item.nombre}" 
+                                    itemValue="#{item}" 
+                                />
+                            </p:selectOneMenu>
+                            <p:message for="tipoPago"></p:message>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Cuenta" for="cuenta" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="cuenta" 
+                                value="#{formaPagoEditController.formaPagoLinea.cuenta}" 
+                                title="Cuenta" 
+                                required="false" 
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Tipo Vencimiento" for="tipoVencimiento" />
+                            <p:selectOneMenu 
+                                id="tipoVencimiento" 
+                                class="cov-input" 
+                                autoWidth="false" 
+                                converter="formaPagoEditTipoVencimientoConverter"
+                                value="#{formaPagoEditController.formaPagoLinea.tipoVencimiento}" 
+                                required="true"  
+                                requiredMessage="Seleccione un tipo de vencimiento"
+                            >
+                                <f:selectItem itemLabel="Seleccione un tipo de vencimiento" />
+                                <f:selectItems 
+                                    value="#{formaPagoEditController.tiposVencimientoPosibles}"
+                                    var="item"
+                                    itemLabel="#{item.nombre}" 
+                                    itemValue="#{item}"
+                                />
+                            </p:selectOneMenu>
+                            <p:message for="tipoVencimiento"></p:message>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Día Pago" for="diaPago" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="diaPago" 
+                                value="#{formaPagoEditController.formaPagoLinea.diaPago}" 
+                                title="Día Pago" 
+                                required="false" 
+                            />
+                            <p:message for="diaPago"></p:message>                            
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding-top:16px">
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                actionListener="#{formaPagoEditController.cancelarEditarLinea}" 
+                                value="Cancelar" 
+                                update=":growl" 
+                                oncomplete="#{cc.attrs.onCompleteCancelar}"
+                                immediate="true"
+                                icon="fa fa-fw fa-close"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                actionListener="#{formaPagoEditController.aceptarEditarLinea}" 
+                                value="Aceptar" 
+                                update="@parent,:growl,#{cc.attrs.update}" 
+                                oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                icon="fa fa-fw fa-check"
+                            />
+                        </div>
+                    </div>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-numero-serie"
+    xmlns:stock="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="onCompleteGuardar" />
+            <composite:attribute name="onCompleteCancelar" />
+        </composite:interface> 
+        <composite:implementation>
+            <h:panelGroup id="StockAsignacionPanel" styleClass="#{cc.attrs.updateId}">
+                <h:form id="StockAsignacionForm">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel class="StockAsignacion-Lineas" value="Productos (#{stockAsignacionBean.asignaciones.size()})"/>
+                            <p:selectOneListbox
+                                class="StockAsignacion-Lineas"
+                                style="width:100%;box-sizing: border-box" 
+                                id="Lineas" 
+
+                                converter="StockAsignacionConverter"
+                                value="#{stockAsignacionBean.selected}"
+                                var="p"
+                            >
+                                <f:selectItems 
+                                    value="#{stockAsignacionBean.asignaciones}"
+                                    var="item"                                    
+                                    itemLabel="#{item}"
+                                    itemValue="#{item}"/>
+                                <p:ajax 
+                                    event="click"
+                                    partialSubmit="true"
+                                    process="@this Lineas"
+                                    update="@(.StockAsignacion-StockSelector)"
+                                    oncomplete="PF('StockAsignacion-StockSelectorPopupDialog').show()"
+                                    listener="#{stockAsignacionBean.prepareSelectStock}"
+                                />
+                                <p:column>
+                                    <stock:stockAsignacion value="#{p}" prefijoBooking="#{stockAsignacionBean.reserva.booking}"/>
+                                </p:column>
+                            </p:selectOneListbox>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Fecha" for="fecha" />
+                            <p:datePicker 
+                                id="fecha"
+                                class="cov-input"
+                                value="#{stockAsignacionBean.fecha}"
+                                locale="es"
+                                monthNavigator="true"
+                                pattern="dd-MM-yyyy"
+
+                            />
+                            <p:message for="fecha"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones" for="observaciones" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="observaciones" 
+                                value="#{stockAsignacionBean.observaciones}" 
+                                title="Observaciones"
+                                required="false"/>                                 
+                        </div>
+                    </div> 
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right">
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Cancelar"
+                                immediate="true"
+                                actionListener="#{stockAsignacionBean.cancelar}"
+                                icon="fa fa-fw fa-close"
+                                oncomplete="#{cc.attrs.onCompleteCancelar}"
+                            />
+                            <p:commandButton 
+                                id="MovimientoButton"
+                                class="boton boton-primary" 
+                                value="Generar Movimiento"
+                                update=":growl StockAsignacionForm #{stockAsignacionBean.onGuardarJsfUpdate}"
+                                oncomplete="#{cc.attrs.onCompleteGuardar}"
+                                actionListener="#{stockAsignacionBean.guardar}"
+                                icon="fa fa-fw fa-truck"
+                            />                               
+                        </div>
+                    </div> 
+                    
+                </h:form>
+            </h:panelGroup>
+            <s:StockSelectorDialog
+                id="StockAsignacion-StockSelectorPopup"
+                updateId="StockAsignacion-StockSelector"
+            />
+        </composite:implementation>  
+    </h:body>  
+</html>  

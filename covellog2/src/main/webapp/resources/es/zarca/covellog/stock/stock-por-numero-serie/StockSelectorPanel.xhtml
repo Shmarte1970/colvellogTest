@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-numero-serie"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="onCompleteSeleccionar" />
+            <composite:attribute name="onCompleteCancelar" />
+        </composite:interface> 
+        <composite:implementation>
+            <h:panelGroup id="SelectorPoblacionPanel" styleClass="#{cc.attrs.updateId}">
+                <script type="text/javascript">
+                    $( document ).ready(function() {
+                        focusFirst();
+                        onInputChangeTimeout($('.filtro-diagonal'), buscarJs);
+                    });
+                </script>
+                #{selectorStockBean.onSeleccionarUpdate}
+                <h:form id="StockListForm">
+                    <p:remoteCommand 
+                        name="buscarJs"
+                        update="listados,PanelBotones,:growl"
+                    />
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p:inputText 
+                                id="filtro-diagonal"
+                                styleClass="filtro-diagonal"
+                                value="#{selectorStockBean.filtro}" 
+                                title="Filtro"
+                                placeholder="Filtro"
+                                autocomplete="off"
+                            />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h:panelGroup id="PanelBotones" layout="block" style="text-align: right" styleClass="panel-botones-seleccion">
+                                <div style="display:inline-block">
+                                    <p:outputLabel value="Asignar Matricula" for="asignarNumSerieSwitch" />
+                                    <div>
+                                        <p:toggleSwitch 
+                                            value="#{selectorStockBean.asignarNumSerie}"
+                                            id="asignarNumSerieSwitch"
+                                        >
+                                            <p:ajax 
+                                                listener="#{selectorStockBean.onChangeAsignarNumSerieSwitch}"
+                                                update=":growl,StockListForm"
+                                            />
+                                        </p:toggleSwitch>
+                                    </div>
+                                </div>
+                                <div style="display:inline-block">
+                                    <p:outputLabel value="Asignar Lote" for="asignarLoteSwitch" />
+                                    <div>
+                                        <p:toggleSwitch 
+                                            value="#{selectorStockBean.asignarLote}"
+                                            id="asignarLoteSwitch"
+                                            disabled="#{selectorStockBean.asignarNumSerie}"
+                                        >
+                                            <p:ajax 
+                                                listener="#{selectorStockBean.onChangeAsignarLoteSwitch}"
+                                                update=":growl,StockListForm"
+                                            />
+                                        </p:toggleSwitch>
+                                    </div>
+                                </div>
+                                <p:commandButton
+                                    class="boton boton-primary"
+                                    id="cancelButton"
+                                    value="Cancelar"
+                                    actionListener="#{selectorStockBean.onCancelar}"
+                                    update=":growl,#{selectorStockBean.onCancelarUpdate}"
+                                    oncomplete="#{cc.attrs.onCompleteCancelar}"
+                                    immediate="true"
+                                />
+                                <p:commandButton
+                                    disabled="#{selectorStockBean.botonSeleccionarDisabled}"
+                                    class="boton boton-primary"
+                                    id="selectButton"
+                                    value="Seleccionar"
+                                    actionListener="#{selectorStockBean.onSeleccionar}"
+                                    update=":growl,#{selectorStockBean.onSeleccionarUpdate}"
+                                    oncomplete="#{cc.attrs.onCompleteSeleccionar}"
+                                    immediate="true"
+                                /> 
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <h:panelGroup 
+                        layout="block"
+                        id="listados"
+                    >
+                        <h:panelGroup layout="block" class="ui-g" rendered="#{empty selectorStockBean.filtro}">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:remoteCommand name="updateRowCount" update="ListadoPanel:Panel"/>    
+                                <e:StockSelectorDataTable
+                                    id="ListadoPanel" 
+                                    value="#{selectorStockBean.items}"
+                                    selection="#{selectorStockBean.selected}"
+                                    header="Productos #{selectorStockBean.items.rowCount}/#{selectorStockBean.items.rowCountSinFiltrar}"
+                                    height="#{viewController.contentHeight-230}"
+                                    changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                    onSelectionUpdate="#{selectorStockBean.onSeleccionarUpdate}"
+                                    onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                    onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    rendered="#{selectorStockBean.asignarNumSerie}"
+                                />
+                                <e:StockPorLoteSelectorDataTable
+                                    id="ListadoPorLotePanel" 
+                                    value="#{selectorStockBean.itemsPorLote}"
+                                    selection="#{selectorStockBean.selectedPorLote}"
+                                    header="Productos Por Lote #{selectorStockBean.itemsPorLote.rowCount}/#{selectorStockBean.itemsPorLote.rowCountSinFiltrar}"
+                                    height="#{viewController.contentHeight-230}"
+                                    changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                    onSelectionUpdate="#{selectorStockBean.onSeleccionarUpdate}"
+                                    onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                    onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    rendered="#{not selectorStockBean.asignarNumSerie and selectorStockBean.asignarLote}"
+                                />
+                                <e:StockPorAlmacenSelectorDataTable
+                                    id="ListadoPorAlmacenPanel" 
+                                    value="#{selectorStockBean.itemsPorAlmacen}"
+                                    selection="#{selectorStockBean.selectedPorAlmacen}"
+                                    header="Productos Por Almacen #{selectorStockBean.itemsPorAlmacen.rowCount}/#{selectorStockBean.itemsPorAlmacen.rowCountSinFiltrar}"
+                                    height="#{viewController.contentHeight-230}"
+                                    changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                    onSelectionUpdate="#{selectorStockBean.onSeleccionarUpdate}"
+                                    onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                    onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    rendered="#{not selectorStockBean.asignarNumSerie and not selectorStockBean.asignarLote}"
+                                />
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup 
+                            layout="block"
+                            rendered="#{not empty selectorStockBean.filtro}"
+                            class="ui-g"
+                        >
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <h:panelGroup 
+                                    layout="block"
+                                    style="font-size:1.5em;font-weight: bold;padding:20px;text-align: center"
+                                    rendered="#{not selectorStockBean.hayResultadosBusquedaTransversal}"
+                                >
+                                    <span>No hay resultados</span>
+                                </h:panelGroup>
+                                <ui:repeat 
+                                    value="#{selectorStockBean.itemsTransversalKeys}" 
+                                    var="key"
+                                    varStatus="estado"
+                                >
+                                    <p:remoteCommand name="updateRowCount#{estado.index}" update="ListadoPanel:Panel"/>
+                                    <e:StockSelectorDataTable
+                                        id="ListadoPanel"
+                                        value="#{selectorStockBean.itemsTransversal[key]}"
+                                        selection="#{selectorStockBean.selected}"
+                                        rendered="#{selectorStockBean.itemsTransversal[key].rowCountSinSubFiltro > 0}"
+                                        header="#{key} &quot;#{selectorStockBean.filtro}&quot; (#{selectorStockBean.itemsTransversal[key].rowCount}/#{selectorStockBean.itemsTransversal[key].rowCountSinSubFiltro})" 
+                                        style="margin-bottom:2em"
+                                        onFilter="updateRowCount#{estado.index}()"
+                                        height="250"
+                                        changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                        onSelectionUpdate="#{selectorStockBean.onSeleccionarUpdate}"
+                                        onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                        onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    />
+                                    <e:StockPorLoteSelectorDataTable
+                                        id="ListadoPorLotePanel"
+                                        value="#{selectorStockBean.itemsTransversal[key]}"
+                                        selection="#{selectorStockBean.selectedPorLote}"
+                                        rendered="#{selectorStockBean.itemsTransversal[key].rowCountSinSubFiltro > 0}"
+                                        header="#{key} &quot;#{selectorStockBean.filtro}&quot; (#{selectorStockBean.itemsTransversal[key].rowCount}/#{selectorStockBean.itemsTransversal[key].rowCountSinSubFiltro})" 
+                                        style="margin-bottom:2em"
+                                        onFilter="updateRowCount#{estado.index}()"
+                                        height="250"
+                                        changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                        onSelectionUpdate="#{selectorStockBean.onSeleccionarUpdate}"
+                                        onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                        onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    />
+                                    <e:StockPorAlmacenSelectorDataTable
+                                        id="ListadoPorAlmacenPanel"
+                                        value="#{selectorStockBean.itemsTransversal[key]}"
+                                        selection="#{selectorStockBean.selectedPorAlmacen}"
+                                        rendered="#{selectorStockBean.itemsTransversal[key].rowCountSinSubFiltro > 0}"
+                                        header="#{key} &quot;#{selectorStockBean.filtro}&quot; (#{selectorStockBean.itemsTransversal[key].rowCount}/#{selectorStockBean.itemsTransversal[key].rowCountSinSubFiltro})" 
+                                        style="margin-bottom:2em"
+                                        onFilter="updateRowCount#{estado.index}()"
+                                        height="250"
+                                        changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                        onSelectionUpdate="#{selectorStockBean.onSeleccionarUpdate}"
+                                        onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                        onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    />
+                                </ui:repeat>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

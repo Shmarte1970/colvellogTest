@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">  
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="onCompleteAceptar" required="true"/>
+            <composite:attribute name="onCompleteCancelar" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface>  
+        <composite:implementation>
+            <h:panelGroup id="ContactoSelectorPanel">  
+                <h:form id="ContactoSelectorForm" styleClass="#{cc.attrs.updateId}">                    
+                    <h:panelGroup id="display">
+                        <p:panel 
+                            styleClass="ui-inputfield"
+                            rendered="#{empty selectorListaContactosController.contactos}"
+                        >
+                            <p:outputLabel value="Sin contactos"/>
+                        </p:panel>
+                        <p:scrollPanel 
+                            mode="native" 
+                            style="max-height:60vh;border:none"
+                            rendered="#{not empty selectorListaContactosController.contactos}"
+                        >
+                            <p:selectManyMenu 
+                                styleClass="lista-contactos-selector"
+                                style="width:100%;box-sizing: border-box" 
+                                id="contactos" 
+                                converter="selectorListaContactosConverter"
+                                value="#{selectorListaContactosController.selecteds}"
+                                var="p"
+                            >
+                                <f:selectItems 
+                                    value="#{selectorListaContactosController.contactos}"
+                                    var="item"
+                                    itemLabel="#{item}"
+                                    itemValue="#{item}"/>
+                                <p:column>
+                                    <e:contacto value="#{p}"/>
+                                </p:column>
+                            </p:selectManyMenu>
+                        </p:scrollPanel>
+                        <div style="text-align: right;padding:8px 0px">
+                            <p:commandButton 
+                                class="boton boton-primary boton-peque"
+                                value="Bajar"
+                                immediate="false"
+                                actionListener="#{selectorListaContactosController.bajar}"
+                                update=":growl,display"
+                                icon="fa fa-fw fa-arrow-down"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary boton-peque"
+                                value="Subir"
+                                immediate="false"
+                                actionListener="#{selectorListaContactosController.subir}"
+                                update=":growl,display"
+                                icon="fa fa-fw fa-arrow-up"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary boton-peque"
+                                value="Quitar"
+                                immediate="false"
+                                actionListener="#{selectorListaContactosController.quitar}"
+                                update=":growl,display"
+                                icon="fa fa-fw fa-trash"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary boton-peque" 
+                                value="Editaraaaaa"
+                                immediate="true"
+                                actionListener="#{selectorListaContactosController.prepareEditar}" 
+                                oncomplete="PF('ContactosContactoEditDialog').show()" 
+                                update=":growl,@(.Contactos-ContactoEdit)"
+                                icon="fa fa-fw fa-edit"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary boton-peque"
+                                value="Añadir"
+                                immediate="true"
+                                actionListener="#{selectorListaContactosController.prepareAnadir}"
+                                oncomplete="PF('ContactosSelectorContactosPopupDialog').show()"
+                                update=":growl,@(.ContactosSelector-ContactosPopup)"
+                                icon="fa fa-fw fa-plus"
+                            />
+                        </div>
+                        <div style="text-align: right;padding:8px 0px">
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Aceptar"
+                                immediate="false"
+                                actionListener="#{selectorListaContactosController.onAceptar}"
+                                oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                update=":growl"
+                                icon="fa fa-fw fa-check"
+                            />
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+                <e:contactoSelectorDialog 
+                    id="ContactosSelectorContactosPopup"
+                    updateId="ContactosSelector-ContactosPopup"
+                />
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>

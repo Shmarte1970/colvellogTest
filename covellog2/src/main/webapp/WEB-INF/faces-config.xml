@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <application>
+        <locale-config>
+            <default-locale>es-ES</default-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>AppBundle</base-name>
+            <var>appBundle</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>AdrecesBundle</base-name>
+            <var>adrecesBundle</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>ClientsBundle</base-name>
+            <var>clientsBundle</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>EmpresasBundle</base-name>
+            <var>empresasBundle</var>
+        </resource-bundle>
+    </application>
+    <factory>
+        <exception-handler-factory>
+            es.zarca.covellog.interfaces.web.exception.CustomExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
+</faces-config>

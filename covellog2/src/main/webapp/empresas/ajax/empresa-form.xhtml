@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+      xmlns:ci="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/idioma"
+>
+    <ui:composition>
+        <h:form id="EmpresaForm">
+            <p:remoteCommand name="comprobarCif" immediate="true" actionListener="#{empresaController.comprobarCif}" update="cif"/>
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="padding:0">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="CIF" for="cif" />
+                            <p:inputText 
+                                class="cov-input #{empresaController.model.empresa.esCorrectoCif ? '' : 'ui-state-error'}"
+                                id="cif" 
+                                value="#{empresaController.model.empresa.cif}" 
+                                title="CIF" 
+                                required="false" 
+                                onblur="comprobarCif()"
+                            />
+                            <p:message for="cif"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Nombre" for="nombre" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="nombre" 
+                                value="#{empresaController.model.empresa.nombre}" 
+                                title="Nombre" 
+                                required="true" 
+                                requiredMessage="El nombre es obligatorio"
+                            />
+                            <p:message for="nombre"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Alias" for="alias" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="alias" 
+                                value="#{empresaController.model.empresa.alias}" 
+                                title="Alias" 
+                                required="false" 
+                            />
+                            <p:message for="alias"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Horario" for="horario" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="horario" 
+                                value="#{empresaController.model.empresa.horario}" 
+                                title="Horario" 
+                            />
+                            <p:message for="horario"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Idioma" for="idioma" />
+                            <ci:idiomaSelector 
+                                id="idioma"
+                                value="#{empresaController.model.empresa.idioma}" 
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="padding:0">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Dirección Fiscal"/>
+                            <c:direccionEditable
+                                id="direccionFiscal"
+                                value="#{empresaController.model.empresa.direccionFiscal}"
+                                prepareAction="#{empresaController.prepareUpdateDireccionFiscal}"
+                                dialog="direccionFiscalPopup"
+                                update="@(.EmpresaDireccionFiscalPopup)"
+                                updateId="Empresa-DireccionFiscal"
+                            />
+                        </div>
+                    </div>              
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Web" for="web" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="web" 
+                                value="#{empresaController.model.empresa.web}" 
+                                title="Web" 
+                                required="false"
+                            />
+                            <p:message for="web"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Palabras Clave (Separadas por espacio, coma o punto y coma)" for="palabrasClave" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="5" 
+                                autoResize="false" 
+                                id="palabrasClave" 
+                                value="#{empresaController.model.empresa.palabrasClave}" 
+                                title="Palabras Clave"
+                                required="false"
+                            />
+                            <p:message for="palabrasClave"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <c:direccionEditDialog 
+            id="direccionFiscalPopup"
+            updateId="EmpresaDireccionFiscalPopup"
+        />
+    </ui:composition>
+</html>

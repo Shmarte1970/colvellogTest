@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/comercial"
+
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}Dlg"
+                responsive="true"
+                widgetVar="#{cc.id}Dialog"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="Seleccionar Comerciales"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                style="min-width: 40%"
+            >
+                <c:comercialesSelectorPanel
+                    id="#{cc.id}"
+                    updateId="#{cc.attrs.updateId}"
+                    onCompleteAceptar="handleSubmit(args,'#{cc.id}Dialog');"
+                    onCompleteCancelar="closeDialog('#{cc.id}Dialog')"
+                />
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>  

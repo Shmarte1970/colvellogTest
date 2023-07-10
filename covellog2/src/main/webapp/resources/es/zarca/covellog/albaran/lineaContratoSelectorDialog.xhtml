@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:co="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="update" required="true" />
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}Dlg"
+                responsive="true"
+                widgetVar="#{cc.id}Dialog"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="Asignar Lineas Contrato"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                styleClass="#{cc.attrs.updateId}"
+                style="min-width:600px"
+            >
+                <h:form id="AsignarLineasContratoForm">
+                        <p:scrollPanel 
+                            mode="native" 
+                            rendered="#{not empty contratoLineaSelectorBean.items}"
+                            style="max-height:60vh;border:none"
+                        >
+                            <p:outputLabel 
+                                value="No hay albaranes" 
+                                rendered="#{empty contratoLineaSelectorBean.items}"
+                            />
+                            <p:selectManyMenu
+                                style="width:100%;box-sizing: border-box" 
+                                id="AlbaranesEntrega" 
+                                value="#{contratoLineaSelectorBean.selecteds}"
+                                var="p"
+                                converter="contratoLineaSelectorConverter"
+                            >
+                                <f:selectItems 
+                                    value="#{contratoLineaSelectorBean.items}"
+                                    var="item"
+                                    itemLabel="#{item}"
+                                    itemValue="#{item}"/>
+                                <p:column>
+                                    <co:lineaContrato value="#{p}"/>
+                                </p:column>
+                            </p:selectManyMenu>
+                        </p:scrollPanel>
+                        <div style="text-align:right;padding-top:6px">
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                icon="fa fa-fw fa-close" 
+                                actionListener="#{contratoLineaSelectorBean.cancelar}"
+                                value="Cancelar"
+                                oncomplete="closeDialog('#{cc.id}Dialog')"
+                                immediate="true"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Añadir"
+                                icon="fa fa-fw fa-plus"
+                                update="#{cc.attrs.update}"
+                                oncomplete="handleSubmit(args,'#{cc.id}Dialog');"
+                                actionListener="#{contratoLineaSelectorBean.guardar}"
+                            />
+                        </div>
+                </h:form>
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>

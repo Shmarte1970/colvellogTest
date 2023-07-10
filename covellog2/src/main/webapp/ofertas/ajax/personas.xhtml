@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:co="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/comercial"
+>
+    <ui:composition>
+        <h:form id="ContratoPersonasForm">
+            <p:defaultCommand target="GuardarButton"/>
+            
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right">
+                    <p:commandButton 
+                        id="GuardarButton"
+                        class="boton boton-primary" 
+                        icon="fa fa-fw fa-save" 
+                        actionListener="#{personasContratoBean.guardar}" 
+                        value="Guardar"
+                        update="@parent,:growl"
+                    />
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <p:outputLabel value="Comerciales" for="SelectorComercial" />
+                    <co:comercialesSeleccionable
+                        id="SelectorComercial"
+                        value="#{personasContratoBean.comerciales}"
+                        prepareAction="#{personasContratoBean.prepareUpdateComerciales}"
+                        dialog="ContratoComercialesPopup"
+                        update="@(.Contrato-ComercialesPopup)"
+                        updateId="Contrato-Comerciales"
+                    />
+                    <p:outputLabel value="Firmante" for="firmante" />
+                    <e:contactoSeleccionable
+                        id="firmante"
+                        value="#{personasContratoBean.firmante}"
+                        dialog="ContratoFirmanteSelectorPopup"
+                        updateId="Contrato-Firmante"
+                        prepareUpdateAction="#{personasContratoBean.prepareUpdateFirmante}"
+                        update="@(.Contrato-FirmanteSelectorPopup),:growl"
+                    />
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <p:outputLabel value="Contactos" for="contactos" />
+                    <e:contactosSeleccionable
+                        id="contactos"
+                        title="Contactos Cliente"
+                        value="#{personasContratoBean.contactos}"
+                        dialog="ContratoContactosSelectorPopup"
+                        updateId="Contrato-Contactos"
+                        prepareUpdateAction="#{personasContratoBean.prepareUpdateContactos}"
+                        update="@(.Contrato-ContactosSelectorPopup),:growl"
+                        height="350px"
+                    />
+                </div>
+            </div>
+        </h:form>
+        <e:contactoSelectorDialog
+            id="ContratoFirmanteSelectorPopup"
+            updateId="Contrato-FirmanteSelectorPopup"
+        />
+        <e:contactosSelectorDialog
+            id="ContratoContactosSelectorPopup"
+            updateId="Contrato-ContactosSelectorPopup"
+        />
+        <co:comercialesSelectorDialog
+            id="ContratoComercialesPopup"
+            updateId="Contrato-ComercialesPopup"
+        />
+    </ui:composition>
+</html>

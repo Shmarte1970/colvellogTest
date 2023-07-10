@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <h:outputStylesheet library="css" name="print.css"/>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            @page {
+                size: A5 landscape; 
+                margin: 104px 0 45px 0;
+            }
+            .print-content #titulo {
+                font-size: 20px;
+            }
+            .print-content .h1 {
+                font-size: 20px;
+            }
+            .print-content .column-header {
+                padding: 0.2em 0;
+                font-size: 1rem;
+            }
+            .print-content .content-concepto {
+                padding: 0.5em 1em;
+            }
+            .print-container .footer-barra {
+                font-size: 0.9rem;
+            }
+            .print-container .footer-barra span {
+                line-height: 20px;
+            }            
+        </style>
+    </h:head>
+    <ui:insert name="metadata"/>    
+    <h:body>
+        
+        <div class="print-container">
+            <div class="page size-a5-landscape">
+                <header id="header-first">
+                    <div class="print-content">
+                        <div id="header" class="header">
+                            <div id="print-decoracion-esquina">
+                                <img class="imagen-fondo" src="#{resourcesController.getImage('esquina.png')}" alt="Decoracion Esquina"/>
+                                <div id="print-icono-herramientas" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-herramientas.png')}"/>
+                                </div>
+                                <div id="print-icono-nieve" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-nieve.png')}"/>
+                                </div>
+                                <div id="print-icono-containers" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-containers.png')}"/>
+                                </div>
+                                <div id="print-icono-camion" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-camion.png')}"/>
+                                </div>
+                            </div>
+                            <div id="info-empresa" class="print-row">
+                                <img id="logo" src="#{resourcesController.getImage('logo-zarca-sombra.png')}" alt="Logo"/>
+                                <div class="info-empresa-contenido">
+                                    <span class="h1">ZARZOSO I CATASUS S.L.</span>
+                                    <div class="">
+                                        <img style="width:16px" src="#{resourcesController.getImage('fa-phone.png')}"/>
+                                        <div style="display:inline;line-height:16px;vertical-align: top">
+                                            931 175 501
+                                        </div>
+                                        <img style="width:16px;margin-left: 10px" src="#{resourcesController.getImage('fa-envelope.png')}"/>
+                                        <div style="display:inline;line-height:16px;vertical-align: top">
+                                            <a href="mailto:comercial@zarca.es">comercial@zarca.es</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <img style="width:16px;vertical-align: top" src="#{resourcesController.getImage('fa-home.png')}"/>
+                                        <div style="display:inline-block;line-height:16px">
+                                            C/ Electricitat 2, Pol. Ind. Santa Rita, 08755 Castellbisbal, Barcelona
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>                        
+                    </div>
+                </header>
+                <footer>
+                    <div class="footer" >
+                        <div id="condiciones">
+                            <ui:insert name="condiciones"/>
+                            <p class="letra-peque">Velocidad máxima en campa 10km/h</p>
+                        </div>
+                        <div class="footer-barra fondo-oscuro">
+                            <div class="print-row">
+                                <div class="print-col" style="width:33%;text-align:left;padding-left:1em;font-size:0.75em">
+                                    <span><ui:insert name="documento-id"/></span>
+                                </div>
+                                <div class="print-col" style="width:33%">
+                                    <span class="print-numeracion">
+                                    </span>
+                                </div>
+                                <div class="print-col" style="width:33%;text-align:right;padding-right:0.6em;font-size:0.75em"><span>ZARCA S.L.</span></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </footer>
+                <div class="print-content" style="padding-top: 0">   
+                    <div id="titulo" class="print-row">
+                        <div class="print-col documento-tipo fondo-claro" style="width:100%;position:relative">
+                            <ui:insert name="documento-tipo"/>
+                            <div class="print-col documento-id" style="float:right;position:absolute;right:0;top:0;border:1px solid white">
+                                <ui:insert name="documento-id"/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="info-cabecera">
+                            <ui:insert name="cabecera"/>
+                        </div>
+                    <div id="contenido" >
+                        <ui:insert name="contenido"/>
+                    </div>
+                </div>
+                <div class="content-footer">
+                    <div class="content-footer-content">
+                        <div style="border-top: 2px solid rgb(44, 71, 105);padding:5px">
+                            <ui:insert name="content-footer"/>
+                        </div>
+                    </div>
+                </div>             
+            </div>
+        </div>
+    </h:body>
+</html>

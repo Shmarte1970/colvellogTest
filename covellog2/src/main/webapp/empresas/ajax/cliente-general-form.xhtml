@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:co="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/comercial"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form id="ClienteGeneralForm">            
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="padding:0">
+                    <h:panelGroup layout="block" class="ui-g" rendered="#{false}">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:remoteCommand partialSubmit="true" process="@this,cif" update="@parent" name="comprobarCifCliente" actionListener="#{clienteGeneralController.comprobarCif}"/>
+                            <p:outputLabel value="CIF" for="cif" />
+                            <p:inputText 
+                                class="cov-input #{clienteGeneralController.model.empresa.esCorrectoCif ? '' : 'ui-state-error'}"
+                                id="cif" 
+                                value="#{clienteGeneralController.model.empresa.cif}" 
+                                title="CIF" 
+                                required="true" 
+                                requiredMessage="El CIF es obligatorio para clientes"
+                                onblur="comprobarCifCliente()"
+                            />
+                            <p:message for="cif"/>
+                        </div>
+                    </h:panelGroup>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Código Cliente:" for="codigoCliente" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="codigoCliente" 
+                                value="#{clienteGeneralController.model.empresa.cliente.codigoCliente}" 
+                                title="Código Cliente:" 
+                                required="true" 
+                                requiredMessage="El Código Cliente es obligatorio"
+                            />
+                            <p:message for="codigoCliente"/>
+                            <div style="text-align: right">
+                                <p:commandButton
+                                    class="boton boton-primary boton-peque" 
+                                    value="Sugerir codigo"
+                                    immediate="true"
+                                    actionListener="#{clienteGeneralController.sugerirCodigoCliente}"
+                                    update="ClienteGeneralForm:codigoCliente"
+                                    icon="fa fa-fw fa-gear"
+                                >
+                                    <p:resetInput target="ClienteGeneralForm:codigoCliente" />
+                                </p:commandButton>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Comerciales" for="SelectorComercial" />
+                            <co:comercialesSeleccionable
+                                id="SelectorComercial"
+                                value="#{clienteGeneralController.model.empresa.cliente.comerciales}"
+                                prepareAction="#{clienteGeneralController.prepareUpdateComerciales}"
+                                dialog="ClienteComercialesPopup"
+                                update="@(.Cliente-ComercialesPopup)"
+                                updateId="Cliente-Comerciales"
+                            />                        
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="obsInternas" 
+                                value="#{clienteGeneralController.model.empresa.cliente.observaciones.obsInternas}" 
+                                title="Observaciones Internas"
+                                required="false"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="obsPublicas" 
+                                value="#{clienteGeneralController.model.empresa.cliente.observaciones.obsPublicas}" 
+                                title="Observaciones Públicas"
+                                required="false"/>                                 
+                        </div>
+                    </div>                    
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="padding:0">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Tipo Cliente" for="tipoCliente"/>
+                            <p:selectOneMenu 
+                                class="cov-input" 
+                                id="tipoCliente" 
+                                value="#{clienteGeneralController.model.empresa.cliente.tipoCliente}"
+                                required="true"
+                                requiredMessage="El tipo de cliente es obligatorio"
+                                converter="TipoClienteConverter"
+                            >
+                                <f:selectItem itemLabel="Seleccione un tipo de cliente" itemValue="" />
+                                <f:selectItems 
+                                    value="#{clienteGeneralController.model.tiposClientePosibles}"
+                                    var="item"
+                                    itemLabel="#{item.nombre}"
+                                    itemValue="#{item}"
+                                />
+                            </p:selectOneMenu>
+                            <p:message for="tipoCliente"/>
+                        </div>
+                    </div> 
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <e:contactosSeleccionable
+                                id="contactos"
+                                title="Contactos Cliente"
+                                value="#{clienteGeneralController.model.empresa.cliente.contactos}"
+                                dialog="ClienteContactosSelectorPopup"
+                                updateId="Cliente-Contactos"
+                                prepareUpdateAction="#{clienteGeneralController.prepareUpdateContactos}"
+                                update="@(.Cliente-ContactosSelectorPopup),:growl"
+                                height="350px"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </h:form>
+        <e:contactosSelectorDialog 
+            id="ClienteContactosSelectorPopup"
+            updateId="Cliente-ContactosSelectorPopup"
+        />
+        <co:comercialesSelectorDialog
+            id="ClienteComercialesPopup"
+            updateId="Cliente-ComercialesPopup"
+        />        
+    </ui:composition>
+</html>

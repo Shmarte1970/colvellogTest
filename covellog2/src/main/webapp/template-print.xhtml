@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <h:outputStylesheet library="css" name="print.css"/>      
+        <h:outputStylesheet library="css" name="styles.css"/>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />             
+    </h:head>
+    <ui:insert name="metadata"/>
+    <h:body>
+        <div class="print-container">
+            <div class="page size-a4">                 
+                <header id="header-first">
+                    <div class="print-content">
+                        <div id="header" class="header">
+                            <div id="print-decoracion-esquina">
+                                <img class="imagen-fondo" src="#{resourcesController.getImage('esquina.png')}" alt="Decoracion Esquina"/>
+                                <div id="print-icono-herramientas" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-herramientas.png')}"/>
+                                </div>
+                                <div id="print-icono-nieve" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-nieve.png')}"/>
+                                </div>
+                                <div id="print-icono-containers" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-containers.png')}"/>
+                                </div>
+                                <div id="print-icono-camion" class="print-icono">
+                                    <img src="#{resourcesController.getImage('icono-camion.png')}"/>
+                                </div>
+                            </div>
+                            <div id="info-empresa" class="print-row">
+                                <img id="logo" src="#{resourcesController.getImage('logo-zarca-sombra.png')}" alt="Logo"/>
+                                <div class="info-empresa-contenido">
+                                    <span class="h1">ZARZOSO I CATASUS S.L.</span>
+                                    <div class="">
+                                        <img style="width:16px" src="#{resourcesController.getImage('fa-globe-gray.png')}"/>
+                                        <div style="display:inline;line-height:16px;vertical-align: top">
+                                            <a href="www.zarca.es">www.zarca.es</a>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <img style="width:16px" src="#{resourcesController.getImage('fa-phone.png')}"/>
+                                        <div style="display:inline;line-height:16px;vertical-align: top">
+                                            931 175 501
+                                        </div>
+                                        <img style="width:16px;margin-left: 10px" src="#{resourcesController.getImage('fa-envelope.png')}"/>
+                                        <div style="display:inline;line-height:16px;vertical-align: top">
+                                            <a href="mailto:comercial@zarca.es">comercial@zarca.es</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <img style="width:16px;vertical-align: top" src="#{resourcesController.getImage('fa-home.png')}"/>
+                                        <div style="display:inline-block;line-height:16px">
+                                            C/ Electricitat 2, Pol. Ind. Santa Rita, 08755 Castellbisbal, Barcelona
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>                        
+                    </div>
+                </header>                                              
+                <footer>
+                    <div class="footer" >
+                        <div id="condiciones">
+                            <ui:insert name="condiciones"/>
+                            <p class="letra-peque">De conformidad con lo dispuesto en el Art. 5 de la Ley Orgánica de Protección de Datos de Carácter Personal, L.O.P.D. 15/99, le informamos que sus datos se incorporarán a los ficheros titularidad de ZARCA S.L. con la finalidad de emitir el presente presupuesto/oferta, realizar su seguimiento y durante el tiempo de su validez. Para el ejercicio de sus derechos de acceso, rectificación, cancelación y oposición, podrá dirigirse por escrito a la dirección referenciada en el presente documento donde será debidamente atendido, en las formas y en los plazos que marca la ley</p>
+                        </div>
+                        <div class="footer-barra fondo-oscuro">
+                            <div class="print-row">
+                                <div class="print-col" style="width:33%;text-align:left;padding-left:1em;font-size:0.75em">
+                                    <span><ui:insert name="documento-id"/></span>
+                                </div>
+                                <div class="print-col" style="width:33%">
+                                    <span class="print-numeracion">
+                                    </span>
+                                </div>
+                                <div class="print-col" style="width:33%;text-align:right;padding-right:0.6em;font-size:0.75em"><span>ZARCA S.L.</span></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </footer>
+                <div class="print-content" style="padding-top: 0">   
+                    <div id="titulo" class="print-row">
+                        <div class="print-col documento-tipo fondo-claro">
+                            <ui:insert name="documento-tipo"/>
+                        </div>
+                        <div class="print-col documento-id" style="float:right">
+                            <ui:insert name="documento-id"/>
+                        </div>
+                    </div>
+                    <div class="info-cabecera">
+                            <ui:insert name="cabecera"/>
+                        </div>
+                    <div id="contenido" >
+                        <ui:insert name="contenido"/>
+                    </div>
+                </div>
+                <div class="content-footer">
+                    <div class="content-footer-content">
+                        <div style="border-top: 2px solid rgb(44, 71, 105);padding:5px">
+                            <ui:insert name="content-footer"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-almacen-selector"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}Dlg"
+                responsive="true"
+                widgetVar="#{cc.id}Dialog"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="Seleccionar Tipo Producto"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                onShow="PF('#{cc.id}Dialog').toggleMaximize();"
+                onHide="PF('#{cc.id}Dialog').toggleMaximize();"
+            >
+                <e:SelectorPanel
+                    id="#{cc.id}Panel"
+                    updateId="#{cc.attrs.updateId}"
+                    onCompleteSeleccionar="handleSubmit(args,'#{cc.id}Dialog');"
+                    onCompleteCancelar="closeDialog('#{cc.id}Dialog')"
+                />
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>  

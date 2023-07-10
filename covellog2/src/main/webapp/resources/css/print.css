@@ -1,0 +1,589 @@
+/******* GENERAL *******/
+
+
+.mk-svg-icon {
+    display:inline-block;
+}
+.div { border: 1px solid red}
+html,body {
+    margin:0;
+    padding:0;
+    position: relative;
+}
+@page {
+    size: A4;  
+    background-color: transparent;
+    margin: 140px 0 75px 0;
+    position: relative;
+    @bottom-left {
+        content: element(footer);
+        vertical-align: bottom;
+        height:30px;
+        
+    };
+    @top-left {
+        content: element(header);  
+        vertical-align: top;
+        height:30px;
+        overflow:hidden;
+        
+    };
+}
+@page:first {    
+}
+.anexo {
+    page: anexo;
+}
+@page:anexo {
+    margin:0;
+    @bottom-left {
+        content: normal;
+    };
+    @top-left {
+        content: normal;  
+    };
+}
+header {
+    position: running(header);
+}
+footer {
+    position: running(footer);
+}
+.print-numeracion::before {
+    content: counter(page) " / " counter(pages) ;
+}
+.test::before {
+    content: "FLIPAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    font-size: 16px;
+}
+.print-container div {
+    box-sizing:border-box;
+    overflow: hidden
+}
+.print-container a {
+    text-decoration: none;
+    color:inherit;
+}
+.print-container .texto-aviso {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    color: darkred;
+}
+
+.print-container .fondo-claro {
+    background-color: rgb(143, 172, 208);
+}
+.print-container .fondo-oscuro {
+    background-color: rgb(44, 71, 105);
+}
+.print-container { 
+    font-family: Arial, Helvetica, sans-serif;
+    margin:0;padding:0;
+    color:black;
+    height:100%;
+}
+svg {
+    top: 2px;
+    left: 0;
+    fill: #666666;
+    width: 16px;
+    height: 16px;		
+    vertical-align: middle;
+}
+.print-row {
+    overflow: auto;
+}
+.print-row:after {
+    content:"";
+    display: table;
+    clear:both;
+}
+
+.print-col {
+    float:left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+.outputText-2{
+    font-weight:bold;
+}
+
+.outputText-3{
+    font-style: italic;
+}
+
+.outputText-4{
+    display:block;
+    padding-left:0.5em;
+    font-weight:bold;
+}
+
+*/
+
+.outputLabel{
+    display:block;
+}
+
+
+
+
+
+
+
+
+
+
+.print-content {
+    padding: 20px 30px 0 30px;
+}
+
+.print-container div.page {
+    position: relative;
+    display: block;    
+    overflow: visible;
+    background: white;
+}
+.print-container div.page.size-a4 {  
+    width: 21cm;
+}
+.print-container div.size-a4-landscape {
+    width: 29.7cm;
+}
+.print-container div.page.size-a5 {  
+  
+}
+.print-container div.size-a5-landscape {
+
+}
+@media print {
+    .print-content div.page {
+        margin: 0;
+        box-shadow: none;
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    .print-content  { 
+        margin: 0; 
+        box-shadow: none;
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+/******* HEADER *******/
+.print-content .h1 { 
+    color: rgb(44, 71, 105);
+    margin:0;
+    font-size: 28px;
+    font-weight: bolder;
+}
+.print-content .info-empresa-contenido {
+    float: left; 
+    padding: 6px 4px;
+    font-size: 11px;
+    width: 70%;
+    white-space: nowrap;
+}
+#print-decoracion-esquina {
+    position: absolute;
+    top:0;
+    right:0;
+    overflow: visible;
+    padding:0;
+    text-align: right;
+}
+.print-container #print-decoracion-esquina .imagen-fondo {
+    width: 320px;
+}
+
+.print-container .size-a5-landscape #print-decoracion-esquina .imagen-fondo {
+    width: 220px;
+}
+
+.print-container #print-decoracion-esquina svg {
+    fill: rgb(44, 71, 105);
+    width: 28px; 
+    height:28px;
+}
+
+.print-container #print-decoracion-esquina div {
+    background-color: #FFFFFF;
+    float: left; 
+    position:absolute; 
+    border-radius: 32px; 
+    border: 2px solid rgb(44, 71, 105);
+    padding: 5px;
+}
+
+.print-container .size-a5-landscape #print-decoracion-esquina div {
+    background-color: #FFFFFF;
+    float: left; 
+    position:absolute; 
+    border-radius: 16px; 
+    border: 2px solid rgb(44, 71, 105);
+    padding: 4px;
+}
+
+.print-container #print-icono-herramientas {
+    top: 42px; 
+    left: 81px;
+}
+.print-container .size-a5-landscape #print-icono-herramientas {
+    top: 8px; 
+    left: 31px;
+}
+.print-container #print-icono-nieve {
+    top: 74px; 
+    left: 136px;
+}
+.print-container .size-a5-landscape #print-icono-nieve {
+    top: 38px; 
+    left: 76px;
+}
+.print-container #print-icono-containers {
+    top: 90px; 
+    left: 198px;
+}
+.print-container .size-a5-landscape #print-icono-containers {
+    top: 55px; 
+    left: 128px;
+}
+.print-container #print-icono-camion {
+    top: 96px; 
+    left: 261px;
+}
+.print-container .size-a5-landscape #print-icono-camion {
+    top: 60px; 
+    left: 181px;
+}
+.print-icono {
+    width:42px;
+    height:42px;
+}
+
+.size-a5-landscape .print-icono {
+    width:32px;
+    height:32px;
+}
+
+.print-icono img {
+    width:28px;
+    height:28px;
+}
+
+.size-a5-landscape .print-icono img {
+    width: 20px; 
+    height:20px;
+}
+
+.print-container .condiciones-contrato {
+    font-size: 8px;
+    font-family: sans-serif;
+    text-align: justify;
+    padding: 0 4em;
+}
+.print-container .condiciones-contrato p {
+    padding: 0;
+    margin:0.5em 0;
+}
+.print-container #logo {
+    float: left;
+    width: 110px;
+}
+
+.print-container .size-a5-landscape  #logo {
+    width: 80px;
+}
+
+.print-container .icono {
+    font-size:36px;
+    width:1em;
+    color:#666;
+    text-align: right;    
+}
+
+.print-content #titulo  {
+    font-weight: bolder; 
+    font-size: 28px;
+    text-align: right; 
+    margin: 0;
+    padding: 0;
+    color:white;
+}
+ 
+.print-content #titulo div {
+    padding: 3px 0;
+    text-align: left;
+}
+
+.print-content #titulo .documento-id {
+    background-color:#FFFFFF; 
+    color: rgb(143, 172, 208);
+    padding-left:6px;
+    padding-right:0px;
+}
+
+.print-content #titulo .documento-tipo {
+    min-width: 78%;
+    padding-left:10px
+}
+.print-content ul {
+    padding: 0;
+    margin: 0.25em 1em;
+    
+    list-style: none;
+}
+
+/******* CONTENT *******/
+.print-content #contenido {
+    position: relative;
+    overflow: hidden;
+}
+.print-content .info-cabecera {
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+
+.print-content .info-cabecera ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.print-content .info-cabecera-icono {
+    padding-right: 8px;
+}
+.print-content .info-cabecera-icono svg {
+    width: 32px;
+    height: 32px;
+}
+.print-content .info-cabecera-icono img {
+    width: 32px;
+    height: 32px;
+}
+.print-content .info-cabecera-texto {
+    font-size: 12px;
+}
+.print-content .info-cabecera-texto label { 
+    font-size: 12px;
+    font-weight: bold;
+}
+.print-content .info-cabecera-texto label span {
+    font-size: 12px;
+    font-weight: normal;
+    padding-left: 4px;
+}
+.print-content .info-cabecera.izquierda {
+    width:55%
+}
+.print-content .info-cabecera.derecha {
+    width:45%
+}
+
+/******* CONTENT-TABLE *******/
+.print-content #contenido-tabla {
+    width: 100%;
+    border-spacing: 0px;
+    overflow: hidden;
+    font-size: 12px;
+}
+.print-content #total {
+    background-color: #9A9A9A; 
+    border-radius: 10px 10px 0px 0px;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 0.4em;
+    border: 1px solid #FFFFFF;
+    min-width: 45px;
+}
+.print-content #total div {
+    min-height: 25px;
+}
+.print-content #primera-col-tabla {
+    border-radius: 10px 0 0 0;
+}
+
+.print-content #ultima-col-tabla {
+    border-radius: 0 10px 0 0;
+}
+
+.print-content .column-header { 
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0.6em 0;
+    border: 1px solid #FFFFFF;
+    text-align: center;
+}
+.print-content .linea {
+    min-height: 47px;
+    page-break-inside: avoid;
+}
+.print-content .impar {
+    background-color: #FFFFFF;
+}
+.print-content .par {
+    background-color: #EEEEEE;
+}
+.print-content .celda-tipo, .celda-precio, .celda-cantidad, .celda-total {
+    border-left: 1px solid #AAAAAA;
+    text-align: center;
+    padding: 1em;
+}
+.print-content .celda-precio, .celda-total {
+    text-align: right;
+}
+.print-content .celda-concepto {
+    text-align: left;	
+}
+.print-content .content-concepto {
+    padding: 0.75em 1em;
+}
+.print-content .content-concepto-nivel-1 {
+    padding-left: 3em;
+}
+.print-content .content-concepto-nivel-2 {
+    padding-left: 6em;
+}
+.print-content .content-concepto-nivel-3 {
+    padding-left: 9em;
+}
+.print-content .content-concepto .detalle {
+    font-size: 9px; 
+    padding-left: 1em;
+}
+/******* CONTENT-FOOTER *******/
+.content-footer {    
+    width: 100%;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    font-size: 11px;
+    page-break-inside: avoid;
+}
+
+.content-footer .content-footer-content {    
+    padding: 1.5em 3em;
+}
+.print-container #condiciones {
+    background-color: #E0E0E0;		
+    font-size: 12px;
+    padding: 6px 12px;
+}
+.print-container #condiciones p {
+    padding:0 2px 2px 0;
+    margin:0;
+}
+.print-container #condiciones .letra-peque {
+    font-size: 8px;
+}
+.print-container .footer-barra {
+    text-align: center;
+    color:white;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.print-container .footer-barra span {
+    line-height:28px;
+}
+
+
+css-contrato {
+    display: inline-block;
+    width: 15.8cm;
+}

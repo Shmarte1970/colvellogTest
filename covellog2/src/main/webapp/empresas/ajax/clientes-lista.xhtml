@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+    <ui:composition>
+            <script type="text/javascript">
+                $( document ).ready(function() {
+                    focusFirst();
+                    onInputChangeTimeout($('#EmpresaListForm\\:filtro-diagonal'), buscarJs);
+                    onWindowFocus(buscarJs);
+                });
+            </script>
+            <p:panel id="panel-interior" header="Clientes">
+                <p:outputLabel value="No se ha cargado el modelo" rendered="#{empty empresasListadoController.model}"/>
+                <h:form id="EmpresaListForm" rendered="#{not empty empresasListadoController.model}">
+                    <p:remoteCommand 
+                        name="buscarJs"
+                        update="listados,PanelBotones,:growl"
+                    />
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                                <p:autoUpdate />
+                            </p:messages>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p:inputText 
+                                id="filtro-diagonal" 
+                                value="#{empresasListadoController.model.filtro}" 
+                                title="Filtro"
+                                placeholder="Filtro"
+                                autocomplete="off"
+                            />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h:panelGroup id="PanelBotones" layout="block" style="text-align: right">
+                                <p:commandButton 
+                                    class="boton boton-primary" 
+                                    id="createButton" 
+                                    icon="fa fa-fw fa-plus" 
+                                    value="#{appBundle.Create}" 
+                                    actionListener="#{empresasListadoController.prepareCreate}"  
+                                    update=":growl,mi-layout-contenido"
+                                    immediate="true"
+
+                                /> 
+                                <p:commandButton 
+                                    rendered="#{!empty empresasListadoController.model.selected}" 
+                                    class="boton boton-primary" 
+                                    id="editButton" 
+                                    icon="fa fa-fw fa-edit" 
+                                    value="Modificar" 
+                                    actionListener="#{empresasListadoController.prepareEdit}" 
+                                    update=":growl,:mi-layout-contenido"
+                                    immediate="true"
+                                />
+                                <p:commandButton 
+                                    rendered="#{!empty empresasListadoController.model.selected}" 
+                                    class="boton boton-primary" 
+                                    id="editButtonNewTab" 
+                                    icon="fa fa-fw fa-edit" 
+                                    value="Modificar ^" 
+                                    immediate="true"
+                                    oncomplete="window.open('modificar.xhtml?id=#{empresasListadoController.model.selected.id}','_blank')"
+                                />
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <h:panelGroup 
+                        layout="block"
+                        id="listados"
+                    >
+                        <h:panelGroup layout="block" class="ui-g" rendered="#{empty empresasListadoController.model.filtro}">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:remoteCommand name="updateRowCount" update="ListadoPanel:Panel"/>
+                                <e:clienteDataTable 
+                                    id="ListadoPanel" 
+                                    value="#{empresasListadoController.model.items}"
+                                    header="Clientes #{empresasListadoController.model.items.rowCount}/#{empresasListadoController.model.items.rowCountSinFiltrar}"
+                                    height="#{viewController.contentHeight-230}"
+                                />
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup 
+                            layout="block"
+                            rendered="#{not empty empresasListadoController.model.filtro}"
+                            class="ui-g"
+                        >
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <h:panelGroup 
+                                    layout="block"
+                                    style="font-size:1.5em;font-weight: bold;padding:20px;text-align: center"
+                                    rendered="#{not empresasListadoController.model.hayResultadosDiagonal}"
+                                >
+                                    <span>No hay resultados</span>
+                                </h:panelGroup>
+                                <ui:repeat 
+                                    value="#{empresasListadoController.model.itemsDiagonalKeys}" 
+                                    var="key"
+                                    varStatus="estado"
+                                >
+                                    <p:remoteCommand name="updateRowCount#{estado.index}" update="ListadoPanel:Panel"/>
+                                    <e:clienteDataTable
+                                        id="ListadoPanel"
+                                        value="#{empresasListadoController.model.itemsDiagonal[key]}"
+                                        rendered="#{empresasListadoController.model.itemsDiagonal[key].rowCountSinSubFiltro > 0}"
+                                        header="#{empresasBundle[key]} &quot;#{empresasListadoController.model.filtro}&quot; (#{empresasListadoController.model.itemsDiagonal[key].rowCount}/#{empresasListadoController.model.itemsDiagonal[key].rowCountSinSubFiltro})" 
+                                        style="margin-bottom:2em"
+                                        onFilter="updateRowCount#{estado.index}()"
+                                        height="250"
+                                    /> 
+                                </ui:repeat>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+    </ui:composition>
+</html> 

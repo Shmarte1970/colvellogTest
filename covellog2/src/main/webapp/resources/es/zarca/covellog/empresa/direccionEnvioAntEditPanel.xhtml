@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="updateId" />
+        </composite:interface> 
+        <composite:implementation>  
+            <h:panelGroup id="DireccionEnvioEditPanel" styleClass="#{cc.attrs.updateId}">
+                <p:outputLabel value="No hay modelo" rendered="#{empty direccionEnvioEditController.model}"/>
+                <p:outputLabel value="No hay dirección envío" rendered="#{empty direccionEnvioEditController.model.ubicacion}"/>
+                <h:form id="DireccionEnvioEditForm" rendered="#{not empty direccionEnvioEditController.model.ubicacion}">
+                    <p:defaultCommand target="GuardarButton"/>
+                    <h:panelGroup id="display">
+                        <div class="width-responsive">
+                            <p:messages id="DireccionEnvioEditMessages" showSummary="false" showDetail="true" closable="true">
+                                <p:autoUpdate />
+                            </p:messages>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Nombre" for="nombre" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="nombre" 
+                                                value="#{direccionEnvioEditController.model.ubicacion.nombre}" 
+                                                title="Nombre" 
+                                                required="true" 
+                                            />
+                                            <p:message for="nombre"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Descripción" for="descripcion" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="descripcion" 
+                                                value="#{direccionEnvioEditController.model.ubicacion.descripcion}" 
+                                                title="Email" 
+                                                required="false" 
+                                            />
+                                            <p:message for="descripcion"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Horario" for="horario" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="horario" 
+                                                value="#{direccionEnvioEditController.model.ubicacion.horario}" 
+                                                title="Horario" 
+                                                required="false" 
+                                            />
+                                            <p:message for="horario"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Dirección"/>
+                                            <c:direccionEditable
+                                                id="direccion"
+                                                dialog="DireccionEnvioDireccionPanel"
+                                                value="#{direccionEnvioEditController.model.ubicacion.direccion}"
+                                                prepareAction="#{direccionEnvioEditController.prepareUpdateDireccion}"
+                                                copyText="Copiar direccion principal"
+                                                copyAction="#{direccionEnvioEditController.copiarDireccionPrincipal}"
+                                                update="@(.DireccionEnvio-DireccionEditPanel)"
+                                                updateId="DireccionesEnvio-DireccionEnvioPopup-Direccion"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="obsInternas" 
+                                                value="#{direccionEnvioEditController.model.ubicacion.observaciones.obsInternas}" 
+                                                title="Observaciones Internas"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="obsPublicas" 
+                                                value="#{direccionEnvioEditController.model.ubicacion.observaciones.obsPublicas}" 
+                                                title="Observaciones Públicas"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <e:contactosSeleccionable
+                                                id="contactos"
+                                                title="Contactos"
+                                                value="#{direccionEnvioEditController.model.ubicacion.contactos}"
+                                                dialog="DireccionEnvioContactosPopup"
+                                                updateId="DireccionEnvio-Contactos"
+                                                prepareUpdateAction="#{direccionEnvioEditController.prepareUpdateContactos}"
+                                                update="@(.DireccionEnvio-ContactosPopup),:growl"
+                                                height="500px"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12"  style="text-align: right;">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        value="Cancelar"
+                                        immediate="true"
+                                        actionListener="#{direccionEnvioEditController.cancelar}"
+                                        oncomplete="#{cc.attrs.onCompleteCancelar}"
+                                        icon="fa fa-fw fa-close"
+                                    />
+                                    <p:commandButton 
+                                        id="GuardarButton"
+                                        class="boton boton-primary" 
+                                        value="Guardar"
+                                        actionListener="#{direccionEnvioEditController.aceptar}"
+                                        oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                        update="@parent,:growl,#{direccionEnvioEditController.model.update}"
+                                        icon="fa fa-fw fa-save"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+                <e:contactosSelectorDialog 
+                    id="DireccionEnvioContactosPopup"
+                    updateId="DireccionEnvio-ContactosPopup"
+                />
+                <c:direccionEditDialog
+                    id="DireccionEnvioDireccionPanel"
+                    updateId="DireccionEnvio-DireccionEditPanel"
+                />
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

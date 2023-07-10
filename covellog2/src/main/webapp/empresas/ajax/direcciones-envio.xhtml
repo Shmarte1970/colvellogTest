@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+    <ui:composition>
+        <h:form id="DireccionesEnvioForm" style="border: none" styleClass="EmpresaDireccionesEnvio">
+            <h:panelGroup id="display">
+                <div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-10 panel-botones">
+                            <p:commandButton 
+                                class="boton boton-primary boton-peque" 
+                                actionListener="#{empresaDireccionesEnvioController.prepareNew}" 
+                                oncomplete="PF('direccionEnvioEditDialog').show()" 
+                                value="Añadir" 
+                                update=":growl,@(.DireccionesEnvio-DireccionEnvioEdit)"
+                                immediate="true"
+                                icon="fa fa-fw fa-plus"
+                            />
+                            <h:panelGroup
+                                layout="block"
+                                class="ui-g-12 ui-md-12 ui-lg-10"
+                                rendered="#{empresaDireccionesEnvioController.model.direccionesEnvio.size()==0}" 
+                            >
+                                <h2 style="text-align: center">Introduzca alguna direccion de envio</h2>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <ui:repeat value="#{empresaDireccionesEnvioController.model.direccionesEnvio}" var="item">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-10">
+                                <c:direccionEnvio
+                                    value="#{item}"                                   
+                                />
+                                <div class="panel-botones" style="padding-top:4px">
+                                    <p:commandButton
+                                        class="boton boton-primary boton-peque"
+                                        immediate="true"
+                                        actionListener="#{empresaDireccionesEnvioController.prepareUpdate(item)}"
+                                        oncomplete="PF('direccionEnvioEditDialog').show()"
+                                        update="@(.DireccionesEnvio-DireccionEnvioEdit)"
+                                        value="Modificar"
+                                        icon="fa fa-fw fa-edit"
+                                    />
+                                    <p:commandButton
+                                        class="boton boton-error boton-peque"
+                                        immediate="true"
+                                        actionListener="#{empresaDireccionesEnvioController.eliminar(item)}"
+                                        value="Eliminar"
+                                        update="@parent,:growl"
+                                        icon="fa fa-fw fa-trash"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </h:panelGroup>
+        </h:form>
+        <c:direccionEnvioEditDialog
+            ctrl="#{direccionEnvioEditController}"
+            id="direccionEnvioEdit"
+            updateId="DireccionesEnvio-DireccionEnvioEdit"
+        />
+    </ui:composition>
+</html>

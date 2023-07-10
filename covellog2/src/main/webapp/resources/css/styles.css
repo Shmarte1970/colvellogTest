@@ -1,0 +1,400 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 07-jun-2023, 11:08:28
+    Author     : Pedro Ríos
+*/
+
+/*Mi codigo new 06/06/2023 */ 
+
+.element.style {
+    display: none;
+}
+
+.dpblock{
+    display: block;
+}
+
+.bgcolorjs{
+    background-color: #d1dbe8;
+}
+
+.color333{
+    color:#333;
+}
+.color666{
+    color:#666;
+}
+
+.bgcolorAAA{
+    background-color: #AAA;
+}
+
+
+
+.margin4px{
+    margin: 4px;
+}
+
+.marleft05{
+    margin-left: 0.5em;
+}
+
+.marTop05{
+    margin-top: 0.5em;
+}
+
+.marTop10{
+    margin-top: 10px;
+}
+
+
+.textLeft{
+    text-align:left;
+}
+
+
+.textRight{
+    text-align:right;   
+}
+
+.textDecnone{
+    text-decoration: none;
+}
+
+
+.floatRight{
+    float: right;
+}
+
+.floatLeft{
+    float:left;
+}
+
+
+.font-weight-blod {
+    font-weight:bold;
+}
+
+.font-style-italic{
+     font-style: italic;
+}
+
+
+.border-0{
+    border: 0;
+}
+
+.border1sb{
+    border:1px solid black;
+}
+
+.font-size-06{
+  font-size:0.6em;   
+}
+
+
+.font-size-07{
+    font-size: 0.7em;
+}
+
+.font-size-08{
+     font-size:0.8em;
+}
+
+
+.font-size-09{
+     font-size:0.9em;
+}
+
+.font-size-12{
+    font-size: 1.2em;
+}
+
+.font-size12{
+    font-size: 12px;
+}
+
+.font-size14{
+    font-size: 14px;
+}
+
+.font-size-13{
+    font-size: 1.3em;
+}
+
+.font-size-14{
+     font-size: 1.4em;
+}
+
+.font-size-15{
+    font-size:1.5em;
+}
+
+.font-size14{
+    font-size: 14px;
+}
+
+.font-size-18{
+    font-size: 18px;
+}
+
+.font-size-48{
+    font-size:48px;
+}
+
+
+
+.padding4{
+    padding: 4px 0 0 0;
+}
+
+.padding0{
+    padding: 0;
+}
+
+.padding00{
+    padding: 0 0;
+}
+
+.padding05{
+    padding: 0.5em;
+}
+
+.padding005em{
+    padding: 0 0.5em;
+}
+
+.pad03em1em{
+    padding: 0.3em 1em;
+}
+
+
+.padding6px10px{
+    padding: 6px 10px;
+}
+
+.pad10{
+    padding: 10px;
+}
+
+.paddingtop2{
+    padding-top: 2px;
+}
+
+.paddingtop02em{
+    padding-top: 0.2em;
+}
+
+.paddingtop05em{
+    padding-top: 0.5em;
+}
+
+.paddingtop07{
+    padding-top: 0.7em;
+}
+
+
+.paddingtop20{
+    padding-top: 20px;
+}
+
+.paddingtop075{
+    padding-top: 0.75em;
+}
+
+
+.pad010{
+    padding: 0 10px 10px 10px;
+}
+
+
+.pad080{
+    padding: 0 8px 0 0;
+}
+
+.padRight5{
+    padding-right: 5px;
+}
+
+.padgLeft1{
+    padding-left: 1em;
+}
+
+.padLeft3cm{
+    padding-left: 3cm;
+}
+
+
+.padLeft4cm{
+    padding-left: 4cm;
+}
+
+.padLeft05{
+    padding-left: 0.5em;
+}
+
+.padLeft5em{
+    padding-left: 0.5em;
+}
+
+.padLeft06{
+    padding-left: 0.6em;
+}
+
+.padLeft5px{
+    padding-left: 5px;
+}
+
+
+.txAlingCenter{
+    text-align: center;
+}
+
+
+
+
+
+.marco-183{
+ text-align:center;
+ background-color: #c6cfda;
+ padding: 0.25em 0;
+ border: 1px solid; 
+ border-color:#000;
+}
+
+.width10{
+    width:10%;
+}
+
+.width12em{
+    width: 12em;
+}
+
+.width15{
+    width:15%;
+}
+
+
+.width20{
+    width:20%;
+}
+
+.width36{
+    width:36px;
+}
+
+.width40{
+    width:40%;
+}
+
+.width45{
+    width:45%;
+}
+
+.width49{
+   width: 49%; 
+}
+
+.width50{
+    width:50%;
+}
+
+
+.width60{
+    width:60%;
+}
+
+.width80{
+    width: 80%;
+}
+
+.width85{
+    width: 85%;
+}
+
+.width100{
+    width: 100%;
+}
+
+.width200{
+    width:200px;
+}
+
+.mx-width800{
+    max-width: 800px;
+}
+
+
+.nowrap{
+    white-space: nowrap;
+}
+
+.height3cm{
+    height: 3cm;
+}
+
+.height13{
+    height: 13em;
+}
+
+.height69{
+    height: 69px;
+}
+
+
+.height65{
+    height:65px;
+}
+
+.height96{
+    height: 96px;
+}
+
+.height171{
+    height: 171px;
+}
+
+.min-height70{
+  min-height:70px;  
+}
+
+.min-height5{
+    min-height: 5rem;
+}
+
+
+
+@import url(//db.onlinewebfonts.com/c/86203afc717c0d2960e0b34fd4041e95?family=Ticking+Timebomb+BB);
+@font-face {
+    font-family: "Ticking Timebomb BB";
+    src: url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.eot");
+    src: url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.woff") format("woff"), url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.svg#Ticking Timebomb BB") format("svg");
+}
+
+#datetime {
+    display: flex;
+    justify-content: right;    
+    align-items: right;
+    font-family: "Ticking Timebomb BB";
+    font-size: 22px;
+    color: black;
+    /*margin-top: 10px;*/
+    margin: 2px 18px 0 0;
+}
+
+#datetime:hover{
+    cursor: pointer;
+    font-size: 30px;
+    color:red;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+>
+    <ui:composition>
+        <h:panelGroup rendered="#{empty clienteGeneralController.model}">
+            <p:outputLabel value="No se puede cargar el cliente" />
+        </h:panelGroup>
+        <h:panelGroup id="ModificarClientePanel" rendered="#{not empty clienteGeneralController.model}">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <h:panelGroup
+                        layout="block" 
+                        rendered="#{clienteGeneralController.model.empresa.cliente.fechaBloqueo != null}"
+                    >
+                        <div class="ui-message-error">
+                            <h2 style="padding-top: 4px;padding-left:4px;margin:0">Bloqueado</h2>
+                            <p:outputLabel 
+                                value="#{clienteGeneralController.model.empresa.cliente.fechaBloqueo}" 
+                            />
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="text-align:right;">
+                    <h:form>
+                        <p:commandButton 
+                            class="boton boton-primary boton-error boton-peque ui" 
+                            actionListener="#{clienteGeneralController.eliminar}" 
+                            value="Eliminar" 
+                            update=":mi-layout-contenido,:growl" 
+                            immediate="true"
+                            icon="fa fa-fw fa-trash"
+                        >
+                            <p:confirm header="Eliminar Cliente" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        <p:commandButton 
+                            class="boton boton-primary boton-error boton-peque ui" 
+                            actionListener="#{clienteGeneralController.convertirEnPotencial}" 
+                            value="Convertir en Potencial" 
+                            update=":mi-layout-contenido,:growl" 
+                            immediate="true"
+                            icon="fa fa-fw fa-gear"
+                        >
+                            <p:confirm header="Convertir en Potencial" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton> 
+                        <p:commandButton 
+                            rendered="#{clienteGeneralController.model.empresa.cliente.fechaBloqueo == null}"
+                            class="boton boton-error boton-peque" 
+                            actionListener="#{clienteGeneralController.bloquear}" 
+                            value="Bloquear" 
+                            update="@parent:@parent:ModificarClientePanel,:growl" 
+                            icon="fa fa-fw fa-lock"
+                        >
+                            <p:confirm header="Bloquear Potencial" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        <p:commandButton 
+                            rendered="#{clienteGeneralController.model.empresa.cliente.fechaBloqueo != null}"
+                            class="boton boton-primary boton-peque" 
+                            actionListener="#{clienteGeneralController.desbloquear}" 
+                            value="Desbloquear" 
+                            update="@parent:@parent:ModificarClientePanel,:growl" 
+                            icon="fa fa-fw fa-unlock"
+                        >  
+                            <p:confirm header="Desbloquear Potencial" message="¿Esta seguro?" icon="fa fa-fw fa-question-circle" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                            <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                            <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+            </div>
+            <div style="text-align: right">
+                    <p:commandButton 
+                        id="GuardarButtonCliente"
+                        class="boton boton-primary"
+                        form="ClienteGeneralForm"
+                        icon="fa fa-fw fa-save" 
+                        actionListener="#{clienteGeneralController.modificar}" 
+                        value="Guardar" 
+                        update="ModificarClientePanel,:growl" 
+                    />
+            </div>
+            <ui:include src="cliente-general-form.xhtml"/>
+        </h:panelGroup>
+    </ui:composition>
+</html>

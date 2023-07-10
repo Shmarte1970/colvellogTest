@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/producto/complemento"
+>
+    <ui:composition>
+        <p:dialog id="ComplementoEditDlg" responsive="true" widgetVar="ComplementoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Modificar Complemento">
+            <h:form id="ComplementoEditForm">
+                <h:panelGroup id="display">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="padding-bottom:0">
+                            <p:outputLabel value="Complemento" for="complemento" />
+                            <t:complementoSeleccionable
+                                id="complemento"
+                                value="#{contratoLineaComplementoBean.complemento}"
+                                dialog="ComplementoSelectorPopup"
+                                updateId="ModificarLinea-ComplementoSeleccionable"
+                                update="@(.ModificarLinea-ComplementoSelector)"
+                                prepareAction="#{contratoLineaComplementoBean.prepareSelectComplemento}"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Concepto" for="concepto" />
+                            <p:inputText
+                                class="cov-input ModificarLinea-ComplementoSeleccionable"
+                                id="concepto"
+                                value="#{contratoLineaComplementoBean.concepto}"
+                                title="Concepto"
+                                required="true"
+                            />
+                            <p:message for="concepto"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Importe" for="importe" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="importe" 
+                                value="#{contratoLineaComplementoBean.importe}" 
+                                title="Importe" 
+                                required="true"
+                            />
+                            <p:message for="importe"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Cantidad" for="cantidad" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="cantidad" 
+                                value="#{contratoLineaComplementoBean.cantidad}" 
+                                title="Cantidad" 
+                                required="true"
+                            />
+                            <p:message for="cantidad"/>
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding-top:16px">
+                        <p:commandButton 
+                            class="boton boton-primary"
+                            icon="fa fa-fw fa-close"
+                            actionListener="#{contratoLineaComplementoBean.cancelar}"
+                            value="Volver"
+                            oncomplete="closeDialog('ComplementoEditDialog')"
+                            immediate="true"
+                        />
+                        <p:commandButton
+                            class="boton boton-primary"
+                            icon="fa fa-fw fa-check"
+                            actionListener="#{contratoLineaComplementoBean.guardar}"
+                            value="Aceptar"
+                            update="ContratoLineaEditForm:PanelComplementos,display,:growl"
+                            oncomplete="handleSubmit(args,'ComplementoEditDialog');"
+                        />
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <t:complementoSelectorDialog
+                id="ComplementoSelectorPopup"
+                updateId="ModificarLinea-ComplementoSelector"
+            />
+        </p:dialog>
+    </ui:composition>
+</html>

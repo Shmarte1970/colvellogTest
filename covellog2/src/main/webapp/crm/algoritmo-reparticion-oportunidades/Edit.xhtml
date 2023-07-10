@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReglaEditDlg" widgetVar="ReglaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Modificar Regla">
+            <h:form id="ReglaEditForm">
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate />
+                </p:messages>
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{algoritmeReparticioOportunitatsController.selected != null}">
+                        <p:outputLabel value="Comercial" for="comercial" />
+                        <p:selectOneMenu id="comercial" value="#{algoritmeReparticioOportunitatsController.selected.comercial}" required="true" requiredMessage="El comercial es obligatorio">
+                            <f:selectItem itemLabel="Seleccione un comercial"/>
+                            <f:selectItems value="#{algoritmeReparticioOportunitatsController.comercialsPosibles}"
+                                           var="comercialItem"
+                                           itemValue="#{comercialItem}" itemLabel="#{comercialItem.nom} #{comercialItem.cognoms}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Máximo" for="maxim" />
+                        <p:inputText id="maxim" value="#{algoritmeReparticioOportunitatsController.selected.maxim}" title="Máximo" required="true" requiredMessage="El máximo es obligatorio"/>
+                        <p:outputLabel value="Cantidad" for="quantitat" />
+                        <p:inputText id="quantitat" value="#{algoritmeReparticioOportunitatsController.selected.quantitat}" title="Cantidad" required="true" requiredMessage="La cantidad es obligatoria"/>
+                    </p:panelGrid>
+                    <div style="text-align: right; padding-top:16px">
+                        <p:commandButton class="boton boton-primary" actionListener="#{algoritmeReparticioOportunitatsController.update}" icon="fa fa-fw fa-save" value="Guardar" update="display,:ReglaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ReglaEditDialog');"/>
+                        <p:commandButton class="boton boton-primary" value="Cancelar" icon="fa fa-fw fa-close" onclick="ReglaEditDialog.hide()"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

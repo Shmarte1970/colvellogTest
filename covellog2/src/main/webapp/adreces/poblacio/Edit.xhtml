@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PoblacioEditDlg" responsive="true" widgetVar="PoblacioEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Editar Población">
+            <h:form id="PoblacioEditForm">
+                <h:panelGroup id="display" rendered="#{gestioPoblacioController.editarForm != null}">
+                    <div class="width-responsive" style="width:360px">
+                        <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="#{adrecesBundle.CreatePoblacioLabel_nom}" for="nom" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="nom" value="#{gestioPoblacioController.editarForm.nom}" title="#{adrecesBundle.CreatePoblacioTitle_nom}" required="true" requiredMessage="#{adrecesBundle.CreatePoblacioRequiredMessage_nom}"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="#{adrecesBundle.CreatePoblacioLabel_pais}" for="pais" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:selectOneMenu style="width:16em" autoWidth="false" id="pais" value="#{gestioPoblacioController.editarForm.idPais}" required="true" requiredMessage="#{adrecesBundle.EditPoblacioRequiredMessage_provinciaId}">
+                                    <p:ajax event="change" update="provincia"/>
+                                    <f:selectItem itemLabel="Seleccione un país" itemValue="" />
+                                    <f:selectItems value="#{gestioPoblacioController.paisosPosibles}"
+                                                   var="paisItem"
+                                                   itemLabel="#{paisItem.nom}"                                           
+                                                   itemValue="#{paisItem.id}"/>
+                                </p:selectOneMenu>
+                            </div>
+              
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="#{adrecesBundle.CreatePoblacioLabel_provincia}" for="provincia" /> 
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:selectOneMenu style="width:16em" autoWidth="false" id="provincia" value="#{gestioPoblacioController.editarForm.idProvincia}" required="true" requiredMessage="#{adrecesBundle.EditPoblacioRequiredMessage_provinciaId}">
+                                    <f:selectItem itemLabel="Seleccione una provincia" itemValue="" />
+                                    <f:selectItems value="#{gestioPoblacioController.provinciesPosiblesEdit}"
+                                                   var="provinciaItem"
+                                                   itemLabel="#{empty provinciaItem.codiPostal ? provinciaItem.nom : provinciaItem.codiPostal.concat('-').concat(provinciaItem.nom)}"
+                                                   itemValue="#{provinciaItem.id}"/>
+
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div style="text-align: right; padding-top:16px">
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{gestioPoblacioController.update}" value="Guardar" update="display,:PoblacioListForm:datalist,:growl" oncomplete="handleSubmit(args,'PoblacioEditDialog');"/>
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{gestioPoblacioController.cancelEdit}" value="Cancelar" oncomplete="closeDialog('PoblacioEditDialog')" immediate="true"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

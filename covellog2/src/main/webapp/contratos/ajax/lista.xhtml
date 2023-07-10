@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+          
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <p:panel id="panel-interior" header="Gestión Contratos">
+            <h:form id="ContratoListForm">
+                <div class="ui-g ui-g-padding" >
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <p:inputText 
+                            id="filtro-transversal"
+                            styleClass="filtro-transversal"
+                            value="#{gestionContratosBean.filtro}" 
+                            title="Filtro"
+                            placeholder="Filtro"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui12-md12-lg12">
+                        <h:panelGroup id="PanelBotones">
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                disabled="#{empty gestionContratosBean.selecteds}"
+                                id="modificarButton"
+                                icon="fa fa-fw fa-edit" 
+                                value="Modificar" 
+                                actionListener="#{gestionContratosBean.prepareModificar}" 
+                                update=":growl,:mi-layout-contenido"
+
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                id="crearButton"
+                                icon="fa fa-fw fa-plus" 
+                                value="Crear" 
+                                actionListener="#{gestionContratosBean.prepareNuevo}" 
+                                update=":growl,:mi-layout-contenido"
+                            />
+                        </h:panelGroup>
+                    </div>
+                </div>
+                <p:dataTable id="datalist" scrollRows="800" virtualScroll="true" reflow="false" 
+                        rowStyleClass="#{item.estado == 'BAJA' ? 'row-roja' : item.estado == 'BLOQUEADO' ? 'row-bloqueado' : ''}" 
+                        scrollHeight="600"
+                        value="#{gestionContratosBean.items}" 
+                        var="item"
+                        selectionMode="multiple"
+                        selection="#{gestionContratosBean.selecteds}"
+                        rowKey="#{item.id}"
+                        lazy="true"
+                        emptyMessage="No se ha encontrado ningún registro."
+                        sortBy="#{item.id}"
+                        sortOrder="descending"
+                        scrollable="false">           
+                    <p:ajax event="rowSelect"   update=":ContratoListForm:PanelBotones"/>
+                    <p:ajax event="rowUnselect" update=":ContratoListForm:PanelBotones"/>
+                    <p:ajax 
+                        event="rowDblselect" 
+                        listener="#{gestionContratosBean.prepareModificar}" 
+                        update=":mi-layout-contenido"
+                    />
+                    <p:column rendered="false">
+                        <f:facet name="header">
+                            <h:outputText value="id"/>       
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column 
+                        priority="1"
+                        resizable="true"
+                        width="80"
+                        filterBy="#{item.friendlyId}"
+                        filterMatchMode="contains"
+                        sortBy="#{item.friendlyId}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="Contrato"/>
+                        </f:facet>
+                        <h:outputText value="#{item.friendlyId}"/>
+                    </p:column>                    
+                    <p:column 
+                        priority="1" 
+                        resizable="true" 
+                        width="100" 
+                        filterBy="#{item.fechaContrato}"
+                        filterMatchMode="contains"
+                        sortBy="#{item.fechaContrato}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="Fecha"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaContrato}"/>
+                    </p:column>
+                    <p:column 
+                        priority="1" 
+                        resizable="true" 
+                        filterBy="#{item.clienteNombre}" 
+                        filterMatchMode="contains" 
+                        sortBy="#{item.clienteNombre}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="Cliente"/>
+                        </f:facet>
+                        <h:outputText value="#{item.clienteNombre}"/>
+                    </p:column>
+                    <p:column 
+                        priority="1" 
+                        resizable="true" 
+                        filterBy="#{item.productos}" 
+                        filterMatchMode="contains" 
+                        sortBy="#{item.productos}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="Productos"/>
+                        </f:facet>
+                        <span><h:outputText value="#{item.productos}"/></span>
+                    </p:column>
+                    <p:column
+                        priority="1" 
+                        resizable="true" 
+                        width="100" 
+                        filterBy="#{item.estado}" 
+                        filterMatchMode="contains" 
+                        sortBy="#{item.estado}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="Estado"/>
+                        </f:facet>
+                        <div><h:outputText class="app-estado app-estado-#{item.estado.id}" value="#{item.estado.nombre}"/></div>
+                    </p:column>
+                    <p:column 
+                        priority="1" 
+                        resizable="true" 
+                        width="100" 
+                        filterBy="#{item.pagoEstado}" 
+                        filterMatchMode="contains" 
+                        sortBy="#{item.pagoEstado}"
+                    >
+                        <f:facet name="header">
+                            <h:outputText value="Pago"/>
+                        </f:facet>
+                        <div><h:outputText class="app-estado app-estado-#{item.estadoPago.id}" value="#{item.estadoPago.nombre}"/></div>
+                    </p:column>                    
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </ui:composition>
+</html>

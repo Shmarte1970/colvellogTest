@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:d="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contacto"
+      xmlns:u="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+
+    <ui:composition template="/template-print-cif.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Contrato"></h:outputText>
+        </ui:define>
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam id="id" name="id" value="#{contratoPrintBean.id}" required="true">
+                    <f:validateLongRange minimum="1" />
+                </f:viewParam>
+                <f:viewAction action="#{contratoPrintBean.prepare}" />
+            </f:metadata>
+            <h:message for="id" />
+        </ui:define>
+        <ui:define name="documento-tipo">
+            <!-- Creada clase css-contrato en styles.css  -->
+            <h:outputText value="CONTRATO" class ="css-contrato"></h:outputText>
+        </ui:define>
+        <ui:define name="documento-id">
+            <h:outputText value="#{contratoPrintBean.contrato.friendlyId}"></h:outputText>
+        </ui:define>
+        <ui:define name="cabecera">
+            <div jsf:rendered="#{contratoPrintBean.contrato != null}" class="print-row">
+                <!--movido el Style a la clase width100 pad10 styles.css    -->
+                 <div class="print-col width100 pad10" >                  
+                    <div class="print-row">
+                        <!--movido el Style a la clase width50 padRight5 styles.css   -->
+                          <div class="print-col width50 padRight5">                           
+                            <!--movido el Style a la clase width100 height96 styles.css -->
+                             <div class="print-row width100 height96 pad10 bgcolorjs">                                                        
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-file-gray.png')}"/>
+                                </div>                                
+                                <!--movido el Style a la clase paddingtop2 width85 styles.css  -->                                
+                                <div class="print-col paddingtop2 width85 info-cabecera-texto">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Id Contrato: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.friendlyId}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Fecha: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.fechaContrato}" 
+                                            >
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET"/> 
+                                            </h:outputText>
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Comercial " /> 
+                                            <h:outputText 
+                                                rendered="#{contratoPrintBean.comercialPrincipal != null}"
+                                                value="#{contratoPrintBean.comercialPrincipal.nombreCompleto}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Telf. Comercial: " /> 
+                                          <!--movido el Style a la clase font-style-italic styles.css   -->
+                                            <h:outputText class="font-style-italic"
+                                                rendered="#{contratoPrintBean.comercialPrincipal != null and contratoPrintBean.comercialPrincipal.telefono != null}"
+                                                value="#{contratoPrintBean.comercialPrincipal.telefono}"                                                 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Email: " /> 
+                                            <!--movido el Style a la clase font-style-italic styles.css  -->
+                                            <h:outputText class="font-style-italic"
+                                                rendered="#{contratoPrintBean.comercialPrincipal != null and contratoPrintBean.comercialPrincipal.email != null}"
+                                                value="#{contratoPrintBean.comercialPrincipal.email}" 
+                                                
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>          
+                            <!--movido el Style a la clase marTop10 pad10 height69 width100 styles.css  -->
+                             <div class="print-row bgcolorjs marTop10 pad10 height69 width100 ">                            
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-info-circle-gray.png')}"/>
+                                </div>
+                                  <!--movido el Style a la clase paddingtop2 styles.css -->
+                                  <div class="print-col paddingtop2 width85 info-cabecera-texto" >                            
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Código Pedido: " />
+                                            <h:outputText value="#{contratoPrintBean.contrato.codigoPedidoCliente}" />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Código Proveedor: " />
+                                            <h:outputText value="#{contratoPrintBean.contrato.codigoProveedor}" />
+                                        </li>
+                                        <li jsf:rendered="#{contratoPrintBean.contrato.previsionMesesAlquiler > 0}">
+                                            <h:outputLabel value="Previsión Meses Alquiler: " />
+                                            <h:outputText value="#{contratoPrintBean.contrato.previsionMesesAlquiler}" />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--movido el Style a la clase marTop10 pad10  width100 styles.css -->
+                            <div class="print-row bgcolorjs marTop10 pad10  width100">                            
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-truck-gray.png')}"/>
+                                </div>
+                               <!--movido el Style a la clase paddingtop2 width85 styles.css  --> 
+                               <div class="print-col paddingtop2 width85 info-cabecera-texto" >                             
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Dirección Entrega " /> 
+                                            <!--movido el Style a la clase .padgLeft1 styles.css -->
+                                            <div class="padgLeft1" jsf:rendered="#{contratoPrintBean.contrato.direccionEnvio != null}">                                            
+                                                <div jsf:rendered="#{not empty contratoPrintBean.contrato.direccionEnvio.contactos}">
+                                                    <h:outputText value="Contacto: " />
+                                                    <h:outputText value="#{contratoPrintBean.contrato.direccionEnvio.contactos.get(0).nombre}" />
+                                                    <!--movido el Style a la clase paddingtop05em padgLeft1 styles.css  -->
+                                                    <h:outputText class="paddingtop05em padgLeft1"  value="Telf: " />
+                                                    <h:outputText value="#{contratoPrintBean.contrato.direccionEnvio.contactos.get(0).telefono}" />
+                                                </div>
+                                                <div jsf:rendered="#{empty contratoPrintBean.contrato.direccionEnvio.contactos}">
+                                                    <h:outputText value="Sin Contacto" />
+                                                </div>
+                                                <d:direccionPrint value="#{contratoPrintBean.contrato.direccionEnvio.direccion}" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--movido el Style a la clase width:50 padLeft5px floatRight styles.css  --> 
+                         <div class="print-col width50 padLeft5px floatRight" >                        
+                            <!--movido el Style a la clase pad10  width100 height171 styles.css  -->
+                            <div class="print-row bgcolorjs pad10  width100 height171" >                                                      
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-user-gray.png')}"/>
+                                </div>
+                                <!--movido el Style a la clase paddingtop2 width85 styles.css   -->
+                                <div jsf:rendered="#{contratoPrintBean.contrato.cliente != null}" class="print-col paddingtop2 width85 info-cabecera-texto">
+                                
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Cliente: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.cliente.friendlyId}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="CIF: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.cliente.cif}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="R.Social: " /> 
+                                            <h:outputText 
+                                                value="#{contratoPrintBean.contrato.cliente.nombre}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Dirección: " /> 
+                                            <!--movido el Style a la clase div-1 styles.css    -->
+                                            <div class = "div-1">
+                                                <d:direccionPrint value="#{contratoPrintBean.contrato.direccionCorrespondencia}" />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="print-row">
+                                                <div class="print-col">
+                                                    <h:outputLabel value="Contacto: " /> 
+                                                </div>
+                                                <!--movido el Style a la clase padLeft05 styles.css   -->
+                                                <div class="print-col padLeft05">                                 
+                                                    <c:contactoPrint value="#{contratoPrintBean.contrato.firmante}" />
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--movido el Style a la clase marTop10 pad10  width100 styles.css  -->
+                            <div class="print-row bgcolorjs marTop10 pad10  width100">                            
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-envelope.png')}"/>
+                                </div>
+                                <!--movido el Style a la clase paddingtop2 width85 styles.css   -->
+                                <div class="print-col paddingtop2 width85 info-cabecera-texto">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Dirección Envío Facturas: " /> 
+                                            <!--movido el Style a la clase div-1 styles.css    -->
+                                            <div class="div-1">
+                                                <d:direccionPostalPrint value="#{contratoPrintBean.contrato.facturacion.direccionPostal}" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>                      
+                        </div>
+                    </div>
+                </div>                
+            </div>            
+        </ui:define>
+        <ui:define name="contenido">
+             <table id="contenido-tabla" jsf:rendered="#{contratoPrintBean.contrato != null}">
+                <tr>
+                    <!--movido el Style a la clase width85 styles.css  -->
+                    <th id="primera-col-tabla" class="column-header fondo-oscuro width85">Producto</th>
+                    <!--movido el Style a la clase width15 styles.css   -->
+                    <th id="ultima-col-tabla"  class="column-header fondo-claro width15">Importe</th>
+                </tr>
+                <tr class="linea par" jsf:rendered="#{empty contratoPrintBean.contrato.lineas}">
+                    <td class="celda-concepto ui-state-error" colspan="5">
+                        <div class="content-concepto">
+                            <!--movido el Style a la clase font-size-13 styles.css  -->
+                            <div class="font-size-13 font-weight-blod">No hay lineas.</div>
+                        </div>
+                    </td>
+                </tr>
+                <ui:repeat
+                    rendered="#{not empty contratoPrintBean.contrato.lineas}"
+                    value="#{contratoPrintBean.contrato.lineas}"
+                    var="item"
+                    varStatus="estado"
+                >
+                    <tr class="linea #{(estado.index % 2)==0 ? 'impar' : 'par'}">
+                        <td class="celda-concepto">
+                            <div class="content-concepto">
+                                <div class="print-row">
+                                    <!--movido el Style a la clase width80 styles.css   -->
+                                    <div class="print-col width80">
+                                        <!--movido el Style a la clase font-weight-blod styles.css    -->
+                                        <div class="print-row font-weight-blod" >
+                                             <!--movido el Style a la clase width200 styles.css    -->
+                                            <div class="print-col width200">#{item.stock != null ? item.stock.numSerie : "SIN ASIGNAR"}</div>
+                                            <div class="print-col">#{item.tipoOperacion.nombre}</div>
+                                        </div>
+                                        <div>#{item.concepto}</div>
+                                        <div jsf:rendered="#{item.stock != null}" class="detalle">#{item.stock.tipoProducto.id}-#{item.stock.tipoProducto.descripcion}</div>
+                                        <div jsf:rendered="#{item.stock == null}" class="detalle">#{item.tipoProducto.id}-#{item.tipoProducto.descripcion}</div>
+                                    </div>
+                                    <!--movido el Style a la clase print-col-250 styles.css  -->
+                                    <div jsf:rendered="#{item.tipoOperacion.id == 'AL'}" class="print-col textRight width20">
+                                        #{item.importe}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                    </div>
+                                    <div jsf:rendered="#{item.tipoOperacion.id != 'AL'}" class="print-col textRight width20" >
+                                        #{item.importe}€
+                                    </div>
+                                </div>
+                                <!--movido el Style a la clase paddingtop02em padgLeft1 font-size-09 styles.css  -->
+                                <h:panelGroup layout="block" rendered="#{!empty item.complementos}" class ="paddingtop02em padgLeft1 font-size-09">
+                                    <strong>COMPLEMENTOS</strong>
+                                    <!--movido el Style a la clase div-1 styles.css linea -->
+                                    <div class="div-1">
+                                        <!--movido el Style a la clase table-1 styles.css linea   -->
+                                        <table class="table-1" cellpadding="0" cellspacing="0">
+                                            <ui:repeat value="#{item.complementos}" var="complemento">
+                                                <tr>                                                    
+                                                    <td class="textLeft width60">#{complemento.concepto}</td>
+                                                    <!--movido el Style a la clase textRight width100 styles.css    -->
+                                                    <td class="textRight width100">x#{complemento.cantidad}</td>
+                                                    <!--movido el Style a la clase textRight width15 styles.css   -->
+                                                    <td class="textRight width15" jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                                        #{complemento.importe}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                                    </td>
+                                                    <td class="textRight width15" jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                                        #{complemento.importe}€
+                                                    </td>
+                                                    <td class="textRight width15" jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                                        #{complemento.importeTotal}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                                    </td>
+                                                    <td class="textRight width15" jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                                        #{complemento.importeTotal}€
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                                <!-- Linea 290 movido el Style a la clase paddingtop05em padgLeft1 font-size-09 styles.css  -->
+                                <h:panelGroup layout="block" rendered="#{!empty item.gastosAdicionales}" class="paddingtop05em padgLeft1 font-size-09">
+                                    <strong>GASTOS ADICIONALES</strong>
+                                    <div class="div-1">
+                                        <table class="borde-0 font-size-09 width100" cellpadding="0" cellspacing="0">
+                                            <ui:repeat value="#{item.gastosAdicionales}" var="gastosAdicional">
+                                                <tr>
+                                                    <!--movido el Style a la clase td1 styles.css   -->
+                                                    <td class="textLeft width60">#{gastosAdicional.concepto}</td>
+                                                    <!--movido el Style a la clase td2 styles.css    -->
+                                                    <td class="td2">x#{gastosAdicional.cantidad}</td>
+                                                    <!--movido el Style a la clase td3 styles.css    -->
+                                                    <td style="td3">#{gastosAdicional.importe}€</td>
+                                                    <td style="td3">#{gastosAdicional.importeTotal}€</td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </td>
+                        <td class="celda-total">
+                            <div jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                #{item.importeTotal}€/#{contratoPrintBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                            </div>
+                            <div jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                #{item.importeTotal}€
+                            </div>
+                            <div jsf:rendered="#{item.gastosAdicionalesImporte > 0}">
+                                +#{item.gastosAdicionalesImporte}€
+                            </div>
+                        </td>
+                    </tr>
+                </ui:repeat>
+            </table>            
+        </ui:define>
+        <ui:define name="content-footer">
+            <!--movido el Style a la clase paddingtop075 styles.css   -->
+            <div clas="paddingtop075">
+                <div>Para la entrega y la recogida de las unidades hay que avisar con 7 días naturales de antelación.</div>
+                <!--movido el Style a la clase paddingtop05em styles.css    -->
+                <div class="print-row paddingtop05em">
+                    <!--movido el Style a la clase nowrap styles.css   -->
+                    <div class="print-col nowrap">
+                        Forma de pago:
+                    </div>
+                    <!--movido el Style a la clase padLeft06 styles.css   -->
+                    <div class="print-col padLeft06" >
+                        <e:formaPagoPrint 
+                            rendered="#{empty contratoPrintBean.contrato.facturacion.formaPagoAlquiler}"
+                            value="#{contratoPrintBean.contrato.facturacion.formaPagoVenta}" 
+                        />
+                        <e:formaPagoPrint 
+                            rendered="#{not empty contratoPrintBean.contrato.facturacion.formaPagoAlquiler}"
+                            value="#{contratoPrintBean.contrato.facturacion.formaPagoAlquiler}" 
+                        />
+                    </div>
+                </div>
+                <!--movido el Style a la clase paddingtop05em styles.css    -->
+                <div class="paddingtop05em">La firma de este contrato por parte del arrendatario implica su acuerdo total y sin reservas de las condiciones generales que figuran al dorso.</div>
+                <div>Los precios no incluyen IVA.</div>
+                    <!--movido el Style a la clase width100 paddingtop07 height3cm styles.css    -->
+                <div class="print-row width100 paddingtop07 height3cm" >
+                    <!--movido el Style a la clase floatLeft padLeft3cm width50 styles.css    -->
+                    <div class="print-col floatLeft padLeft3cm width50" >
+                        Por: #{contratoPrintBean.contrato.cliente.nombre}
+                    </div>
+                    <!--movido el Style a la clase floatRight padLeft4cm width50 styles.css   -->
+                    <div class="print-col floatRight padLeft4cm width50">
+                        <div>Por: ZARCA S.L.</div>
+                        <div>Eduard Zarzoso</div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+        <ui:define name="condiciones">
+        </ui:define>
+        <ui:define name="anexo1">
+            <div class="anexo condiciones-contrato print-row">
+                    <!--movido el Style a la clase width50 padding005em styles.css  -->
+                <div class="print-col width50 padding005em">
+<p>I   CONDICIONES DE PAGO - El precio del alquiler y todas las sumas debidas por este título, se pagarán al contado por meses vencidos, y sin descuento en el domicilio de Zarca, S.L., en adelante "la arrendadora". Esta sociedad podrá exigir que el pago se haga mediante recibos domiciliados, transferencia, pagarés o mediante cualquier otro medio o modalidad de pago. La unidad de cómputo de facturación es el mes. Los periodos fraccionarios del mes obligan al arrendatario a pagar la mensualidad completa, cualquiera que sea la causa de este hecho. El arrendatario incurrirá en mora de pleno derecho y sin necesidad de previo requerimiento, desde la fecha de vencimiento de la deuda. Los intereses de demora se fijan en el 2% mensual. El equipamiento, montaje/desmontaje y transporte de ida/vuelta, se cobrará en la primera factura.</p>
+<p>II – FIANZA - La fianza entregada por el arrendatario garantiza el pago de todas las obligaciones nacidas de este contrato y prestaciones accesorias. La arrendadora podrá aplicar la garantía a la satisfacción de las deudas existentes.</p>
+<p>III   DURACION DEL CONTRATO - El alquiler no podrá efectuarse por un plazo inferior a un mes. El plazo previsto en las condiciones particulares es una condición esencial del acuerdo de alquiler y el material debe ser restituido sin excusa alguna al finalizar el plazo convenido. El plazo y el pertinente devengo del precio comienza a correr desde la fecha en la que el material se pone a disposición del arrendatario en los almacenes de la arrendadora. Al vencimiento del plazo previsto, la restitución deberá hacerse con un preaviso de ocho días, en los almacenes de la arrendadora. A falta de dicha restitución, el contrato se considerará renovado tácitamente por meses, siempre que la arrendadora no se oponga a ello, y con las condiciones, plazo y tarifas que ésta determine, y en su defecto las vigentes en cada renovación. En caso de restitución anticipada realizada después de la duración mínima del contrato de alquiler, se aplicará la tarifa correspondiente a la duración real del arrendamiento y con un sobreprecio incrementado en un 10%, que será abonado por el arrendatario. </p>
+<p>La solicitud de retirada de módulos/contenedores deberá efectuarse por escrito, vía FAX o e-mail con 7 días de antelación a la fecha que el cliente quiera que esta se efectué. Se facturarán todos los módulos y contenedores hasta la entrada física de estos en nuestras instalaciones, aunque si esta fuera pasados 7 días desde la solicitud de retirada solo se facturaría dicho período de 7 días.</p>
+<p>IV   TOMA DE POSESION Y RESPONSABILIDAD - La responsabilidad se adquiere desde la fecha de puesta a disposición, convenida en el contrato previamente a la entrega y, en su defecto, desde la suscripción del albarán. Todo el material del que se hace cargo el arrendatario se reputa aceptado por él, completo, en perfecto estado y a su entera satisfacción, salvo declaración expresa en contrario, anterior a la firma del albarán de entrega de los bienes, en el que se harán constar las reservas. El material deberá restituirse en el mismo estado en que se recibió. El arrendatario quedará obligado a indemnizar el importe de los daños sufridos por el material, cualesquiera que fueran su causa, salvo culpa del arrendador. Dicha indemnización devengará el interés legal, incrementado en cinco puntos desde el momento de la extinción del contrato hasta que se haga efectiva dicha suma.</p>
+<p>V   TRANSPORTE, MANIPULADO Y TRASLADO - A partir de su puesta a disposición, el material es manipulado y transportado con los gastos, riesgos y peligros por cuenta del arrendatario, ya sea por él mismo, o por la arrendadora que en este caso actuaría por orden y cuenta del arrendatario. Los retrasos en la entrega no podrán conllevar, en ningún caso, la responsabilidad de la arrendadora, siempre que la fecha de comienzo del devengo del alquiler coincida con la puesta a disposición del material. El material no podrá trasladarse sin la autorización escrita de la arrendadora.</p>
+<p>VI   INSTALACION - Las construcciones móviles serán colocadas sobre superficies de terreno sólido, acondicionadas, en particular a todo lo referente al drenaje de aguas. Se colocarán a 20 cm. sobre el suelo sobre el plano horizontal. La electricidad deberá provenir obligatoriamente de un disyuntor diferencial y el arrendatario deberá proceder a la colocación de la instalación en tierra. El arrendatario se compromete a ajustarse a las observaciones que le pueda formular la arrendadora en la colocación del material o en cualquier visita de inspección. La arrendadora no responderá, en ningún caso, de los daños sufridos por el arrendatario o un tercero, como consecuencia del incumplimiento de las normas legales y técnicas y usos adecuados para cualquier género de instalación y suministro.</p>
+<p>VIl   UTILIZACION Y MANTENIMIENTO - El arrendatario no podrá destinar el material alquilado a uso distinto del que está declarado o le resulta propio. Si quisiera destinar a uso distinto deberá ineludiblemente solicitar autorización a la arrendadora. Se reputa conocida la reglamentación legal correspondiente, así como las normas de prescripción de higiene referentes a su uso y ocupación. Será el arrendatario el único responsable de las consecuencias sobrevenidas por la inobservancia de las obligaciones legales en la materia. Se prohibe expresamente realizar cualquier modificación a la estructura del material, y a sus instalaciones y accesorios (pintura, etc.) salvo expresa autorización de la arrendadora. El arrendatario se compromete a soportar los gastos de mantenimiento, las reparaciones, las refecciones y reemplazamientos del material alquilado, de sus instalaciones y accesorios. Los trabajos serán ejecutados por la arrendadora, bien durante el alquiler, mientras el mismo no se interrumpa por la ejecución del trabajo, o bien después de la restitución del material. El arrendatario debe advertir a la arrendadora de todas las anomalías que observe en el material. Asimismo es y queda responsable del total del valor del material arrendado. El arrendatario es también garante y responsable de la buena conservación del material, custodiándolo incluso después de haber expirado el plazo del contrato hasta que se haga la debida restitución en el parque de la arrendadora. Tomando en todo momento medidas para preservar el material contra incendios, el daño de aguas, el hielo, el robo y otros riesgos.</p>
+<p>De pleno derecho se autoriza a la arrendadora a hacer cuantas visitas de inspección estime necesarias, a tal efecto el arrendatario facilitará en todo momento la entrada para el cumplimiento de tal función.</p>
+<p>VIII   RESTITUCION - Al producirse la restitución, se formalizará una relación sucinta del material que será confeccionada en el momento de la retirada de la obra con la reserva de un examen más detallado en el parque de la arrendadora, donde el arrendatario podrá si así lo desea, asistir contradictoriamente. Si fuera necesario, se establecerá un presupuesto detallando las reparaciones, refecciones y reemplazamientos a cargo del arrendatario. La ausencia del arrendatario o su negativa a aceptar el presupuesto no le sustraerán en ningún caso a las obligaciones recogidas en la condición VII. Asimismo el arrendatario no se exonerará tampoco de sus responsabilidades en el momento en que la arrendadora tome por sí sola la iniciativa de las formalidades de retirada y restitución. En el supuesto de que la restitución del material no tenga lugar y habiéndose depositado la pertinente fianza por el arrendatario, ésta no impedirá entablar acción restitutoria o reivindicatoria contra el arrendatario o sus contratantes y contra cualquier tercero poseedor del material alquilado. Si el material no estuviera disponible o accesible en la fecha de devolución indicada por el arrendatario, el coste del transporte de vacío correrá a cargo del arrendatario.</p>
+                </div>
+                    <!--movido el Style a la clase width50 padding005em styles.css   -->
+                <div class="print-col width50 padding005em" >
+<p>IX   INALIENABILIDAD - Todas las construcciones de la arrendadora, están identificadas por una placa numerada y marcada al fuego. La desaparición, manipulación u ocultación de la misma, será considerada a todos los efectos legales como un acto de apropiación. En virtud del presente contrato, el arrendatario no ostentará privilegio ni derecho alguno de retención sobre el material alquilado. El arrendatario está obligado a inscribir en su contabilidad el carácter de arriendo del material y a notificarlo ante cualquier persona física o jurídica en todo momento. Queda totalmente prohibido al arrendatario, vender, enajenar, hipotecar, dar en prenda con o sin desplazamiento, ceder temporalmente ni subarrendar el material alquilado, ni subrogar a persona alguna natural o jurídica en los derechos y obligaciones que le corresponden, sin previa autorización escrita de la arrendadora, aún cuando no significando autorización tácita el hecho de que se entregue el material en otro domicilio distinto del cliente.</p>
+<p>X   SEGUROS - Zarca S.L. no responderá de las mercancías depositadas en las unidades que alquile: cámaras frigoríficas, módulos y/o contenedores, atendida la obligación de aseguramiento de las mismas por parte del Arrendatario, su deber de vigilancia, control y supervisión del funcionamiento, dando aviso inmediato al Servicio Técnico, si fuere necesario.</p>
+<p>En el supuesto que el Arrendatario quisiera garantizar el concreto aseguramiento de los bienes depositados, éste deberá efectuar fehacientemente una declaración expresa de la clase de mercancía depositada y de su valor para proceder a la contratación del seguro correspondiente. La falta de dicha declaración por parte del Arrendatario al Arrendador exime a éste último de la responsabilidad de cualquier incidencia que se produzca en la mercancía depositada en las cámaras frigoríficas, módulos y/o contenedores.</p>
+<p>El arrendatario, en calidad de depositario (usuario) de la cámara frigorífica, módulo y/o contenedor, asimismo tiene la obligación de asegurar los daños a terceros que pudiere ocasionar durante su custodia, además de tomar las medidas necesarias para su intacta conservación.</p>
+<p>Los daños ocasionados a la cámara frigorífica, módulo y/o contenedor durante el periodo de alquiler serán por cuenta del Arrendatario.</p>
+<p>XI   REVISION DE PRECIOS - Los precios de alquiler y prestaciones están de acuerdo con las tarifas de la arrendadora en vigor en el momento de otorgar el contrato; pero podrán ser modificados por la arrendadora en la proporción en que evolucionen los costes de las materias primas y de los salarios.</p>
+<p>XII   RESOLUCION DEL CONTRATO - A) La falta de pago de un solo plazo de alquiler al vencimiento previsto en las condiciones particulares o de inobservancia de una sola cláusula de las condiciones de alquiler, dará lugar a la rescisión de pleno derecho de este contrato en interés de la arrendadora. En este caso, el arrendatario deberá:</p>
+<p>1º) Restituir el material a la arrendadora en el lugar fijado por ella, y todos los gastos que se deriven de dicha restitución será a cargo exclusivo del arrendatario.</p>
+<p>2º) Abonar a la arrendadora una indemnización contractual de restitución, igual a la del importe del resto de los alquileres hasta el último plazo del arrendamiento.</p>
+<p>B) En el supuesto de liquidación amistosa, disolución de la sociedad arrendataria, cesión de la explotación o de fondos, fusión, escisión o aportación parcial de activo, el contrato podrá ser igualmente rescindido de pleno derecho por la arrendadora sin perjuicio de la ejecución de las obligaciones contractuales por las cuales el arrendatario aparecería como deudor hasta la fecha de rescisión del contrato. En los supuestos de quiebra, concurso, suspensión de pagos, secuestro, embargo o cualquier otro acto que provenga de autoridades u órganos judiciales o administrativo e incluso de particulares, que perturben el dominio o posesión del material alquilado, el arrendatario manifiesta su condición de simple usuario, quedando obligado a notificarlo fehacientemente a través de Notario, quedando claramente comprendido que en tal supuesto la arrendadora sin previo aviso podrá rescindir el presente contrato.</p>
+<p>C/ No entregar a la arrendadora copia de la correspondiente póliza que asegure los daños que puedan causar a los módulos/contenedores que se arriendan en este contrato. Dicha póliza debe figurar Zarca S.L. como beneficiaria o los originales de los contratos firmados.</p>
+<p>XIII   TRIBUTOS Y GASTOS - Se conviene expresamente, que todo impuesto, tasa o contribución que se adeude en relación los objetos del presente contrato, así como todos los gastos y derecho que dimane del mismo o que sea consecuencia de él, serán de cargo exclusivo del arrendatario.</p>
+<p>XIV   LA LEY Y FUERO APLICABLE - Este contrato tiene carácter mercantil, y se regirá por sus propias cláusulas y condiciones y, en lo no previsto, por el Código de Comercio, usos mercantiles y en su defecto por el Código Civil. Las condiciones particulares prevalecerán sobre estas condiciones generales. Las condiciones generales del arrendatario se entienden renunciadas por la mera suscripción de este documento.</p>
+<p>Con renuncia expresa al fuero que pudiera corresponderles, las partes se someten a la jurisdicción y competencia de los Juzgados y Tribunales de Barcelona.</p>
+<p>XV   TRANSMISION DE LA POSESION Y GARANTIA - Las partes acuerdan expresamente que, por el solo hecho de la falta de pago de una mensualidad a la presentación del correspondiente efecto, recibo o documento mercantil a la entidad financiera domiciliataria, el arrendatario extrae de su poder y posesión los bienes arrendados transfiriendo ésta a Zarca S.L. facultando a la misma para tomarlos por sí sola y constituyéndose el arrendatario en el interim poseedor en nombre de Zarca S.L. A tal objeto esta sociedad queda autorizada, de forma irrevocable, a entrar en la finca o fincas en la que se encuentren tales bienes y retirarlos, por cualquier medio, sin necesidad de nuevo consentimiento. De igual modo se entiende transferida a Zarca S.L. la posesión de cualesquiera objetos que se encontraren dentro de los bienes arrendados, la cual podrá: primero, bien ponerlos a disposición del arrendatario durante quince días, y entender que los abandona, si no los retirare en dicho plazo; segundo, bien retenerlos en prenda hasta el completo pago de las cantidades adeudadas, Si fuera de su interés, la arrendadora podrá promover la enajenación de los citados bienes de conformidad con lo establecido en el artículo 1872 del Código Civil.</p>
+<!--movido el Style a la clase border1sb margin-top padding05 font-weight-blod height13 styles.css  -->
+<div class="border1sb margin-top padding05 font-weight-blod height13">
+    FIRMA Y SELLO DE LA EMPRESA ARRENDADORA
+</div>
+            </div>
+        </div>
+    </ui:define>
+    </ui:composition>
+</html>

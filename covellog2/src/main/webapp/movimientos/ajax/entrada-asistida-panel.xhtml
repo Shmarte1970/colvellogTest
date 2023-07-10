@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"     
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:b="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/booking"
+      xmlns:al="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/albaran"
+>
+    <ui:composition>        
+        <h:panelGroup id="EntradaAsistidaPanel">
+            <p:panel header="ENTRADAS PREVISTAS" class="panel-interior">
+                <h:form id="MovimientoForm">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                                <p:autoUpdate />
+                            </p:messages>
+                        </div>
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:inputText 
+                                id="filtro-diagonal" 
+                                value="#{entradaAsistidaBean.filtro}" 
+                                title="Filtro"
+                                placeholder="Filtro"
+                                autocomplete="off"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <h2 style="padding:0;margin:0">Reservas Pendientes</h2>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <ui:repeat value="#{entradaAsistidaBean.reservasPendientes}" var="booking" varStatus="estado"> 
+                            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                                <b:bookingReserva 
+                                    value="#{booking}"
+                                    onGenerarMovimiento="#{entradaAsistidaBean.prepareGenerarMovimientoDesdeReserva(booking.reserva.id, booking.booking)}"
+                                />
+                            </div>
+                        </ui:repeat>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <h2 style="padding:0;margin:0">Albaranes Pendientes Sin Reserva</h2>
+                        </div>
+                        <ui:repeat value="#{entradaAsistidaBean.albaranesPendientesSinReserva}" var="booking" varStatus="estado"> 
+                            <div class="ui-g-12 ui-md-6 ui-lg-3">
+                                <b:bookingAlbaran 
+                                    value="#{booking}"
+                                    onGenerarMovimiento="#{entradaAsistidaBean.prepareGenerarMovimientoDesdeAlbaran(booking.albaran.id, booking.booking)}"
+                                    onGenerarReserva="#{entradaAsistidaBean.prepareGenerarReservaDesdeAlbaran(booking.albaran.id, booking.booking)}"
+                                />
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </h:form>
+            </p:panel>
+        </h:panelGroup>
+        <b:entregarBookingAlbaranDialog
+            id="EntregarBookingAlbaranPopup"
+            updateId="EntregarBookingAlbaran"
+            update="EntradaAsistidaPanel"
+        />
+        <b:reservarBookingAlbaranDialog
+            id="ReservarBookingAlbaranPopup"
+            updateId="ReservarBookingAlbaran"
+            update="EntradaAsistidaPanel"
+        />
+        <b:entregarBookingReservaDialog
+            id="EntregarBookingReservaPopup"
+            updateId="EntregarBookingReserva"
+            update="EntradaAsistidaPanel"
+        />
+        <al:reservaDialog
+            id="ReservarPopup"
+            updateId="Reservar-EditForm"
+            update=":growl, EntradaAsistidaPanel"
+        />
+    </ui:composition>
+</html>

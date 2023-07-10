@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:t="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/transporte"
+      xmlns:al="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/almacen"
+      xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-numero-serie"   
+      xmlns:m="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/movimiento"   
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>        
+        <h:panelGroup id="MovimientoEditPanel" styleClass="#{cc.attrs.updateId}">
+            <p:panel header="#{movimientoModificarBean.movimientoTipoId == 'E' ? 'ENTRADA' : 'SALIDA'}" class="panel-interior">
+                <h:form id="MovimientoForm">
+                    <p:defaultCommand target="GuardarButton"/>
+                        <h:panelGroup id="display">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    
+                                    <div class="my-row" style="text-align:right">
+                                        <div 
+                                            class="my-col app-codigo" 
+                                            style="float:left;margin-right:6px" 
+                                        >
+                                            <div style="font-size:0.8em">Booking</div>
+                                            <div>#{movimientoModificarBean.movimiento.booking}</div>
+                                        </div>
+                                        <div class="my-col" style="float:left;font-size:1em">
+                                            <h:link 
+                                                rendered="#{not empty movimientoModificarBean.movimiento.reserva}"
+                                                class="app-codigo" 
+                                                outcome="/reservas/modificar.xhtml"
+                                                onclick="event.stopPropagation()"
+                                                style="margin-left:6px"
+                                            >
+                                                <div style="font-size:0.8em">Reserva</div>
+                                                <div>#{movimientoModificarBean.movimiento.reserva.friendlyId}</div>
+                                                <f:param 
+                                                    name="id" 
+                                                    value="#{movimientoModificarBean.movimiento.reserva.id}" />
+                                            </h:link>
+                                            <div 
+                                                jsf:rendered="#{empty movimientoModificarBean.movimiento.reserva}"
+                                                class="app-codigo"
+                                            >
+                                                <div style="font-size:0.8em">Sin Reserva</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ui-g">
+                                <div class="ui-g-6 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Fecha" for="fecha" />
+                                            <p:datePicker 
+                                                id="fecha"
+                                                class="cov-input"
+                                                value="#{movimientoModificarBean.movimiento.fecha}"
+                                                locale="es"
+                                                monthNavigator="true"
+                                                pattern="dd-MM-yyyy"
+
+                                            />
+                                            <p:message for="fecha"/>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Almacen"/>
+                                            <p:panel 
+                                                styleClass="panel-datatable header-mediano contrato-direccion-envio" 
+                                                style="margin-top:8px"
+                                            >
+                                                <ub:ubicacion 
+                                                    value="#{movimientoModificarBean.movimiento.ubicacion}"
+                                                    updateId="MovimientoModificar-Almacen"
+                                                    showContactos="false" 
+                                                />
+                                                <div style="text-align:right;padding-top:8px" jsf:rendered="false">
+                                                    <p:commandButton 
+                                                        class="boton boton-primary boton-peque" 
+                                                        value="Seleccionar"
+                                                        immediate="true"
+                                                        icon="fa fa-fw fa-search"
+                                                        actionListener="#{movimientoModificarBean.prepareSelectAlmacen}"
+                                                        update="@(.ModificarMovimiento-AlmacenSelector)"
+                                                        oncomplete="PF('AlmacenSelectorPopupDialog').show()"
+                                                    />
+                                                </div>
+                                            </p:panel>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel class="MovimientoModificar-Stocks" value="Productos (#{movimientoModificarBean.movimiento.lineas.size()})"/>
+                                            <p:selectManyMenu 
+                                                class="MovimientoModificar-Stocks"
+                                                style="width:100%;box-sizing: border-box" 
+                                                id="Lineas" 
+                                                converter="MovimientoLineaConverter"
+                                                value="#{movimientoModificarBean.selecteds}"
+                                                var="p"
+                                            >
+                                                <f:selectItems 
+                                                    value="#{movimientoModificarBean.movimiento.lineas}"
+                                                    var="item"
+                                                    itemLabel="#{item}"
+                                                    itemValue="#{item}"/>
+                                                <p:ajax 
+                                                    event="change"
+                                                    update=":growl,@this,PanelBotones"
+                                                />
+                                                <p:column>
+                                                    <m:movimientoLinea value="#{p}"/>
+                                                </p:column>
+                                            </p:selectManyMenu>
+                                            <h:panelGroup 
+                                                id="PanelBotones" 
+                                                layout="block" 
+                                                style="text-align:right;padding-top: 8px"
+                                                rendered="false"
+                                            >                    
+                                                <p:commandButton 
+                                                    class="boton boton-error boton-peque"
+                                                    value="Eliminar"
+                                                    immediate="true"
+                                                    update="Lineas"
+                                                    actionListener="#{movimientoModificarBean.eliminarStock}"
+                                                    icon="fa fa-fw fa-close"
+                                                />
+                                                <p:commandButton 
+                                                    class="boton boton-primary boton-peque"
+                                                    value="A;adir"
+                                                    immediate="true"
+                                                    update="@(.MovimientoModificar-StockSelector)"
+                                                    oncomplete="PF('StockSelectorPopupDialog').show()"
+                                                    actionListener="#{movimientoModificarBean.prepareSelectStock}"
+                                                    icon="fa fa-fw fa-search"
+                                                />
+                                            </h:panelGroup>
+                                        </div>
+                                    </div>
+                                                                  
+                                </div>
+                                <div class="ui-g-6 ui-md-6 ui-lg-6">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Cliente" />
+                                            <e:empresaSeleccionable 
+                                                id="cliente"
+                                                value="#{movimientoModificarBean.movimiento.cliente}"
+                                                dialog="EmpresaSelectorPopup"
+                                                updateId="MovimientoModificar-EmpresaSeleccionable"
+                                                update="@(.MovimientoModificar-EmpresaSelector)"
+                                                prepareAction="#{movimientoModificarBean.prepareSelectCliente}"
+                                                renderButton="false"
+                                            />
+                                        </div>
+                                    </div>`
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Transportista" for="transportista" />
+                                            <p:inputText 
+                                                class="cov-input MovimientoModificar-Transportista"
+                                                id="transportista" 
+                                                value="#{movimientoModificarBean.movimiento.transportistaNombre}" 
+                                                title="Transportista" 
+                                            />
+                                            <p:message for="transportista"></p:message>
+                                            <div style="text-align:right" jsf:rendered="false">
+                                                <p:commandButton
+                                                    id="buscarTransporteButton"
+                                                    class="boton boton-primary boton-peque" 
+                                                    value="Buscar"
+                                                    immediate="true"
+                                                    actionListener="#{movimientoModificarBean.prepareSelectTransportista}"
+                                                    oncomplete="PF('EmpresaSelectorPopupDialog').show()"
+                                                    icon="fa fa-fw fa-search"
+                                                    update="@(.MovimientoModificar-EmpresaSelector)"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Chofer" for="chofer" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="chofer" 
+                                                value="#{movimientoModificarBean.movimiento.chofer}" 
+                                                title="Chofer" 
+                                            />
+                                            <p:message for="chofer"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Matricula" for="matricula" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="matricula" 
+                                                value="#{movimientoModificarBean.movimiento.matricula}" 
+                                                title="Matricula" 
+                                            />
+                                            <p:message for="matricula"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones" for="observaciones" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="observaciones" 
+                                                value="#{movimientoModificarBean.movimiento.observaciones}" 
+                                                title="Observaciones"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div> 
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        value="Volver"
+                                        immediate="true"
+                                        oncomplete="history.back()"
+                                        icon="fa fa-fw fa-close"
+                                    />
+                                    <p:commandButton 
+                                        rendered="#{not empty movimientoModificarBean.movimiento}"
+                                        id="GuardarButton"
+                                        class="boton boton-error" 
+                                        value="Eliminar"
+                                        actionListener="#{movimientoModificarBean.eliminar}"
+                                        icon="fa fa-fw fa-save"
+                                        immediate="true"
+                                    >
+                                        <p:confirm header="Eliminar Movimiento" message="¿Desea eliminar el movimiento?" icon="fa fa-fw fa-question-circle" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                        <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                                        <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                                    </p:confirmDialog> 
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </h:panelGroup>
+        <t:transporteSelectorDialog
+            id="TransporteSelectorPopup"
+            updateId="ModificarLinea-TransporteEntregaSelector"
+            items="#{contratoLineaModificarBean.busquedaSelectorTransporte.items}"
+            selected="#{contratoLineaModificarBean.entregaTransporte}"
+            update=":growl,@(.EntregaTransporteSeleccionable)"
+            actionListener="#{contratoLineaModificarBean.prepareSelectEntregaTransporte}"
+        />
+        <al:almacenSelectorDialog
+            id="AlmacenSelectorPopup"
+            updateId="ModificarMovimiento-AlmacenSelector"
+        />
+        <e:empresaSelectorDialog
+            id="EmpresaSelectorPopup"
+            updateId="MovimientoModificar-EmpresaSelector"
+        />
+        <s:StockSelectorDialog
+            id="StockSelectorPopup"
+            updateId="MovimientoModificar-StockSelector"
+        />
+    </ui:composition>
+</html>

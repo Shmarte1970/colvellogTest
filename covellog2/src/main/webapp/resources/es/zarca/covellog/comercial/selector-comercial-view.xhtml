@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="comerciales" required="true"/>
+            <composite:attribute name="comercialesSeleccionados" required="true"/>
+            <composite:attribute name="value" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+            <p:selectManyMenu
+                converter="comercialConverter"
+                style="width:100%;box-sizing: border-box;min-height: 2em"
+                id="comercialesSeleccionados"
+                value="#{potencialController.model.comercialesSeleccionadosParaEliminar}"
+            >
+                <f:selectItems
+                    value="#{potencialController.model.potencialBean.comerciales}"
+                    var="item"
+                    itemLabel="#{item.nombreCompleto}"
+                />
+            </p:selectManyMenu>
+            <p:messages for="comercialesSeleccionados" showSummary="false" showDetail="true">
+                <p:autoUpdate />
+            </p:messages>
+            <div style="text-align:right;padding:4px 0">                
+                <p:commandButton 
+                    class="boton boton-primary boton-peque" 
+                    value="Añadir"
+                    actionListener="#{potencialController.prepareAnadirComerciales}" 
+                    oncomplete="PF('SelectorComercialDialog').show()"
+                    update="@parent:@parent:@parent:@parent:@parent:SelectorComercialDialog:SelectorComercialForm:comercialSeleccionado,:growl" 
+                    immediate="true"
+                />
+                <p:commandButton 
+                    class="boton boton-primary boton-peque"
+                    value="Quitar"
+                    actionListener="#{potencialController.quitarComerciales}"
+                    update="comercialesSeleccionados,:growl"
+                    
+                />
+            </div>           
+        </composite:implementation>  
+    </h:body>  
+</html>  

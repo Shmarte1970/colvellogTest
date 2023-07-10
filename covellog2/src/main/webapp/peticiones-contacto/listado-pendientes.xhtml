@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Peticiones de Contacto Pendientes"/> (<h:outputText value="#{peticionsContactePendentsController.items.rowCount}"/>)
+        </ui:define> 
+        
+        <ui:define name="footer">
+        </ui:define>
+
+        <ui:define name="body">
+            <script type="text/javascript">
+               $(document).ready(function() {
+                  //$("th > input:first").css('background-color', 'green');
+                  $("th > input:first").focus();
+               });
+            </script>
+
+            <p:panel id="panel-interior">
+                <h:form id="ListForm">     
+                    <p:dataTable id="datalist" scrollRows="50" virtualScroll="true" scrollHeight="600" 
+                                     value="#{peticionsContactePendentsController.items}" 
+                                     var="item"
+                                     selectionMode="single"
+                                     selection="#{peticionsContactePendentsController.selected}"
+                                     paginator="false"
+                                     rowKey="#{item.submitTime}"
+                                     rows="50"
+                                     rowsPerPageTemplate="20,50,100,#{peticionsContactePendentsController.items.rowCount}"
+                                     lazy="true"
+                                     emptyMessage="No se ha encontrado ninguna petición de contacto"
+                                     currentPageReportTemplate="{startRecord}/{endRecord} {totalRecords} Registros"
+                                     scrollable="true">
+                        <p:column resizable="true" style="text-align: center" filterBy="#{item.submitTime}" filterMatchMode="contains" sortBy="#{item.submitTime}">
+                            <f:facet name="header">
+                                <h:outputText value="Submit Time"/>
+                            </f:facet>
+                            <h:outputText value="#{item.submitTimeDate}">
+                                <f:convertDateTime pattern="MM-dd-yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.form}" filterMatchMode="contains" sortBy="#{item.form}">
+                            <f:facet name="header">
+                                <h:outputText value="Formulario"/>
+                            </f:facet>
+                            <h:outputText value="#{item.form}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.nom}" filterMatchMode="contains" sortBy="#{item.nom}">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}">
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.empresa}" filterMatchMode="contains" sortBy="#{item.empresa}">
+                            <f:facet name="header">
+                                <h:outputText value="Empresa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.empresa}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.assumpte}" filterMatchMode="contains" sortBy="#{item.assumpte}">
+                            <f:facet name="header">
+                                <h:outputText value="Asunto"/>
+                            </f:facet>
+                            <h:outputText value="#{item.assumpte}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.missatje}" filterMatchMode="contains" sortBy="#{item.missatje}">
+                            <f:facet name="header">
+                                <h:outputText value="Mensaje"/>
+                            </f:facet>
+                            <h:outputText value="#{item.missatje}"/>
+                        </p:column>
+                        <p:column resizable="true" filterBy="#{item.ip}" filterMatchMode="contains" sortBy="#{item.ip}">
+                            <f:facet name="header">
+                                <h:outputText value="IP"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ip}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </h:form>
+            </p:panel>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

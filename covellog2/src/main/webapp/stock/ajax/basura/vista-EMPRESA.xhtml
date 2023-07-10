@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition>
+        <div style="position:relative">
+            <div class="my-row">
+                <div class="my-col" style="width:calc(100% - 20px)">
+                    <h:outputText value="#{item.propietario}"/>
+                </div>
+            </div>
+            <div class="" style="position:absolute;top:50%;margin-top:-10px;right:0;width:20px">
+                <h:button
+                    class="boton boton-primary boton-peque boton-compacto" 
+                    style="float:right;border-radius:4px;cursor:pointer;padding:0"
+                    value="..."
+                    outcome="/empresas/modificar.xhtml"
+
+                >
+                    <f:param name="id" value="#{item.propietarioId}"/> 
+                </h:button>
+            </div>
+        </div>
+    </ui:composition>
+</html>

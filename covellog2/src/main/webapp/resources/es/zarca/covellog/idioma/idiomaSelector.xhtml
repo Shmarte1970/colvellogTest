@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:selectOneMenu 
+                id="idioma" 
+                class="cov-input" 
+                converter="idiomaConverter"
+                autoWidth="false" 
+                value="#{cc.attrs.value}" 
+                required="true"  
+                requiredMessage="El idioma es obligatorio"
+            >
+                <f:selectItem itemLabel="Seleccione un idioma" />
+                <f:selectItems 
+                    value="#{selectorIdiomaController.idiomas}"
+                    var="item"
+                    itemLabel="#{item.nombre}"                                           
+                />
+            </p:selectOneMenu>
+            <p:message for="idioma:idioma"></p:message>
+        </composite:implementation>  
+    </h:body>  
+</html>  

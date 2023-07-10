@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+    <ui:composition>
+        <p:panel id="panel-interior" header="Crear Proveedor">
+            <e:empresa-compacta
+                value="#{modificarEmpresaController.model.empresa}"
+                updateId="empresa-header"
+            />
+            <ui:include src="proveedor-form.xhtml"/>
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding-top:16px">                    
+                    <p:commandButton 
+                        class="boton boton-primary" 
+                        form="ProveedorForm"
+                        actionListener="#{proveedorController.cancelCreate}" 
+                        value="Cancelar" 
+                        update=":mi-layout-contenido,:growl" 
+                        immediate="true"
+                        icon="fa fa-fw fa-close"
+                    />
+                    <p:commandButton 
+                        id="GuardarButtonProveedor"
+                        class="boton boton-primary" 
+                        form="ProveedorForm"
+                        icon="fa fa-fw fa-save" 
+                        actionListener="#{proveedorController.crear}" 
+                        value="Guardar" 
+                        update=":mi-layout-contenido,:growl" 
+                    />
+                </div>
+            </div>
+        </p:panel>
+    </ui:composition>
+</html>

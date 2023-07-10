@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+>
+    <ui:composition>
+        <h:form id="LineasContratoForm">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Entrega"
+                        immediate="true"
+                        actionListener="#{modificarStockBean.cancelar}"
+                        icon="fa fa-fw fa-close"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Aviso Devolucion"
+                        immediate="true"
+                        actionListener="#{modificarStockBean.cancelar}"
+                        icon="fa fa-fw fa-close"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Devolucion"
+                        immediate="true"
+                        actionListener="#{modificarStockBean.cancelar}"
+                        icon="fa fa-fw fa-close"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Eliminar"
+                        immediate="true"
+                        actionListener="#{modificarStockBean.cancelar}"
+                        icon="fa fa-fw fa-close"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Modificarrr"
+                        immediate="true"
+                        actionListener="#{contratoLineasBean.prepareModificar}"
+                        icon="fa fa-fw fa-update"
+                        update=":mi-layout-contenido"
+                    />
+                    <p:commandButton 
+                        class="boton boton-primary"
+                        value="Nueva"
+                        immediate="true"
+                        actionListener="#{modificarStockBean.cancelar}"
+                        icon="fa fa-fw fa-close"
+                    />
+                </div>
+            </div>
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
+                    <p:scrollPanel 
+                        mode="native" 
+                        rendered="#{not empty contratoLineasBean.lineas}"
+                        style="max-height:60vh;border:none"
+                    >
+                        <p:selectManyMenu 
+                            style="width:100%;box-sizing: border-box" 
+                            id="contacto" 
+                            converter="ContratoLineaConverter"
+                            value="#{contratoLineasBean.selecteds}"
+                            var="p"
+                        >
+                            <f:selectItems 
+                                value="#{contratoLineasBean.lineas}"
+                                var="item"
+                                itemLabel="#{item}"
+                                itemValue="#{item}"/>
+                            <p:ajax 
+                                event="change"
+                                listener="#{contratoLineasBean.onSelect}"
+                                oncomplete="#{contratoLineasBean.onCompleteAceptar}"
+                                update=":growl"
+                            />
+                            <p:column>
+                                <e:lineaContrato value="#{p}" contrato="#{modificarContratoBean.contrato}"/>
+                            </p:column>
+                        </p:selectManyMenu>
+                    </p:scrollPanel>
+                </div>
+            </div>
+        </h:form>
+    </ui:composition>
+</html>

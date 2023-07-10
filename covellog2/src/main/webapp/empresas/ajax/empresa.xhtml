@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+    <ui:composition>
+        <script>
+            function close_window() {
+                close();
+            }
+        </script>
+        <h:panelGroup id="display" rendered="#{not empty empresaController.model.empresa}">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right;">
+                    <p:commandButton
+                        rendered="#{empresaController.model.empresa.posibleCrearRolPotencial}"
+                        class="boton boton-primary boton-peque" 
+                        actionListener="#{potencialController.prepareCreate}" 
+                        value="Añadir Potencial" 
+                        update=":mi-layout-contenido,:growl" 
+                        icon="fa fa-fw fa-plus"
+                    />
+                    <p:commandButton
+                        rendered="#{empresaController.model.empresa.posibleCrearRolCliente}"
+                        class="boton boton-primary boton-peque" 
+                        actionListener="#{clienteGeneralController.prepareCreate}" 
+                        value="Añadir Cliente"
+                        update=":mi-layout-contenido,:growl"
+                        icon="fa fa-fw fa-plus"
+                    />
+                    <p:commandButton
+                        rendered="#{empresaController.model.empresa.posibleCrearRolProveedor}"
+                        class="boton boton-primary boton-peque" 
+                        actionListener="#{proveedorController.prepareCreate}" 
+                        value="Añadir Proveedor" 
+                        update=":mi-layout-contenido,:growl"
+                        icon="fa fa-fw fa-plus"
+                    />                                           
+                </div>
+            </div>
+            <ui:include src="empresa-form.xhtml"/>
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding-top:16px">
+                    <p:commandButton
+                        id="GuardarButtonEmpresa"
+                        form="EmpresaForm"
+                        class="boton boton-primary" 
+                        actionListener="#{empresaController.modificar}" 
+                        icon="fa fa-fw fa-save"
+                        value="Guardar" 
+                        update=":mi-layout-contenido,:growl" 
+                    />
+                </div>
+            </div>
+        </h:panelGroup>
+    </ui:composition>
+</html>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="primeicons.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="webjars" name="font-awesome/6.0.0/css/all-jsf.css" />
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body>
+
+
+        <div id="top" class="top">
+            <ui:insert name="top">Top</ui:insert>
+        </div>
+        <div>
+            <div id="left">
+                <ui:insert name="left">
+                    <h:form>
+                        <p:growl/>
+                        <p:tieredMenu>
+                            <p:menuitem value="Gestion Zarca" />                                                             
+
+                            <p:submenu label="Usuarios" icon="fa fa-fw fa-user">  
+                                <p:menuitem value="Modificar Perfil"  icon="fa fa-fw fa-user" />
+                                <p:menuitem value="Modificar Contraseña" icon="fa fa-fw fa-user" />
+                            </p:submenu>
+                            <p:submenu label="Empresas "  icon="fa fa-solid fa-briefcase"  >                                                             
+                                <p:menuitem value="Empresas "  icon="fa fa-solid fa-briefcase" />                                  
+                                <p:menuitem value="Potenciales " icon="fa fa-solid fa-pencil" />                                 
+                            </p:submenu>                        
+                            <p:submenu label="Productos" icon="fa fa-brands fa-product-hunt">                                   
+                                <p:submenu label="Familias" icon="fa fa-solid fa-bars">
+                                    <p:menuitem value="Modulares" icon="fa fa-solid fa-box" />       
+                                    <p:menuitem value="Contenedores" icon="fa fa-solid fa-business-time" />       
+                                    <p:menuitem value="Reefers" icon="fa fa-solid fa-business-time" />       
+                                    <p:menuitem value="Varios" icon="fa fa-solid fa-business-time" />       
+                                </p:submenu>      
+                                    <p:menuitem value="Tipos" icon="fa fa-solid fa-business-time" />       
+                            </p:submenu>      
+
+                            <p:menuitem value="Almacenes" icon="fa fa-solid fa-business-time" />                          
+
+                        </p:tieredMenu>
+                    </h:form>
+                </ui:insert>
+            </div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+    </h:body>
+
+</html>

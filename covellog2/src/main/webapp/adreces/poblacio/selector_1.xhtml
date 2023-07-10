@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Seleccione una población"></h:outputText>
+        </ui:define>
+        <ui:define name="footer">
+        </ui:define>
+        <ui:define name="body">
+            <script type="text/javascript">
+               $(document).ready(function() {
+                  $("th > input:first").focus();
+               });
+            </script>
+            <p:panel id="panel-interior" header="Poblaciones">
+                <h:form id="PoblacioListForm">
+                    <p:commandButton
+                        class="boton boton-primary"
+                        id="seleccionar"
+                        value="Seleccionar"
+                        actionListener="#{gestioPoblacioController.createActionListener()}"
+                    />
+                    <p:dataTable id="datalist" scrollRows="50" virtualScroll="true" reflow="false" 
+                            rows="100" scrollHeight="600" 
+                            value="#{gestioPoblacioController.items}" 
+                            var="item"
+                            selectionMode="single"
+                            selection="#{gestioPoblacioController.selected}"
+                            rowKey="#{item.id}"
+                            lazy="true"
+                            emptyMessage="#{adrecesBundle.ListPoblacioEmpty}"
+                            sortBy="#{item.nom}"
+                            sortOrder="ascending"
+                            scrollable="true">           
+                       <p:column rendered="false">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_id}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.id}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.nom}" filterMatchMode="contains" sortBy="#{item.nom}">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_nom}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.nom}"/>
+                       </p:column>
+                       <p:column priority="2" resizable="true" filterBy="#{item.provincia.nom}" filterMatchMode="contains" sortBy="#{item.provincia.nom}">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_provincia}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.provincia.nom}"/>
+                       </p:column>
+                       <p:column priority="3" resizable="true" filterBy="#{item.provincia.pais.nom}" filterMatchMode="contains" sortBy="#{item.provincia.pais.nom}">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_pais}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.provincia.pais.nom}"/>
+                       </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+</html>

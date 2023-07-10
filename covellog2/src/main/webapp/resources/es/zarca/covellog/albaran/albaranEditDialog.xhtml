@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:al="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/albaran"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.application.albaranes.form.ModificarAlbaranInfoForm"/>
+            <composite:attribute name="update" required="true"/>
+            <composite:attribute name="actionListener" method-signature="void actionListener(javax.faces.event.ActionEvent)" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}"
+                responsive="true"
+                widgetVar="#{cc.id}"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="Editar Info Albaran"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                styleClass="#{cc.attrs.updateId}"
+                style="min-width:340px"
+            >
+                <al:albaranEditPanel
+                    value="#{cc.attrs.value}"
+                    update="#{cc.attrs.update}"
+                    actionListener="#{cc.attrs.actionListener}"
+                    onCompleteAceptar="handleSubmit(args,'#{cc.id}');"
+                    onCompleteCancelar="closeDialog('#{cc.id}')"
+                />
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>

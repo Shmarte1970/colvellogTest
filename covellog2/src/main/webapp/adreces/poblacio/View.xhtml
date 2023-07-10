@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PoblacioViewDlg" widgetVar="PoblacioViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPoblacioTitle}">
+            <h:form id="PoblacioViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{gestioPoblacioController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPoblacioLabel_id}"/>
+                        <h:outputText value="#{gestioPoblacioController.selected.id}" title="#{bundle.ViewPoblacioTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewPoblacioLabel_nom}"/>
+                        <h:outputText value="#{gestioPoblacioController.selected.nom}" title="#{bundle.ViewPoblacioTitle_nom}"/>
+                        <h:outputText value="#{bundle.ViewPoblacioLabel_codiMunicipi}"/>
+                        <h:outputText value="#{gestioPoblacioController.selected.codiMunicipi}" title="#{bundle.ViewPoblacioTitle_codiMunicipi}"/>
+                        <h:outputText value="#{bundle.ViewPoblacioLabel_dc}"/>
+                        <h:outputText value="#{gestioPoblacioController.selected.dc}" title="#{bundle.ViewPoblacioTitle_dc}"/>
+                        <h:outputText value="#{bundle.ViewPoblacioLabel_provincia}"/>
+                        <h:outputText value="#{gestioPoblacioController.selected.provincia}" title="#{bundle.ViewPoblacioTitle_provincia}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PoblacioViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

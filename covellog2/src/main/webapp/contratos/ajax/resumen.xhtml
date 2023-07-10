@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:d="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+      xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+      xmlns:em="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contacto"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>        
+        <div>
+            <h:form id="ContratoResumenForm">
+                <h:panelGroup id="display" class="print-content">
+                    <div class="print-col width100 pad10">
+                    <div class="print-row">
+                        <!--movido el Style a la clase pad10 width50 style.css    -->
+                        <div class="print-col pad10 width50">
+                            <!--movido el Style a la clase width100 pad10 style.css  -->
+                            <div class="print-row bgcolorjs width100 pad10">
+                                <div class="print-col info-cabecera-icono">
+                                    <!--movido el Style a la clase color666 style.css   -->
+                                    <i class="fa fa-file color666 font-size-48 padRight5 width50"></i>
+                                </div>                                
+                                <div class="print-col info-cabecera-texto width85">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Id Contrato: " /> 
+                                            <h:outputText 
+                                                value="#{contratoResumenBean.contrato.friendlyId}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="Fecha: " /> 
+                                            <h:outputText 
+                                                value="#{contratoResumenBean.contrato.fechaContrato}" 
+                                            >
+                                                <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET"/> 
+                                            </h:outputText>
+                                        </li>
+                                        
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row bgcolorjs pad10 marTop10 width100">
+                                <div class="print-col info-cabecera-icono">
+                                    <i class="fa fa-user color666 font-size-48"></i>
+                                </div>
+                                <div jsf:rendered="#{contratoResumenBean.contrato.cliente != null}" class="print-col info-cabecera-texto width85">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Cliente: " /> 
+                                            <h:outputText 
+                                                value="#{contratoResumenBean.contrato.cliente.friendlyId}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="CIF: " /> 
+                                            <h:outputText 
+                                                value="#{contratoResumenBean.contrato.cliente.cif}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <h:outputLabel value="R.Social: " /> 
+                                            <h:outputText 
+                                                value="#{contratoResumenBean.contrato.cliente.nombre}" 
+                                            />
+                                        </li>
+                                        <li>
+                                            <div class="print-row">
+                                                <div class="print-col">
+                                                    <h:outputLabel value="Contacto: " /> 
+                                                </div>
+                                                <div class="print-col padLeft05">
+                                                    <c:contactoPrint value="#{contratoResumenBean.contrato.firmante}" />
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row pad10 marTop10 width100 bgcolorjs">
+                                <div class="print-col info-cabecera-icono">
+                                    <i class="fa fa-credit-card color666 font-size-48"></i>
+                                </div>
+                                <div class="print-col info-cabecera-texto padgLeft1 width85">
+                                    <div class="nowrap">
+                                        Forma de pago venta
+                                    </div>
+                                    <div class="padLeft06"
+                                        jsf:rendered="#{not empty contratoResumenBean.contrato.facturacion.formaPagoVenta}"
+                                        
+                                    >
+                                        <e:formaPagoPrint 
+                                            value="#{contratoResumenBean.contrato.facturacion.formaPagoVenta}" 
+                                        />
+                                    </div>
+                                    <div class="padLeft06"                                         
+                                        jsf:rendered="#{empty contratoResumenBean.contrato.facturacion.formaPagoVenta}"
+                                    >
+                                        Sin forma de pago
+                                    </div>
+                                    <div 
+                                        class="nowrap"                                       
+                                    >
+                                        Forma de pago alquiler
+                                    </div>
+                                    <div  class="padLeft06"                                      
+                                        jsf:rendered="#{not empty contratoResumenBean.contrato.facturacion.formaPagoAlquiler}"
+                                    >
+                                        <e:formaPagoPrint 
+                                            value="#{contratoResumenBean.contrato.facturacion.formaPagoAlquiler}" 
+                                        />
+                                    </div>
+                                    <div class="padLeft06"                                         
+                                        jsf:rendered="#{empty contratoResumenBean.contrato.facturacion.formaPagoAlquiler}"
+                                    >
+                                        Sin forma de pago
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="print-row pad10 marTop10 width100 bgcolorjs">
+                                <div class="print-col info-cabecera-icono">
+                                    <i class="fa fa-truck color666 font-size-48"></i>
+                                </div>
+                                <div class="print-col info-cabecera-texto width85" >
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputLabel value="Dirección Entrega " /> 
+                                            <div jsf:rendered="#{contratoResumenBean.contrato.direccionEnvio != null}">
+                                                <div class="padgLeft1" jsf:rendered="#{not empty contratoResumenBean.contrato.direccionEnvio.contactos}">
+                                                    <h:outputText value="Contacto: " />
+                                                    <h:outputText value="#{contratoResumenBean.contrato.direccionEnvio.contactos.get(0).nombre}" />
+                                                    <h:outputText class="paddingtop05em padgLeft1" value="Telf: " />
+                                                    <h:outputText value="#{contratoResumenBean.contrato.direccionEnvio.contactos.get(0).telefono}" />
+                                                </div>
+                                                <div jsf:rendered="#{empty contratoResumenBean.contrato.direccionEnvio.contactos}">
+                                                    <h:outputText value="Sin Contacto" />
+                                                </div>
+                                                <d:direccionPrint value="#{contratoResumenBean.contrato.direccionEnvio.direccion}" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="print-col width50 padLeft5px floatRight">                            
+                            <div class="print-row pad10 marTop10 width100 bgcolorjs">
+                                <div class="print-col info-cabecera-icono pad080">
+                                    <i class="fa fa-euro-sign colo666 font-size-48"></i>
+                                </div>
+                                <div class="print-col">
+                                    <div class="print-row">
+                                <div class="print-col info-cabecera-texto width12em paddingtop2 textRight margin4px">
+                                    <div class="marco-183" >ALQUILER</div>
+                                    <ul class="datos">
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Total" /></div>
+                                            <div>
+                                                <h:outputText
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenAlquiler.total}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre}" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Total Base" /></div>
+                                            <div>
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenAlquiler.totalBase}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre}" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Complementos" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenAlquiler.totalComplementos}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre}" 
+                                                />
+                                            </div>
+                                        </li>                                        
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Gastos Adicionales" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenAlquiler.totalGastosAdicionales}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Transportes" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenAlquiler.totalTransporte}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="print-col info-cabecera-texto width12em paddingtop2 textRight margin4px">
+                                    <div class="marco-183">VENTA</div>
+                                    <ul class="datos">
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Total" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenVenta.total}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Total Base" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenVenta.totalBase}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Complementos" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenVenta.totalComplementos}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Gastos Adicionales" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenVenta.totalGastosAdicionales}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Transportes" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenVenta.totalTransporte}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="print-col info-cabecera-texto width12em paddingtop2 textRight margin4px">
+                                    <div class="marco-183">TOTAL (#{contratoResumenBean.contrato.resumen.estimacionMesesAlquiler} meses)</div>
+                                    <ul class="datos">
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Total" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenTotal.total}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Total Base" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenTotal.totalBase}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Complementos" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenTotal.totalComplementos}€" 
+                                                />
+                                            </div>
+                                        </li>                                        
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Gastos Adicionales" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenTotal.totalGastosAdicionales}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                        <li class="padding4">
+                                            <div><h:outputLabel class="padding0" value="Transportes" /></div>
+                                            <div class="padgLeft1">
+                                                <h:outputText 
+                                                    class="font-size-15"
+                                                    value="#{contratoResumenBean.contrato.resumen.resumenTotal.totalTransporte}€" 
+                                                />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                 
+                    <table id="contenido-tabla" jsf:rendered="#{contratoResumenBean.contrato != null}"  >
+                        <!-- He quitado el max-width por que hace reponsive la pagina 
+                        la antigua linea
+                        table id="contenido-tabla" jsf:rendered="#{contratoResumenBean.contrato != null}" class="mx-width800"
+                        -->
+                <tr>
+                    <th id="primera-col-tabla"  class="column-header fondo-oscuro width85">Producto</th>
+                    <th id="ultima-col-tabla"  class="column-header fondo-claro width15">Importe</th>
+                </tr>
+                <tr class="linea par" jsf:rendered="#{empty contratoResumenBean.contrato.lineas}">
+                    <td class="celda-concepto ui-state-error" colspan="5">
+                        <div class="content-concepto">
+                            <div class="font-size-13 font-weight-blod">No hay lineas.</div>
+                        </div>
+                    </td>
+                </tr>
+                <ui:repeat
+                    rendered="#{not empty contratoResumenBean.contrato.lineas}"
+                    value="#{contratoResumenBean.contrato.lineas}"
+                    var="item"
+                    varStatus="estado"
+                >
+                    <tr class="linea #{(estado.index % 2)==0 ? 'impar' : 'par'}">
+                        <td class="celda-concepto">
+                            <div class="content-concepto">
+                                <div class="print-row">
+                                    <div class="print-col width80">
+                                        <div class="print-row font-weight-blod font-size-12">
+                                            <div class="print-col width200 font-size-09">#{item.stock != null ? item.stock.numSerie : "SIN ASIGNAR"}</div>
+                                            <div class="print-col font-size-12">#{item.tipoOperacion.nombre}</div>
+                                        </div>
+                                        <div>#{item.concepto}</div>
+                                        <div jsf:rendered="#{item.stock != null}" class="detalle">#{item.stock.tipoProducto.id}-#{item.stock.tipoProducto.descripcion}</div>
+                                        <div jsf:rendered="#{item.stock == null}" class="detalle">#{item.tipoProducto.id}-#{item.tipoProducto.descripcion}</div>
+                                    </div>
+                                    <div jsf:rendered="#{item.tipoOperacion.id == 'AL'}" class="print-col textRight width20 font-size-12">
+                                        #{item.importe}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                    </div>
+                                    <div jsf:rendered="#{item.tipoOperacion.id != 'AL'}" class="print-col textRight width20">
+                                        #{item.importe}€
+                                    </div>
+                                </div>
+                                
+                                <h:panelGroup layout="block" rendered="#{!empty item.complementos}" class="paddingtop02em padgLeft1 font-size-12">
+                                    <strong>COMPLEMENTOS</strong>
+                                    <div class="padgLeft1 font-size-09">
+                                        <table class="width100 border-0 font-size-09" cellpadding="0" cellspacing="0">
+                                            <ui:repeat value="#{item.complementos}" var="complemento">
+                                                <tr class="iluminable">
+                                                    <td class="textLeft width60 ">#{complemento.concepto}</td>
+                                                    <td class="textLeft width10 ">x#{complemento.cantidad}</td>
+                                                    <td class="textLeft width15"  jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                                        #{complemento.importe}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                                    </td>
+                                                    <td class="textLeft width15" jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                                        #{complemento.importe}€
+                                                    </td>
+                                                    <td class="textLeft width15"  jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                                        #{complemento.importeTotal}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                                                    </td>
+                                                    <td class="textLeft width15"  jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                                        #{complemento.importeTotal}€
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{!empty item.gastosAdicionales}" class="paddingtop05em padgLeft1 font-size-09">
+                                    <strong>GASTOS ADICIONALES</strong>
+                                    <div class="padgLeft1 font-size-09">
+                                        <table class="width100 border-0 font-size12"  cellpadding="0" cellspacing="0">
+                                            <ui:repeat value="#{item.gastosAdicionales}" var="gastosAdicional">
+                                                <tr class="iluminable font-size14">
+                                                    <td class="textLeft width60">#{gastosAdicional.concepto}</td>
+                                                    <td class="textLeft width10">x#{gastosAdicional.cantidad}</td>
+                                                    <td class="textLeft width15">#{gastosAdicional.importe}€</td>
+                                                    <td class="textLeft width15">#{gastosAdicional.importeTotal}€</td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" class="paddingtop05em padgLeft1 font-size-09">
+                                    <strong>TRANSPORTE ENTREGA</strong>
+                                    <div class="padgLeft1">
+                                        <table class="widht100 border-0 font-size-09"  cellpadding="0" cellspacing="0">
+                                            <tr jsf:rendered="#{item.entregaTransporte != null}" class="iluminable">
+                                                <td class="textLeft width60">#{item.entregaTransporte.empresa.nombre} - #{item.entregaTransporte.nombre}</td>
+                                                <td class="textRight width40">#{previsionMesesAlquiler == null ? '0.00' : previsionMesesAlquiler}€</td>
+                                            </tr>
+                                            <tr jsf:rendered="#{item.entregaTransporte == null}" class="iluminable">
+                                                <td class="textLeft widht60 ">Sus medios</td>
+                                                <td class="textRight width:40">#{previsionMesesAlquiler == null ? '0.00' : previsionMesesAlquiler}€</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" class="paddingtop02em padgLeft1 font-size-09">
+                                    <strong>TRANSPORTE RECOGIDA</strong>
+                                    <div class="padgLeft1">
+                                        <table class="width100 border-0 font-size-09"  cellpadding="0" cellspacing="0">
+                                            <tr jsf:rendered="#{item.recogidaTransporte != null}" class="iluminable">
+                                                <td class="textLeft width60">#{item.recogidaTransporte.empresa.nombre} - #{item.recogidaTransporte.nombre}</td>
+                                                <td class="textRight width40">#{item.recogidaImporte == null ? '0.00' : item.recogidaImporte}€</td>
+                                            </tr>
+                                            <tr jsf:rendered="#{item.recogidaTransporte == null}" class="iluminable">
+                                                <td class="textLeft width60">Sus medios</td>
+                                                <td class="textRight width40">#{item.recogidaImporte == null ? '0.00' : item.recogidaImporte}€</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+                        </td>
+                        <td class="celda-total">
+                            <div jsf:rendered="#{item.tipoOperacion.id == 'AL'}">
+                                #{item.importeTotal}€/#{contratoResumenBean.contrato.condiciones.facturarPor.nombre.toLowerCase()}
+                            </div>
+                            <div jsf:rendered="#{item.tipoOperacion.id != 'AL'}">
+                                #{item.importeTotal}€
+                            </div>
+                            <div jsf:rendered="#{item.gastosAdicionalesImporte > 0}">
+                                +#{item.gastosAdicionalesImporte}€
+                            </div>
+                        </td>
+                    </tr>
+                </ui:repeat>
+            </table>  
+                </h:panelGroup>
+            </h:form>
+        </div>
+    </ui:composition>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+    <ui:composition>
+        <h:form id="BajaForm">
+            <h:panelGroup id="display">
+                <div class="width-responsive">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Fecha" for="fecha" />
+                                    <p:datePicker 
+                                        id="fecha"
+                                        class="cov-input"
+                                        value="#{bajaStockBean.fecha}"
+                                        locale="es"
+                                        monthNavigator="true"
+                                        pattern="dd-MM-yyyy"
+
+                                    />
+                                    <p:message for="fecha"/>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Observaciones" for="observaciones" />
+                                    <p:inputTextarea  
+                                        class="cov-input"
+                                        rows="2" 
+                                        autoResize="false" 
+                                        id="observaciones" 
+                                        value="#{bajaStockBean.observaciones}" 
+                                        title="Observaciones"
+                                        required="false"/> 
+                                    <p:message for="observaciones"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Cancelar"
+                                immediate="true"
+                                actionListener="#{bajaStockBean.cancelar}"
+                                icon="fa fa-fw fa-close"
+
+                            />
+                            <p:commandButton 
+                                id="GuardarButton"
+                                class="boton boton-primary" 
+                                value="Guardar"
+                                actionListener="#{bajaStockBean.guardar}"
+                                icon="fa fa-fw fa-save"
+                                update=":growl,display"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+    </ui:composition>
+</html>

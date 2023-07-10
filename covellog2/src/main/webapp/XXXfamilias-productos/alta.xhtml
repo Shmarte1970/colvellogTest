@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" responsive="true" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Alta Usuario">
+            <h:form id="UsuarioCreateForm">
+                <h:panelGroup id="display" rendered="#{usuarioAdminServiceController.altaForm != null}">
+                    <div class="width-responsive" style="width:360px">
+                        <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                            <p:autoUpdate />
+                        </p:messages>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Username" for="username" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="username" value="#{usuarioAdminServiceController.altaForm.username}" title="Username" required="true" requiredMessage="El username es obligatorio"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Contraseña" for="password" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:password style="width:16em" id="password" value="#{usuarioAdminServiceController.altaForm.password}" title="Password" required="true" requiredMessage="La contraseña es obligatoria"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Nombre" for="nombre" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="nombre" value="#{usuarioAdminServiceController.altaForm.nombre}" title="Nombre" required="true" requiredMessage="El nombre es obligatorio"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Apellidos" for="apellidos" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="apellidos" value="#{usuarioAdminServiceController.altaForm.apellidos}" title="Apellidos" required="true" requiredMessage="Los apellidos son obligatorios"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Email" for="email" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:inputText style="width:16em" id="email" value="#{usuarioAdminServiceController.altaForm.email}" title="Email" required="true" requiredMessage="El email es obligatorio"/>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Grupos" for="grupos" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:selectManyMenu style="width:16em" id="grupos" value="#{usuarioAdminServiceController.altaForm.grupos}" converter="conversorGrupo">
+                                    <f:selectItems  value="#{usuarioAdminServiceController.gruposPosibles}" var="grupo" itemLabel="#{grupo.nombre}" itemValue="#{grupo}" />
+                                </p:selectManyMenu>
+                            </div>
+                        </div>
+                        <div style="text-align: right; padding-top:16px">
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{usuarioAdminServiceController.create}" value="Guardar" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');"/>
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{usuarioAdminServiceController.cancelCreate}" value="Cancelar" oncomplete="closeDialog('UsuarioCreateDialog')" immediate="true"/>
+                        </div>
+                        
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

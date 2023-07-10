@@ -1,0 +1,135 @@
+.app-auditoria {
+    display:inline-block;
+    /*border-style: solid;
+    border-width: 0.25em;
+    padding: 0.2em 0.4em;
+    border-radius: 0.5em;
+    font-weight: bold;
+    font-size:1.1em;
+    //color:#007bff;
+    // border-color:#007bff;
+    //background-color:#bfdffe;
+    /*Pedro*/
+    margin-top: 6px;
+    color: #2F4F82;
+    border: #1E3777 solid 1px;
+}
+
+.app-estado {
+    display:inline-block;
+   /* border-style: solid;
+    border-width: 0.25em;*/  
+    padding: 0.2em 0.4em;
+    border-radius: 0.5em;
+    font-weight: bold;
+    /*font-size:1.1em; 
+    /*Pedro*/
+    color: #2F4F82;
+    font-size:15px;
+    text-align: center;
+}
+
+.app-estado-mini {
+    padding: 0.2em 0.4em;
+    font-size:0.5em;
+}
+
+
+
+.app-estado-borrador, .app-estado-bo {
+    background-color: #fff3cd;
+    border-color: #856404;
+    color:#856404;
+    
+}
+
+.app-estado-anulado, .app-estado-an, .app-estado-ba, .app-estado-BA, .app-estado-bl, .app-estado-BL, .app-estado-ve, .app-estado-VE, .app-estado-dm, .app-estado-DM {
+    background-color: #FFCCCC;
+    border-color: #CC3333;
+    color: #CC3333  ;
+}
+
+.app-estado-pendiente, .app-estado-pe, .app-estado-PE, .app-estado-ra, .app-estado-RA, .app-estado-rv, .app-estado-RV {
+   /* background-color: #fffcb9;
+    border-color: orange;*/
+   /* color: orange;*/
+     border: #1E3777 solid 1px;
+}
+
+
+
+.app-estado-lanzado, .app-estado-la {
+    border-color: #006bef;
+    background-color: #007bff;
+    color: white;
+}
+
+.app-estado-activo, .app-estado-activa, .app-estado-ac,.app-estado-AC, .app-estado-ok, .app-estado-OK, .app-estado-di, .app-estado-DI, .app-estado-al, .app-estado-AL{
+   /* border-color: #33CC33;
+    background-color: #CCFFCC;*/
+    color: #33CC33;
+}
+
+.app-estado-finalizado, .app-estado-fi, .app-estado-FI {
+  /*  border-color: #6c936c;
+    background-color: #DFECDF;*/
+    color: #6c936c;
+}
+
+.app-codigo {
+    display:inline-block;
+    border-style: solid;
+    border-width: 0.25em;
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+    font-weight: bold;
+    font-size:1em;
+    color:#4c8cee !important;
+    border-color:#4c8cee;
+    background-color:transparent;
+    font:none;
+    text-decoration: none;
+}
+
+.app-codigo:hover, .iluminar-on-hover:hover {
+    background-color:lightblue;
+}
+
+.app-codigo.big {
+    border-style: solid;
+    border-width: 0.25em;
+    padding: 0.4em 0.75em;
+    border-radius: 0.25em;
+    font-size:1.2em;
+}
+
+
+.stock-estado-DI {
+    color:green;
+    background-color: lightgreen
+}
+
+.stock-estado-RV, .stock-estado-RA {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color:#856404;
+}
+
+.stock-estado-BL {
+    color:orange;
+}
+.stock-estado-BA {
+    color:red;
+}
+.stock-estado-AL {
+    color:purple;
+}
+
+.stock-estado-VE {
+    color:blue;
+}
+
+.ui-state-highlight .app-codigo {
+    color:white !important;
+    border-color:white;
+}

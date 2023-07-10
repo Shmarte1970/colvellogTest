@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.ubicaciones.dto.UbicacionDto"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+            <composite:attribute name="showContactos" required="false" default="true"/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel 
+                id="content" 
+                styleClass="#{cc.attrs.updateId} panel-info"
+                style="position: relative;min-height: 2em"
+            >
+                <h:outputLabel value="Sin asignar" rendered="#{empty cc.attrs.value}"/>
+                <ul class="datos" jsf:rendered="#{not empty cc.attrs.value}">
+                    <li>
+                        <h:outputText 
+                            value="#{cc.attrs.value.id}: #{cc.attrs.value.nombre}" 
+                            style="font-weight:bold"
+                        />
+                    </li>
+                    <li>
+                        <i class="fa fa-clock-o"></i>
+                        <h:outputText 
+                            value="#{cc.attrs.value.horario}" 
+                            style="font-style:italic;padding-left: 0.25em"
+                        />
+                    </li>
+                    <li style="font-size:0.8em;">
+                        <ul style="padding-left:1em">
+                            <li jsf:rendered="#{not empty cc.attrs.value.direccion.direccion}">
+                                <h:outputText value="#{cc.attrs.value.direccion.direccion}"/>
+                            </li>
+                            <li jsf:rendered="#{not empty cc.attrs.value.direccion.direccion2}">
+                                <h:outputText value="#{cc.attrs.value.direccion.direccion2}"/>
+                            </li>
+                            <li jsf:rendered="#{not empty cc.attrs.value.direccion.codigoPostal}">
+                                <h:outputText value="#{cc.attrs.value.direccion.codigoPostal}"/> - <h:outputText value="#{cc.attrs.value.direccion.poblacion.nom}"/>
+                            </li>
+                            <li jsf:rendered="#{not empty cc.attrs.value.direccion.poblacion.provincia.pais.nom}">
+                                <h:outputText value="#{cc.attrs.value.direccion.poblacion.provincia.pais.nom}"/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li jsf:rendered="#{not empty cc.attrs.value.observaciones.obsInternas and cc.attrs.showContactos}">
+                        <h:outputText value="#{cc.attrs.value.observaciones.obsInternas}" style="font-size:0.7em;font-style:italic"/>
+                    </li>
+                    <li jsf:rendered="#{not empty cc.attrs.value.observaciones.obsPublicas and cc.attrs.showContactos}">
+                        <h:outputText value="#{cc.attrs.value.observaciones.obsPublicas}" style="font-size:0.7em;font-style:italic"/>
+                    </li>
+                    <li jsf:rendered="#{not empty cc.attrs.value.contactos and cc.attrs.showContactos}">
+                        <h:outputText 
+                            rendered="#{empty cc.attrs.value.contactos}"
+                            value="No hay contactos."
+                            style="font-size:0.7em;font-style:italic"
+                        />
+                    </li>
+                    <li widgetVar="#{cc.id}" id="#{cc.id}.contactos" jsf:rendered="#{not empty cc.attrs.value.contactos and cc.attrs.showContactos}" style="padding-top:0.2em">
+                        <p:panel styleClass="panel-datatable header-mediano" toggleable="true" toggleTitle="Contactos" toggleableHeader="true" collapsed="true" header="Contactos">
+                        <ul style="padding-left:0.6em">
+                            <ui:repeat
+                                value="#{cc.attrs.value.contactos}"
+                                var="item"
+                                varStatus="estado"
+                            >
+                                <li>
+                                    <div style="padding-left:0.1em;font-size:0.9em;display:inline-block">
+                                        <i class="fa fa-user" style="padding-right:0.3em"></i>
+                                        <h:outputText value="#{item.id}: #{item.nombre}"/>
+                                        <h:outputText rendered="#{not empty item.descripcion}" value="(#{item.descripcion})"/>
+                                        <div style="padding-left:1em" jsf:rendered="#{not empty item.telefono or not empty item.telefono2}">
+                                            <i class="fa fa-phone" style="padding-right:0.4em"></i>
+                                            <h:outputText rendered="#{not empty item.telefono}" value="#{item.telefono}"/>
+                                            <h:outputText rendered="#{not empty item.telefono2}" value=" - #{item.telefono2}"/>
+                                        </div>
+                                        <div style="padding-left:1em" jsf:rendered="#{not empty item.email}">
+                                            <i class="fa fa-envelope" style="padding-right:0.3em"></i>
+                                            <h:outputText value="#{item.email}"/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ui:repeat>
+                        </ul>
+                        </p:panel>    
+                    </li>
+                </ul>
+                
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

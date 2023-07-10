@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <h:form id="ContratoDocumentacionForm">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <p:outputLabel value="Documentacion" for="documentacion" />
+                    <p:fileUpload 
+                        class="cov-input"
+                        value="#{contratoDocumentacionBean.uploadDocs}" 
+                        mode="advanced" 
+                        skinSimple="true" 
+                        multiple="false"
+                        update="documentacion"
+                        fileUploadListener="#{contratoDocumentacionBean.upload}" 
+                    />
+                    <p:selectManyMenu
+                        class="cov-input"
+                        id="documentacion" 
+                        value="#{contratoDocumentacionBean.documentosSeleccionados}"
+                        converter="contratoDocumentoDtoConverter"
+                    >
+                        <f:selectItems  value="#{contratoDocumentacionBean.documentos}" var="item" itemLabel="#{item.nombre}"/>
+                    </p:selectManyMenu>
+                    <p:message for="documentacion"/>
+                    <div style="text-align:right">
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque" 
+                            icon="fa fa-fw fa-arrow-up" 
+                            actionListener="#{contratoDocumentacionBean.documentacionSubir}" 
+                            value="Subir" 
+                            update="documentacion,:growl"
+                            partialSubmit="true"
+                            process="@this,documentacion"
+                        />
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque" 
+                            icon="fa fa-fw fa-arrow-down" 
+                            actionListener="#{contratoDocumentacionBean.documentacionBajar}" 
+                            value="Bajar" 
+                            update="documentacion,:growl"
+                            partialSubmit="true"
+                            process="@this,documentacion"
+                        />
+                        <p:commandButton 
+                            class="boton boton-error boton-peque" 
+                            icon="fa fa-fw fa-close" 
+                            actionListener="#{contratoDocumentacionBean.documentacionEliminar}" 
+                            value="Eliminar" 
+                            update="documentacion,:growl"
+                            partialSubmit="true"
+                            process="@this,documentacion"
+                        />
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque" 
+                            icon="fa fa-fw fa-folder-open" 
+                            actionListener="#{contratoDocumentacionBean.documentacionVer}" 
+                            value="Ver" 
+                            onclick="this.form.target = '_blank'"
+                            ajax="false"
+                            immediate="true"
+                        >
+                            <p:ajax 
+                                update="documentacion,:growl"
+                                partialSubmit="true"
+                                process="documentacion"
+                            />
+                        </p:commandButton>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:composition>
+</html>

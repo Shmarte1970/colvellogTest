@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProvinciaViewDlg" widgetVar="ProvinciaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{adrecesBundle.ViewProvinciaTitle}">
+            <h:form id="ProvinciaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{gestioProvinciaController.selected != null}">
+                        <h:outputText value="#{adrecesBundle.ViewProvinciaLabel_nom}"/>
+                        <h:outputText value="#{gestioProvinciaController.selected.nom}" title="#{adrecesBundle.ViewProvinciaTitle_nom}"/>
+                        <h:outputText value="#{adrecesBundle.ViewProvinciaLabel_codi}"/>
+                        <h:outputText value="#{gestioProvinciaController.selected.codi}" title="#{adrecesBundle.ViewProvinciaTitle_codi}"/>
+                        <h:outputText value="#{adrecesBundle.ViewProvinciaLabel_codiPostal}"/>
+                        <h:outputText value="#{gestioProvinciaController.selected.codiPostal}" title="#{adrecesBundle.ViewProvinciaTitle_codiPostal}"/>
+                        <h:outputText value="#{adrecesBundle.ViewProvinciaLabel_pais}"/>
+                        <h:outputText value="#{gestioProvinciaController.selected.pais.nom}" title="#{adrecesBundle.ViewProvinciaTitle_pais}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{adrecesBundle.Close}" onclick="ProvinciaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EstadoPagoModificarDlg" responsive="true" widgetVar="EstadoPagoModificarDialog" modal="true" resizable="false" appendTo="@(body)" header="Modificar Estado Pago">
+            <h:form id="EstadoPagoModificarForm">
+                <h:panelGroup id="display">
+                    <div class="width-responsive" style="width:360px">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                <p:outputLabel value="Estado Pago" for="estadoPago" />
+                            </div>
+                            <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                <p:selectOneMenu 
+                                    class="cov-input" 
+                                    id="estadoPago" 
+                                    title="Estado Pago"
+                                    value="#{modificarContratoBean.contrato.estadoPago}"
+                                    required="true"
+                                    requiredMessage="El Estado Pago es obligatorio"
+                                >
+                                    <f:selectItem itemLabel="PENDIENTE" itemValue="PE"/>
+                                    <f:selectItem itemLabel="PAGADO" itemValue="PA"/>
+                                    <f:selectItem itemLabel="PAGADO 25%" itemValue="25"/>
+                                    <f:selectItem itemLabel="PAGADO 50%" itemValue="50"/>
+                                    <f:selectItem itemLabel="PAGADO 75%" itemValue="75"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div style="text-align: right; padding-top:16px">                            
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" value="Cancelar" oncomplete="closeDialog('EstadoPagoModificarDialog')" immediate="true"/>
+                            <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{modificarContratoBean.modificarEstadoPago}" value="Guardar" update="panel-interior,:growl" oncomplete="handleSubmit(args,'EstadoPagoModificarDialog');"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

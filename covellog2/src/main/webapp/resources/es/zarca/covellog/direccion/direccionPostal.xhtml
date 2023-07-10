@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+            <p:panel id="direccion" class="ui-inputfield cov-input" styleClass="ui-inputfield" style="position:relative">
+                <p:outputLabel 
+                    rendered="#{cc.attrs.value != null}" 
+                    class="fa fa-home" 
+                    style="font-size:72px;color:#EEE;position:absolute;right:12px; top:4px"
+                />
+                <p:outputLabel 
+                    rendered="#{cc.attrs.value == null}" 
+                    class="fa fa-home" 
+                    style="font-size:24px;color:#EEE;position:absolute;right:12px; top:0px"
+                />
+                <p:outputLabel rendered="#{cc.attrs.value == null}" value="Sin dirección" style="display: block;padding:0" />
+                <p:outputLabel rendered="#{cc.attrs.value.att != null}" value="Att. #{cc.attrs.value.att}" style="display: block;padding:0" />
+                <p:outputLabel rendered="#{cc.attrs.value.direccion != null}" value="#{cc.attrs.value.direccion}" style="display: block;padding:0" />
+                <p:outputLabel rendered="#{cc.attrs.value.direccion2 != null}" value="#{cc.attrs.value.direccion2}" style="display: block;padding:0" />
+                <p:outputLabel rendered="#{cc.attrs.value.codigoPostal != null}" value="#{cc.attrs.value.codigoPostal}"  style="display: block;padding:0" /> <p:outputLabel rendered="#{cc.attrs.value.poblacion != null}" value="#{cc.attrs.value.poblacion.nom}" style="display: block;padding:0" />
+                <p:outputLabel rendered="#{cc.attrs.value.poblacion.provincia != null}" value="#{cc.attrs.value.poblacion.provincia.nom}" style="display: block;padding:0"/>
+                <p:outputLabel rendered="#{cc.attrs.value.poblacion.provincia.pais != null}" value="#{cc.attrs.value.poblacion.provincia.pais.nom}" style="display: block;padding:0"/>
+            </p:panel>
+            <p:message for="direccion"></p:message>
+        </composite:implementation>  
+    </h:body>  
+</html>  

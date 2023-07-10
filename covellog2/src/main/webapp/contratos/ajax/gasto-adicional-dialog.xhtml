@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/producto/gasto-adicional"
+>
+    <ui:composition>
+        <p:dialog id="GastoAdicionalEditDlg" responsive="true" widgetVar="GastoAdicionalEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Gasto Adicional">
+            <h:form id="GastoAdicionalEditForm">
+                <h:panelGroup id="display">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="padding-bottom:0">
+                            <p:outputLabel value="Gasto Adicional" for="gastoAdicional" />
+                            <t:gastoAdicionalSeleccionable
+                                id="gastoAdicional"
+                                value="#{contratoLineaGastoAdicionalBean.gastoAdicional}"
+                                dialog="GastoAdicionalSelectorPopup"
+                                updateId="ModificarLinea-GastoAdicionalSeleccionable"
+                                update="@(.ModificarLinea-GastoAdicionalSelector)"
+                                prepareAction="#{contratoLineaGastoAdicionalBean.prepareSelectGastoAdicional}"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Concepto" for="concepto" />
+                            <p:inputText
+                                class="cov-input ModificarLinea-GastoAdicionalSeleccionable"
+                                id="concepto"
+                                value="#{contratoLineaGastoAdicionalBean.concepto}"
+                                title="Concepto"
+                                required="true"
+                            />
+                            <p:message for="concepto"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Importe" for="importe" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="importe" 
+                                value="#{contratoLineaGastoAdicionalBean.importe}" 
+                                title="Importe" 
+                                required="true"
+                            />
+                            <p:message for="importe"/>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Cantidad" for="cantidad" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="cantidad" 
+                                value="#{contratoLineaGastoAdicionalBean.cantidad}" 
+                                title="Cantidad" 
+                                required="true"
+                            />
+                            <p:message for="cantidad"/>
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding-top:16px">
+                        <p:commandButton 
+                            class="boton boton-primary"
+                            icon="fa fa-fw fa-close"
+                            actionListener="#{contratoLineaGastoAdicionalBean.cancelar}"
+                            value="Volver"
+                            oncomplete="closeDialog('GastoAdicionalEditDialog')"
+                            immediate="true"
+                        />
+                        <p:commandButton
+                            class="boton boton-primary"
+                            icon="fa fa-fw fa-check"
+                            actionListener="#{contratoLineaGastoAdicionalBean.guardar}"
+                            value="Aceptar"
+                            update="ContratoLineaEditForm:PanelGastosAdicionales,display,:growl"
+                            oncomplete="handleSubmit(args,'GastoAdicionalEditDialog');"
+                        />
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <t:gastoAdicionalSelectorDialog
+                id="GastoAdicionalSelectorPopup"
+                updateId="ModificarLinea-GastoAdicionalSelector"
+            />
+        </p:dialog>
+    </ui:composition>
+</html>

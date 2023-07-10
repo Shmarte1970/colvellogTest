@@ -1,0 +1,23 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+            <p:panel id="comercial">
+                <h:panelGroup layout="block" rendered="#{cc.attrs.value != null}">
+                    <div><span><strong>#{cc.attrs.value.nombreCompleto}</strong></span></div>
+                </h:panelGroup>
+                <h:panelGroup layout="block" style="padding:8px;" rendered="#{cc.attrs.value == null}">
+                    Sin comercial
+                </h:panelGroup>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

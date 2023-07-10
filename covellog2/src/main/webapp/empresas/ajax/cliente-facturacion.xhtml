@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+    <ui:composition>
+        <h:form id="ClienteFacturacionForm">
+            <p:defaultCommand target="GuardarButton"/>
+            <h:panelGroup rendered="#{empty clienteFacturacionController.model}">
+                <p:outputLabel value="No se puede cargar el cliente" />
+            </h:panelGroup>
+            <h:panelGroup id="display" rendered="#{not empty clienteFacturacionController.model}">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right; padding-top:16px;padding-bottom:0">
+                        <p:commandButton 
+                            id="GuardarButton"
+                            class="boton boton-primary" 
+                            icon="fa fa-fw fa-save" 
+                            actionListener="#{clienteFacturacionController.guardar}" 
+                            value="Guardar" 
+                            update="display,:growl" 
+                        />
+                    </div>
+                </div>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-9 ui-lg-6">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:selectBooleanCheckbox value="#{clienteFacturacionController.model.detalleFacturacion.exentoIva}" itemLabel="Exento IVA" />
+                                <p:selectBooleanCheckbox value="#{clienteFacturacionController.model.detalleFacturacion.malPagador}" itemLabel="Mal pagador" />
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Direccion Postal (Envio Facturas)"/>
+                                <c:direccionPostalEditable
+                                    id="direccionPostal"
+                                    dialog="ClienteFacturacionDireccionPostalPopup"
+                                    value="#{clienteFacturacionController.model.detalleFacturacion.direccionPostal}"
+                                    prepareAction="#{clienteFacturacionController.prepareUpdateDireccionPostal}"
+                                    copyText="Copiar direccion principal"
+                                    copyAction="#{clienteFacturacionController.copiarDireccionPrincipal}"
+                                    update="@(.ClienteFacturacion-DireccionPostalPopup)"
+                                    updateId="ClienteFacturacion-DireccionPostal"
+                                />
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <e:contactosSeleccionable
+                                    id="contactos"
+                                    title="Contactos Facturacion"
+                                    value="#{clienteFacturacionController.model.detalleFacturacion.contactos}"
+                                    dialog="ClienteFacturacionContactosSelectorPopup"
+                                    updateId="ClienteFacturacion-ContactosFacturacion"
+                                    prepareUpdateAction="#{clienteFacturacionController.prepareUpdateContactos}"
+                                    update="@(.ClienteFacturacion-ContactosSelectorPopup),:growl"
+                                />
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="ui-g-12 ui-md-9 ui-lg-6">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Forma Pago Ventas"/>
+                                <e:formaPagoEditable
+                                    value="#{clienteFacturacionController.model.detalleFacturacion.formaPagoVenta}"
+                                    dialog="detalleFacturacionFormaPago"
+                                    updateId="formaPagoVentaCliente"
+                                    prepareAction="#{clienteFacturacionController.prepareUpdateFormaPagoVenta}"
+                                    update="@(.formaPagoCliente)"
+                                />
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Forma Pago Alquileres"/>
+                                <e:formaPagoEditable
+                                    value="#{clienteFacturacionController.model.detalleFacturacion.formaPagoAlquiler}"
+                                    dialog="detalleFacturacionFormaPago"
+                                    updateId="formaPagoAlquilerCliente"
+                                    prepareAction="#{clienteFacturacionController.prepareUpdateFormaPagoAlquiler}"
+                                    update="@(.formaPagoCliente)"
+                                />
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                                <p:inputTextarea 
+                                    class="cov-input"
+                                    rows="2" 
+                                    autoResize="false" 
+                                    id="obsInternas" 
+                                    value="#{clienteFacturacionController.model.detalleFacturacion.observaciones.obsInternas}" 
+                                    title="Observaciones Internas"
+                                    required="false"/>                                 
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                                <p:inputTextarea 
+                                    class="cov-input"
+                                    rows="2" 
+                                    autoResize="false" 
+                                    id="obsPublicas" 
+                                    value="#{clienteFacturacionController.model.detalleFacturacion.observaciones.obsPublicas}" 
+                                    title="Observaciones Públicas"
+                                    required="false"/>                                 
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+        <e:contactoSelectorDialog 
+            id="ClienteFacturacionContactosPopup"
+            updateId="ClienteFacturacion-ContactosPopup"
+        />
+        <e:contactosSelectorDialog 
+            id="ClienteFacturacionContactosSelectorPopup"
+            updateId="ClienteFacturacion-ContactosSelectorPopup"
+        />
+        <e:formaPagoEditDialog 
+            id="detalleFacturacionFormaPago" 
+            updateId="formaPagoCliente" 
+        />
+        <c:direccionPostalEditDialog 
+            id="ClienteFacturacionDireccionPostalPopup"
+            updateId="ClienteFacturacion-DireccionPostalPopup"            
+        />
+    </ui:composition>
+</html>

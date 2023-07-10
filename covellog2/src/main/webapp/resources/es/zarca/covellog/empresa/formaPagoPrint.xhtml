@@ -1,0 +1,29 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.empresas.facade.dto.FormaPagoDto"/>
+        </composite:interface>
+        <composite:implementation>          
+            <ul style="list-style: none;padding: 0;margin:0">
+                <ui:repeat value="#{cc.attrs.value.lineas}" var="item">
+                    <li style="white-space: nowrap">
+                        <h:outputText value="#{item.porcentaje}%" />
+                        <h:outputText value=" - " />
+                        <h:outputText value="#{item.tipoPago.nombre}" />
+                        <h:outputText value=" - " />
+                        <h:outputText value="#{item.tipoVencimiento.nombre}" />
+                        <h:outputText value=" día " rendered="#{not empty item.diaPago}"/>
+                        <h:outputText value="#{item.diaPago}" rendered="#{not empty item.diaPago}"/>
+                    </li>
+                </ui:repeat>
+            </ul>
+        </composite:implementation>
+    </h:body>  
+</html>  

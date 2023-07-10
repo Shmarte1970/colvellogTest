@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:co="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/comercial"
+>
+    <ui:composition>
+        <h:form id="ProveedorForm" style="border: none">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="padding:0">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Código Proveedor" for="codigoProveedor" />
+                            <p:inputText
+                                class="cov-input"
+                                id="codigoProveedor" 
+                                value="#{proveedorController.model.proveedor.codigoProveedor}" 
+                                title="Código Proveedor:" 
+                                requiredMessage="El Código proveedor es obligatorio"
+                                required="true" 
+                            />
+                            <p:message for="codigoProveedor"/>
+                            <div style="text-align: right">
+                                <p:commandButton
+                                    class="boton boton-primary boton-peque" 
+                                    value="Sugerir codigo"
+                                    immediate="true"
+                                    actionListener="#{proveedorController.sugerirCodigoProveedor}"
+                                    update="ProveedorForm:codigoProveedor"
+                                    icon="fa fa-fw fa-gear"
+                                >
+                                    <p:resetInput target="ProveedorForm:codigoProveedor" />
+                                </p:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Comerciales" for="SelectorComercial" />
+                            <co:comercialesSeleccionable
+                                id="SelectorComercial"
+                                value="#{proveedorController.model.proveedor.comerciales}"
+                                prepareAction="#{proveedorController.prepareUpdateComerciales}"
+                                dialog="ProveedorComercialesPopup"
+                                update="@(.Proveedor-ComercialesPopup)"
+                                updateId="Proveedor-Comerciales"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <e:contactosSeleccionable
+                                id="contactos"
+                                title="Contactos Proveedor"
+                                value="#{proveedorController.model.proveedor.contactos}"
+                                dialog="ProveedorContactosPopup"
+                                updateId="Proveedor-Contactos"
+                                prepareUpdateAction="#{proveedorController.prepareUpdateContactos}"
+                                update="@(.Proveedor-ContactosPopup),:growl"
+                                height="300px"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="padding:0">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Direccion Postal"/>
+                            <c:direccionPostalEditable
+                                id="direccionPostal"
+                                dialog="direccionPostalPopup"
+                                value="#{proveedorController.model.proveedor.direccionPostal}"
+                                copyText="Copiar direccion principal"
+                                copyAction="#{proveedorController.copiarDireccionPrincipal}"
+                                prepareAction="#{proveedorController.prepareUpdateDireccionPostal}"
+                                update="@(.Proveedor-DireccionPostalPopup)"
+                                updateId="Proveedor-DireccionPostal"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Forma Pago"/>
+                            <e:formaPagoEditable
+                                value="#{proveedorController.model.proveedor.formaPago}"
+                                dialog="ProveedorFormaPagoPopup"
+                                updateId="Proveedor-FormaPago"
+                                prepareAction="#{proveedorController.prepareUpdateFormaPago}"
+                                update="@(.Proveedor-FormaPagoPopup)"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="obsInternas" 
+                                value="#{proveedorController.model.proveedor.observaciones.obsInternas}" 
+                                title="Observaciones Internas"
+                                required="false"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="obsPublicas" 
+                                value="#{proveedorController.model.proveedor.observaciones.obsPublicas}" 
+                                title="Observaciones Públicas"
+                                required="false"/>                                 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <e:contactosSelectorDialog 
+            id="ProveedorContactosPopup"
+            updateId="Proveedor-ContactosPopup"
+        />
+        <co:comercialesSelectorDialog
+            id="ProveedorComercialesPopup"
+            updateId="Proveedor-ComercialesPopup"
+        />
+        <c:direccionPostalEditDialog 
+            id="direccionPostalPopup"
+            updateId="Proveedor-DireccionPostalPopup"
+        />
+        <e:formaPagoEditDialog 
+            id="ProveedorFormaPagoPopup" 
+            updateId="Proveedor-FormaPagoPopup" 
+        />
+    </ui:composition>
+</html>

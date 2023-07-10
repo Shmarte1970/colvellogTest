@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+>
+
+    <ui:composition template="/template-print.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Movimiento de #{movimientoPrintBean.movimiento.tipo.nombre}"></h:outputText>
+        </ui:define>
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam id="id" name="id" value="#{movimientoPrintBean.id}" required="true">
+                    <f:validateLongRange minimum="1" />
+                </f:viewParam>
+                <f:viewAction action="#{movimientoPrintBean.prepare}" />
+            </f:metadata>
+            <h:message for="id" />
+        </ui:define>
+        <ui:define name="documento-tipo">
+            <h:outputText value="ALBARÁN DE #{movimientoPrintBean.movimiento.tipo.nombre}"></h:outputText>
+        </ui:define>
+        <ui:define name="documento-id">
+            <h:outputText value="#{movimientoPrintBean.movimiento.id}"></h:outputText>
+        </ui:define>
+        <ui:define name="cabecera">
+            <div jsf:rendered="#{movimientoPrintBean.movimiento != null}" class="print-row">
+                <div class="print-col" style="width:100%;padding:10px">
+                    <div class="print-row">
+                        <div class="print-col" style="width:53%;">
+                            <div class="print-row" style="background-color: #DDD;padding:10px;height:65px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-user-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li>
+                                            <h:outputText 
+                                                value="#{movimientoPrintBean.movimiento.cliente.nombre}" 
+                                                style="font-weight:bold"
+                                            />
+                                        </li>
+                                        <li style="font-size:0.6em;">
+                                            <h:outputText 
+                                                value="#{movimientoPrintBean.movimiento.cliente.friendlyId}"
+                                                style="font-style: italic"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;height:65px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-truck-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li jsf:rendered="#{not empty movimientoPrintBean.movimiento.transportistaNombre}">
+                                            <h:outputText 
+                                                value="#{movimientoPrintBean.movimiento.transportistaNombre}" 
+                                                style="font-weight:bold"
+                                            />
+                                        </li>
+                                        <li style="font-size:0.6em;">
+                                            <h:outputLabel
+                                                value="Chofer"
+                                            /> 
+                                            <h:outputText 
+                                                value="#{movimientoPrintBean.movimiento.chofer}"
+                                                style="font-style: italic"
+                                            />
+                                        </li>
+                                        <li jsf:rendered="#{not empty movimientoPrintBean.movimiento.chofer}">
+                                            <h:outputText 
+                                                value="#{movimientoPrintBean.movimiento.chofer}" 
+                                                style="font-size:0.6em;"
+                                            />
+                                        </li>
+                                        <li jsf:rendered="#{not empty movimientoPrintBean.movimiento.matricula}">
+                                            <h:outputText 
+                                                value="#{movimientoPrintBean.movimiento.matricula}" 
+                                                style="font-size:0.6em;"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="print-col" style="width:45%;float:right">
+                            <div class="print-row" style="background-color: #DDD;padding:10px;height:65px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-calendar-gray.png')}"/>
+                                </div>
+                                <div class="print-col info-cabecera-texto" style="padding-top: 2px">
+                                    <ul class="datos">
+                                        <li style="font-size:1.4em;">
+                                            <h:outputLabel style="display:block"
+                                                value="Fecha" 
+                                            />
+                                            <h:outputText
+                                                style="display:block;padding-left:0.5em;font-weight:bold"
+                                                value="#{movimientoPrintBean.movimiento.fecha}" 
+                                            >
+                                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                            </h:outputText>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="print-row" style="margin-top:10px;background-color: #DDD;padding:10px;height:65px">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-file-gray.png')}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="print-col" style="width:100%;padding:0 10px 10px 10px">
+                    <div class="print-row">
+                        <div class="print-col" style="width:45%;padding:10px;background-color: #DDD">
+                            <i>Origen</i>
+                            <div class="print-row">
+                                <div class="print-col info-cabecera-icono">
+                                    <img src="#{resourcesController.getImage('fa-industry-gray.png')}"/>
+                                </div>
+                                <ub:ubicacionPrint value="#{movimientoPrintBean.movimiento.ubicacion}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+        <ui:define name="contenido">
+            <table id="contenido-tabla" jsf:rendered="#{movimientoPrintBean.movimiento != null}">
+                <tr>
+                    <th id="primera-col-tabla" style="width: 85%" class="column-header fondo-oscuro">Producto</th>
+                    <th id="ultima-col-tabla" style="width: 15%" class="column-header fondo-claro">Cantidad</th>
+                </tr>
+                <tr class="linea par" jsf:rendered="#{empty movimientoPrintBean.movimiento.stock}">
+                    <td class="celda-concepto ui-state-error" colspan="5">
+                        <div class="content-concepto">
+                            <div style="font-size:1.3em;font-weight:bold">No hay lineas.</div>
+                        </div>
+                    </td>
+                </tr>
+                <ui:repeat
+                    rendered="#{not empty movimientoPrintBean.movimiento.stock}"
+                    value="#{movimientoPrintBean.movimiento.stock}"
+                    var="item"
+                    varStatus="estado"
+                >
+                    <tr class="linea #{(estado.index % 2)==0 ? 'impar' : 'par'}">
+                        <td class="celda-concepto">
+                            <div class="content-concepto">
+                                <div style="font-weight:bold">#{item.stock.numSerie}</div>
+                                <div>#{item.descripcion}</div>
+                                <div class="detalle">#{item.stock.tipoProducto.id}-#{item.stock.tipoProducto.descripcion}</div>
+                            </div>
+                        </td>
+                        <td class="celda-cantidad">1</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </ui:define>
+        <ui:define name="content-footer">
+            <div class="print-row">
+                <div class="print-col" style="width:80%">
+                    <div><strong>Observaciones</strong></div>
+                    <div>
+                        #{movimientoPrintBean.movimiento.observaciones}
+                    </div>
+                </div>
+            </div>
+            
+            
+        </ui:define>
+        <ui:define name="condiciones">
+        </ui:define>     
+        <ui:define name="numeracion">
+            #{movimientoPrintBean.numPagina}/#{movimientoPrintBean.totalPaginas}
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:t="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/tipo-producto"
+      xmlns:a="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/almacen"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition>
+        <p:panel id="panel-interior" header="Crear Stock">
+            <h:form id="StockEditForm">
+                <p:defaultCommand target="GuardarButton"/>
+                <h:panelGroup id="display">
+                    <div class="width-responsive">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Tipo Producto" for="tipoProducto" />
+                                        <t:tipoProductoSeleccionable 
+                                            id="tipoProducto"
+                                            value="#{nuevoStockBean.tipoProducto}"
+                                            dialog="TipoProductoSelectorPopup"
+                                            updateId="NuevoStock-TipoProductoSeleccionable"
+                                            update="@(.NuevoStock-TipoProductoSelector)"
+                                            prepareAction="#{nuevoStockBean.prepareSelectTipoProducto}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Almacen" for="almacen" />
+                                        <a:almacenSeleccionable 
+                                            id="almacen"
+                                            value="#{nuevoStockBean.almacen}"
+                                            dialog="AlmacenSelectorPopup"
+                                            updateId="NuevoStock-AlmacenSeleccionable"
+                                            update="@(.NuevoStock-AlmacenSelector)"
+                                            prepareAction="#{nuevoStockBean.prepareSelectAlmacen}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Lote" for="lote" />
+                                        <p:autoComplete
+                                            inputStyleClass="cov-input"
+                                            class="cov-input"
+                                            id="lote" 
+                                            value="#{nuevoStockBean.lote}"
+                                            completeMethod="#{nuevoStockBean.loteCompleteText}"
+                                            scrollHeight="250"
+                                        />
+                                        <p:message for="lote"></p:message>
+                                    </div>
+                                </div>
+                                
+                                <h:panelGroup layout="block" class="ui-g" id="numeros-serie" >
+                                    <ui:repeat  value="#{nuevoStockBean.numerosSerie}" var="var" varStatus="loop" id="numerosSerieSet">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="padding-bottom:0">
+                                        <p:outputLabel value="Numero Serie #{loop.index + 1}" for="numeroSerie" />
+                                        <div style="position: relative">
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="numeroSerie" 
+                                                value="#{nuevoStockBean.numerosSerie[loop.index]}" 
+                                                title="Numero Serie #{loop.index + 1}" 
+                                                required="false" 
+                                            />                                            
+                                            <p:commandButton 
+                                                rendered="#{loop.index > 0}"
+                                                style="position:absolute; right:2px;top:2px"
+                                                class="boton boton-error boton-compacto"
+                                                value=""
+                                                immediate="false"
+                                                process="@parent:@parent:numeros-serie"
+                                                actionListener="#{nuevoStockBean.removeNumeroSerie(loop.index)}"
+                                                icon="fa fa-fw fa-times"
+                                                update="@parent:@parent:numeros-serie"
+                                            />
+                                        </div>
+                                        <p:message for="numeroSerie"></p:message>
+                                    </div>
+                                    </ui:repeat>
+                                </h:panelGroup>                                
+                                <div class="ui-g" >
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;padding-top:4px">
+                                        <p:commandButton 
+                                            class="boton boton-peque boton-primary"
+                                            value="Anadir Numero Serie"
+                                            immediate="false"
+                                            process="@this,numeros-serie"
+                                            actionListener="#{nuevoStockBean.addNumeroSerie}"
+                                            icon="fa fa-fw fa-plus"
+                                            update="numeros-serie"
+                                        />
+                                       </div>
+                                </div>
+                            </div>
+
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">                              
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Propietario" />
+                                        <e:empresaSeleccionable 
+                                            id="propietario"
+                                            value="#{nuevoStockBean.propietario}"
+                                            dialog="EmpresaSelectorPopup"
+                                            updateId="NuevoStock-EmpresaSeleccionable"
+                                            update="@(.NuevoStock-EmpresaSelector)"
+                                            prepareAction="#{nuevoStockBean.prepareSelectEmpresa}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="ui-g" >
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Flota" for="flota" />
+                                        <p:selectOneMenu 
+                                            id="flota" 
+                                            class="cov-input"
+                                            required="false" 
+                                            value="#{nuevoStockBean.flota}" 
+                                            requiredMessage="La flota es obligatoria"
+                                            converter="FlotaConverter"
+                                        >
+                                            <f:selectItem itemLabel="Seleccione una flota"/>
+                                            <f:selectItems 
+                                                value="#{nuevoStockBean.flotasPosibles}"
+                                                var="flotaItem"
+                                                itemValue="#{flotaItem}"
+                                                itemLabel="#{flotaItem.nombre}"
+                                            />
+                                        </p:selectOneMenu>
+                                        <p:message for="flota"/>
+                                    </div>
+                                </div>                                
+                                <div class="ui-g" >
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Estado" for="estado" />
+                                        <p:selectOneMenu 
+                                            id="estado" 
+                                            class="cov-input"
+                                            required="false" 
+                                            value="#{nuevoStockBean.estado}" 
+                                            requiredMessage="El estado es obligatorio"
+                                            converter="EstadoConverter"
+                                        >
+                                            <f:selectItem itemLabel="Seleccione un estado"/>
+                                            <f:selectItems 
+                                                value="#{nuevoStockBean.estadosPosibles}"
+                                                var="estadoItem"
+                                                itemValue="#{estadoItem}"
+                                                itemLabel="#{estadoItem.nombre}"
+                                            />
+                                        </p:selectOneMenu>
+                                        <p:message for="estado"/>
+                                    </div>
+                                </div>
+                                <div class="ui-g" >
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Condicion" for="condicion" />
+                                        <p:selectOneMenu 
+                                            id="condicion" 
+                                            class="cov-input"
+                                            required="false" 
+                                            value="#{nuevoStockBean.condicion}" 
+                                            requiredMessage="La condicion es obligatoria"
+                                            converter="CondicionConverter"
+                                        >
+                                            <f:selectItem itemLabel="Seleccione una condicion"/>
+                                            <f:selectItems 
+                                                value="#{nuevoStockBean.condicionesPosibles}"
+                                                var="condicionItem"
+                                                itemValue="#{condicionItem}"
+                                                itemLabel="#{condicionItem.nombre}"
+                                            />
+                                        </p:selectOneMenu>
+                                        <p:message for="condicion"/>
+                                    </div>
+                                </div>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                                        <p:inputTextarea 
+                                            class="cov-input"
+                                            rows="2" 
+                                            autoResize="false" 
+                                            id="obsInternas" 
+                                            value="#{nuevoStockBean.obsInternas}" 
+                                            title="Observaciones Internas"
+                                            required="false"/> 
+                                        <p:message for="obsInternas"/>
+                                    </div>
+                                </div>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                                        <p:inputTextarea 
+                                            class="cov-input"
+                                            rows="2" 
+                                            autoResize="false" 
+                                            id="obsPublicas" 
+                                            value="#{nuevoStockBean.obsPublicas}" 
+                                            title="Observaciones Públicas"
+                                            required="false"/>
+                                        <p:message for="obsPublicas"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+                                <p:commandButton 
+                                    class="boton boton-primary"
+                                    value="Cancelar"
+                                    immediate="true"
+                                    actionListener="#{nuevoStockBean.cancelar}"
+                                    icon="fa fa-fw fa-close"
+
+                                />
+                                <p:commandButton 
+                                    id="GuardarButton"
+                                    class="boton boton-primary" 
+                                    value="Guardar"
+                                    actionListener="#{nuevoStockBean.guardar}"
+                                    icon="fa fa-fw fa-save"
+                                    update=":growl,display"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <t:tipoProductoSelectorDialog
+                id="TipoProductoSelectorPopup"
+                updateId="NuevoStock-TipoProductoSelector"
+            />
+            <a:almacenSelectorDialog
+                id="AlmacenSelectorPopup"
+                updateId="NuevoStock-AlmacenSelector"
+            />
+            <e:empresaSelectorDialog
+                id="EmpresaSelectorPopup"
+                updateId="NuevoStock-EmpresaSelector"
+            />
+        </p:panel>
+    </ui:composition>
+</html>

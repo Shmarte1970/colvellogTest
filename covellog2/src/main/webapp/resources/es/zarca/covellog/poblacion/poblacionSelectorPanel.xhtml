@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="onCompleteSeleccionar" />
+            <composite:attribute name="onCompleteCancelar" />
+        </composite:interface> 
+        <composite:implementation>
+            <h:panelGroup id="SelectorPoblacionPanel" styleClass="#{cc.attrs.updateId}">
+                <h:form id="PoblacioListForm">          
+                    <p:dataTable id="datalist" scrollRows="50" virtualScroll="true" reflow="false" 
+                            rows="100" scrollHeight="#{viewController.contentHeight-100}" 
+                            value="#{selectorPoblacionController.items}" 
+                            var="item"
+                            selectionMode="single"
+                            selection="#{selectorPoblacionController.selected}"
+                            rowKey="#{item.id}"
+                            lazy="true"
+                            emptyMessage="No coincide ninguna población."
+                            sortBy="#{item.nom}"
+                            sortOrder="ascending"
+                            scrollable="true"
+                    >     
+                        <p:ajax 
+                            event="rowSelect"
+                            listener="#{selectorPoblacionController.seleccionar(event)}"
+                            oncomplete="#{cc.attrs.onCompleteSeleccionar}"
+                            update="#{selectorPoblacionController.update}"
+                            />
+                       <p:column rendered="false">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_id}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.id}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.nom}" filterMatchMode="contains" sortBy="#{item.nom}">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_nom}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.nom}"/>
+                       </p:column>
+                       <p:column priority="2" resizable="true" filterBy="#{item.provincia.nom}" filterMatchMode="contains" sortBy="#{item.provincia.nom}">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_provincia}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.provincia.nom}"/>
+                       </p:column>
+                       <p:column priority="3" resizable="true" filterBy="#{item.provincia.pais.nom}" filterMatchMode="contains" sortBy="#{item.provincia.pais.nom}">
+                           <f:facet name="header">
+                               <h:outputText value="#{adrecesBundle.ListPoblacioTitle_pais}"/>
+                           </f:facet>
+                           <h:outputText value="#{item.provincia.pais.nom}"/>
+                       </p:column>
+                    </p:dataTable>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

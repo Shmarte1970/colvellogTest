@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:dialog id="TipoEditDlg" responsive="true" widgetVar="TipoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{editarTipoProductoBean.nuevo ? 'Nuevo' : 'Modificar'} Tipo Producto">
+            <h:form id="TipoEditForm">
+                <h:panelGroup id="display">
+                    <h:panelGroup 
+                        layout="block" 
+                        class="ui-g" 
+                        rendered="#{editarTipoProductoBean.nuevo}"
+                    >
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Id" for="id" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="id" 
+                                value="#{editarTipoProductoBean.id}" 
+                                title="Id" 
+                                required="true" 
+                                requiredMessage="El Id es obligatorio"
+                            />
+                            <p:message for="id"/>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup 
+                        layout="block" 
+                        class="ui-g" 
+                        rendered="#{!editarTipoProductoBean.nuevo}"
+                    >
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Id"/>
+                            <p:outputLabel 
+                                class="ui-inputfield cov-input"
+                                value="#{editarTipoProductoBean.id}"
+                            />
+                        </div>
+                    </h:panelGroup>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Descripcion" for="descripcion" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="descripcion" 
+                                value="#{editarTipoProductoBean.descripcion}" 
+                                title="Descripcion" 
+                                required="true" 
+                                requiredMessage="La descripcion es obligatoria"
+                            />
+                            <p:message for="descripcion"/>                               
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Familia" for="familia" />
+                            <p:selectOneMenu 
+                                class="cov-input"
+                                id="familia" 
+                                value="#{editarTipoProductoBean.familiaId}"
+                                title="Familia" 
+                                required="true" 
+                                requiredMessage="La familia es obligatoria"
+                            >
+                                <f:selectItem itemLabel="Selecccione una familia" itemValue=""/>
+                                <f:selectItems value="#{editarTipoProductoBean.familiasPosibles}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.id}"/>
+                            </p:selectOneMenu>
+                            <p:message for="familia"/>                               
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Unidad de Medida" for="unidadMedida" />
+                            <p:selectOneMenu 
+                                class="cov-input"
+                                id="unidadMedida" 
+                                value="#{editarTipoProductoBean.unidadMedidaId}"
+                                title="Unidad de Medida" 
+                                required="true" 
+                                requiredMessage="La unidad de medida es obligatoria"
+                            >
+                                <f:selectItem itemLabel="Seleccione una unidad de medida" itemValue=""/>
+                                <f:selectItems value="#{editarTipoProductoBean.unidadesMedidaPosibles}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.id}"/>
+                            </p:selectOneMenu>
+                            <p:message for="unidadMedida"/>                               
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Clase" for="clase" />
+                            <p:selectOneMenu 
+                                class="cov-input"
+                                id="clase" 
+                                value="#{editarTipoProductoBean.claseId}"
+                                title="Clase" 
+                                required="true" 
+                                requiredMessage="La clase es obligatoria"
+                            >
+                                <f:selectItem itemLabel="Seleccione una clase" itemValue=""/>
+                                <f:selectItems value="#{editarTipoProductoBean.clasesPosibles}" var="item" itemLabel="#{item.nombre}" itemValue="#{item.id}"/>
+                            </p:selectOneMenu>
+                            <p:message for="clase"/>                               
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Documentacion" for="documentacion" />
+                            
+                            <p:fileUpload 
+                                class="cov-input"
+                                value="#{editarTipoProductoBean.uploadDocs}" 
+                                mode="advanced" 
+                                skinSimple="true" 
+                                multiple="false"
+                                update="documentacion"
+                                fileUploadListener="#{editarTipoProductoBean.upload}" 
+                            />
+                            <p:selectManyMenu
+                                class="cov-input"
+                                id="documentacion" 
+                                value="#{editarTipoProductoBean.documentosSeleccionados}"
+                                converter="editarTipoProductoDocumentoListItemConverter"
+                                
+                            >   
+                                <f:selectItems  value="#{editarTipoProductoBean.documentos}" var="item" itemLabel="#{item.nombre}"/>
+                            </p:selectManyMenu>
+                            <p:message for="documentacion"/> 
+                            <div style="text-align:right">
+                                <p:commandButton 
+                                    class="boton boton-primary boton-peque" 
+                                    icon="fa fa-fw fa-arrow-up" 
+                                    actionListener="#{editarTipoProductoBean.documentacionSubir}" 
+                                    value="Subir" 
+                                    update="documentacion,:growl"
+                                    partialSubmit="true"
+                                    process="@this,documentacion"
+                                />
+                                <p:commandButton 
+                                    class="boton boton-primary boton-peque" 
+                                    icon="fa fa-fw fa-arrow-down" 
+                                    actionListener="#{editarTipoProductoBean.documentacionBajar}" 
+                                    value="Bajar" 
+                                    update="documentacion,:growl"
+                                    partialSubmit="true"
+                                    process="@this,documentacion"
+                                />
+                                <p:commandButton 
+                                    class="boton boton-error boton-peque" 
+                                    icon="fa fa-fw fa-close" 
+                                    actionListener="#{editarTipoProductoBean.documentacionEliminar}" 
+                                    value="Eliminar" 
+                                    update="documentacion,:growl"
+                                    partialSubmit="true"
+                                    process="@this,documentacion"
+                                />
+                                <p:commandButton 
+                                    class="boton boton-primary boton-peque" 
+                                    icon="fa fa-fw fa-folder-open" 
+                                    actionListener="#{editarTipoProductoBean.documentacionVer}" 
+                                    value="Ver" 
+                                    onclick="this.form.target = '_blank'"
+                                    ajax="false"
+                                    immediate="true"
+
+                                >
+                                    <p:ajax 
+                                        update="documentacion,:growl"
+                                        partialSubmit="true"
+                                        process="documentacion"
+                                    />
+                                </p:commandButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding-top:16px">
+                        <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{editarTipoProductoBean.cancelar()}" value="Cancelar" oncomplete="closeDialog('TipoEditDialog')" immediate="true"/>
+                        <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{editarTipoProductoBean.guardar()}" value="Guardar" update="display,:TipoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TipoEditDialog');"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

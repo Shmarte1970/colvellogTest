@@ -1,0 +1,2 @@
+/usr/local/netbeans-12.1/netbeans/java/maven/bin/mvn install:install-file -Dfile=/home/DATOS-RAID1/Informatica/Proyectos/Covellog2/libs/valnif.jar -DgroupId=aeat -DartifactId=valnif -Dversion=2.01 -Dpackaging=jar
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:t="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/transporte"
+    xmlns:al="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/almacen"
+    xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-numero-serie"   
+    xmlns:stock="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"   
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>  
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="update" required="true"/>
+            <composite:attribute name="items" required="true"/>
+            <composite:attribute name="actionListener" method-signature="void actionListener()" required="true"/>
+            <composite:attribute name="selected" required="true" type="es.zarca.covellog.interfaces.facade.transporte.dto.TransporteDto"/>
+        </composite:interface> 
+        <composite:implementation>
+            <h:panelGroup id="ReservaEditPanel" styleClass="ReservaEditPanel #{cc.attrs.updateId}">
+                <h:form id="ReservaForm">
+                    <p:defaultCommand target="GuardarButton"/>
+                        <h:panelGroup id="display">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Transportista" for="transportista" style="display: block"/>
+                                            <p:inputText 
+                                                id="transportistaId" 
+                                                class="cov-input transportistaId" 
+                                                value="#{albaranLineaReservarBean.transportistaId}"
+                                                style="width:10%"
+                                                title="transportistaId" 
+                                            />
+                                            -<p:inputText 
+                                                class="cov-input ReservaModificar-Transportista"
+                                                id="transportista" 
+                                                value="#{albaranLineaReservarBean.transportistaNombre}" 
+                                                title="Transportista" 
+                                                onchange="$('.transportistaId').val('')"
+                                                style="width:88%"
+                                            />
+                                            <p:message for="transportista"></p:message>
+                                            <p:message for="transportistaId"></p:message>
+                                            <div style="text-align:right">
+                                                <p:commandButton
+                                                    id="buscarTransporteButton"
+                                                    class="boton boton-primary boton-peque" 
+                                                    value="Buscar"
+                                                    immediate="true"
+                                                    actionListener="#{albaranLineaReservarBean.prepareSelectTransportista}"
+                                                    oncomplete="PF('EmpresaSelectorPopupDialog').show()"
+                                                    icon="fa fa-fw fa-search"
+                                                    update="@(.ReservaModificar-EmpresaSelector)"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Chofer" for="chofer" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="chofer" 
+                                                value="#{albaranLineaReservarBean.chofer}" 
+                                                title="Chofer" 
+                                            />
+                                            <p:message for="chofer"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Matricula" for="matricula" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="matricula" 
+                                                value="#{albaranLineaReservarBean.matricula}" 
+                                                title="Matricula" 
+                                            />
+                                            <p:message for="matricula"></p:message>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones" for="observaciones" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="observaciones" 
+                                                value="#{albaranLineaReservarBean.observaciones}" 
+                                                title="Observaciones"
+                                                required="false"/>                                 
+                                        </div>
+                                    </div> 
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        value="Cancelar"
+                                        immediate="true"
+                                        ajax="false"
+                                        icon="fa fa-fw fa-close"
+                                        action="gestion.xhtml?faces-redirect=true"
+                                    />                                    
+                                    <p:commandButton 
+                                        rendered="#{empty albaranLineaReservarBean.id}"
+                                        id="GuardarButton"
+                                        class="boton boton-primary" 
+                                        value="Reservar"
+                                        actionListener="#{albaranLineaReservarBean.guardar}"
+                                        icon="fa fa-fw fa-book"
+                                        update=":growl,ReservaForm,#{cc.attrs.update}"
+                                        oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                    />
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                </h:form>
+        </h:panelGroup>
+        <e:empresaSelectorDialog
+            id="EmpresaSelectorPopup"
+            updateId="ReservaModificar-EmpresaSelector"
+        />
+        </composite:implementation>  
+    </h:body>  
+</html>  

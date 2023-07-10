@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClientViewDlg" widgetVar="ClientViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{clientsBundle.ViewClientTitle}">
+            <h:form id="ClientViewForm">
+                <h:panelGroup id="display">
+                    <p:scrollPanel mode="native" style="max-height: 700px;border: none">
+                        <p:fieldset id="dadesClient" legend="#{clientsBundle.ClientFormTitle_dadesClient}" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">                    
+                            <h:panelGrid columns="2" cellpadding="2" rendered="#{gestioClientController.selected != null}" >                       
+                                <p:outputLabel for="nom" value="#{clientsBundle.ClientFormLabel_nom}:"/>
+                                <p:inputText id="nom" size="80" value="#{gestioClientController.formulari.nom}" title="#{clientsBundle.ClientFormTitle_nom}" required="true"  requiredMessage="#{clientsBundle.ClientFormRequiredMessage_nom}">
+                                    <f:validateLength minimum="3" maximum="80" />
+                                </p:inputText>
+                                <h:outputLabel value=""/>
+                                <p:message for="nom"/>   
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_alias}:" for="alias" />
+                                <p:inputText id="alias" size="60" value="#{gestioClientController.formulari.alias}" title="#{clientsBundle.ClientFormTitle_alias}" required="true" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_alias}"/>
+                                <h:outputLabel value=""/>                                     
+                                <p:message for="alias"/>
+                            </h:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset id="dadesFiscals" legend="#{clientsBundle.ClientFormTitle_dadesFiscals}" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">
+                           <h:panelGrid columns="2" cellpadding="2" rendered="#{gestioClientController.selected != null}" >               
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_cif}" for="cif" />
+                                <p:inputText id="cif" size="15" value="#{gestioClientController.formulari.cif}" title="#{clientsBundle.ClientFormTitle_cif}" required="true" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_cif}"/>                                  
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_exentIva}" for="exentIva" />
+                                <p:selectBooleanButton id="exentIva" value="#{gestioClientController.formulari.exentIva}" onLabel="#{clientsBundle.ClientFormLabel_exentIva_On}" offLabel="#{clientsBundle.ClientFormLabel_exentIva_Off}" style="width:60px" />
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_iban}" for="iban" />
+                                <p:inputText id="iban" size="30" value="#{gestioClientController.formulari.iban}" title="#{clientsBundle.ClientFormTitle_iban}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_iban}"/>
+
+                                <h3>#{adrecesBundle.AdreçaFormTitle_adreça}</h3>
+                                <p:outputLabel value=""/>
+
+                                <p:outputLabel value="#{adrecesBundle.AdreçaFormLabel_adreça}" for="adreçaFiscal_adreça" />
+                                <p:inputTextarea rows="2" cols="60" counter="adreçaFiscal_adreça_display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" 
+                                    id="adreçaFiscal_adreça" value="#{gestioClientController.formulari.adreçaFiscal.adreça}" title="#{adrecesBundle.AdreçaFormTitle_adreçaFiscal}" required="false" requiredMessage="#{adrecesBundle.AdreçaFormRequiredMessage_adreçaFiscal}"/>                                        
+                                <p:outputLabel value=""/>
+                                <h:outputText id="adreçaFiscal_adreça_display" />
+                                <p:outputLabel value="#{adrecesBundle.AdreçaFormLabel_codiPostal}" for="adreçaFiscal_codiPostal" />
+                                <p:inputText id="adreçaFiscal_codiPostal" size="10" value="#{gestioClientController.formulari.adreçaFiscal.codiPostal}" title="#{adrecesBundle.AdreçaFormTitle_adreçaFiscal}" required="false" requiredMessage="#{adrecesBundle.AdreçaFormRequiredMessage_adreçaFiscal}"/>
+                                <p:outputLabel value="#{adrecesBundle.AdreçaFormLabel_poblacio}" for="adreçaFiscal_poblacio" />
+                                <p:inputText id="adreçaFiscal_poblacio" size="60" value="#{gestioClientController.formulari.adreçaFiscal.poblacioNom}" title="#{adrecesBundle.AdreçaFormTitle_poblacio}" required="false" requiredMessage="#{adrecesBundle.AdreçaFormRequiredMessage_poblacio}"/>
+                            </h:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset id="dadesContacteClient" legend="#{clientsBundle.ClientFormTitle_dadesContacteClient}" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">                    
+                            <h:panelGrid columns="2" cellpadding="2" rendered="#{gestioClientController.selected != null}" >            
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_horario}" for="horario" />
+                                <p:inputText id="horario" size="60" value="#{gestioClientController.formulari.horari}" title="#{clientsBundle.ClientFormTitle_horario}" required="false"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_idioma}" for="idioma" />
+                                <p:selectOneMenu id="idioma" value="#{gestioClientController.formulari.idioma}">
+                                    <f:selectItem itemLabel="Castellano" itemValue="1" />
+                                    <f:selectItem itemLabel="Catalán" itemValue="2" />
+                                    <f:selectItem itemLabel="Inglés" itemValue="3" />
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_telefon}" for="telefon" />
+                                <p:inputText id="telefon" size="20" value="#{gestioClientController.formulari.telefon}" title="#{clientsBundle.ClientFormTitle_telefon}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_telefon}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_movil}" for="movil" />
+                                <p:inputText id="movil" size="20" value="#{gestioClientController.formulari.movil}" title="#{clientsBundle.ClientFormTitle_movil}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_movil}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_fax}" for="fax" />
+                                <p:inputText id="fax" size="20" value="#{gestioClientController.formulari.fax}" title="#{clientsBundle.ClientFormLTitle_fax}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_fax}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_email}" for="movil" />
+                                <p:inputText id="email" size="40" value="#{gestioClientController.formulari.email}" title="#{clientsBundle.ClientFormTitle_email}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_email}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_web}" for="web" />
+                                <p:inputText id="web" size="20" value="#{gestioClientController.formulari.web}" title="#{clientsBundle.ClientFormLTitle_web}" required="false"/>
+
+                                <h3>#{adrecesBundle.AdreçaFormTitle_adreça}</h3>
+                                <p:outputLabel value=""/>
+
+                                <p:outputLabel value="#{adrecesBundle.AdreçaFormLabel_adreça}" for="adreça_adreça" />
+
+                                <p:inputTextarea rows="2" cols="60" counter="adreça_adreça_display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" 
+                                    id="adreça_adreça" value="#{gestioClientController.formulari.adreçaContacte.adreça}" title="#{adrecesBundle.AdreçaFormTitle_adreça}" required="false" requiredMessage="#{adrecesBundle.AdreçaFormRequiredMessage_adreça}"/>                                        
+                                <p:outputLabel value=""/>
+                                <h:outputText id="adreça_adreça_display" />
+                                <p:outputLabel value="#{adrecesBundle.AdreçaFormLabel_codiPostal}" for="adreça_codiPostal" />
+                                <p:inputText id="adreça_codiPostal" size="10" value="#{gestioClientController.formulari.adreçaContacte.codiPostal}" title="#{adrecesBundle.AdreçaFormTitle_adreça}" required="false" requiredMessage="#{adrecesBundle.AdreçaFormRequiredMessage_adreça}"/>
+                                <p:outputLabel value="#{adrecesBundle.AdreçaFormLabel_poblacio}" for="adreça_poblacio" />
+                                <p:inputText id="adreça_poblacio" size="60" value="#{gestioClientController.formulari.adreçaContacte.poblacioNom}" title="#{adrecesBundle.AdreçaFormTitle_poblacio}" required="false" requiredMessage="#{adrecesBundle.AdreçaFormRequiredMessage_poblacio}"/>
+
+                            </h:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset id="dadesContactePrincipal" legend="#{clientsBundle.ClientFormTitle_dadesContactePrincipal}" style="margin-bottom:20px" toggleable="true" toggleSpeed="500">                    
+                            <h:panelGrid columns="2" cellpadding="2" rendered="#{gestioClientController.selected != null}" >                    
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_nomContacte}" for="contacteNom" />
+                                <p:inputText id="contacteNom" size="80" value="#{gestioClientController.formulari.personaContactePrincipal.nom}" title="#{clientsBundle.ClientFormTitle_nomContacte}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_nomContacte}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_carrecContacte}" for="contacteCarrec" />
+                                <p:inputText id="contacteCarrec" size="50" value="#{gestioClientController.formulari.personaContactePrincipal.carrec}" title="#{clientsBundle.ClientFormTitle_carrecContacte}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_carrecContacte}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_telefonContacte}" for="contacteTelefon" />
+                                <p:inputText id="contacteTelefon" size="20" value="#{gestioClientController.formulari.personaContactePrincipal.telefon}" title="#{clientsBundle.ClientFormTitle_telefonContacte}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_telefonContacte}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_movilContacte}" for="contacteMovil" />
+                                <p:inputText id="contacteMovil" size="20" value="#{gestioClientController.formulari.personaContactePrincipal.movil}" title="#{clientsBundle.ClientFormTitle_movilContacte}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_movilContacte}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_faxContacte}" for="contacteFax" />
+                                <p:inputText id="contacteFax" size="20" value="#{gestioClientController.formulari.personaContactePrincipal.fax}" title="#{clientsBundle.ClientFormLTitle_faxContacte}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_faxContacte}"/>
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_emailContacte}" for="contacteEmail" />
+                                <p:inputText id="contacteEmail" size="40" value="#{gestioClientController.formulari.personaContactePrincipal.email}" title="#{clientsBundle.ClientFormTitle_emailContacte}" required="false" requiredMessage="#{clientsBundle.ClientFormRequiredMessage_emailContacte}"/>                                    
+                                <p:outputLabel value="#{clientsBundle.ClientFormLabel_observacions}" for="contacteObs" />
+                                <p:inputTextarea rows="2" cols="60" counter="contacteObs_display" maxlength="255" counterTemplate="#{appBundle.RemainingChars}" autoResize="false" 
+                                                 id="contacteObs" value="#{gestioClientController.formulari.personaContactePrincipal.observacions}" title="#{clientsBundle.ClientFormTitle_observacions}"  required="false"/> 
+                                <p:outputLabel value="" />
+                                <h:outputText id="contacteObs_display" />
+                            </h:panelGrid>
+                        </p:fieldset>
+                    </p:scrollPanel>                   
+                    <p:commandButton value="#{adrecesBundle.accept}" onclick="ClientEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

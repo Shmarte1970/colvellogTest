@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+    <ui:composition>
+        <p:dialog id="TransporteEditDlg" responsive="true" widgetVar="TransporteEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{modificarTransporteBean.nuevo ? 'Nuevo' : 'Modificar'} Transporte">
+            <h:form id="TransporteEditForm">
+                <h:panelGroup id="display">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Transportista" for="empresa" />
+                            <e:empresaSeleccionable 
+                                id="empresa"
+                                value="#{modificarTransporteBean.empresa}"
+                                dialog="TransporteEmpresaSelectorPopup"
+                                updateId="TransporteEmpresaSeleccionable"
+                                update="@(.TransporteEmpresaSelector)"
+                                prepareAction="#{modificarTransporteBean.prepareSelectEmpresa}"
+                            /> 
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Nombre" for="nombre" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="nombre" 
+                                value="#{modificarTransporteBean.nombre}" 
+                                title="Nombre" 
+                                required="false" 
+                                requiredMessage="El nombre es obligatorio"
+                            />
+                            <p:message for="nombre"/>                               
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Capacidad" for="capacidad" />
+                            <p:inputText 
+                                class="cov-input"
+                                id="capacidad" 
+                                value="#{modificarTransporteBean.capacidad}" 
+                                title="Nombre" 
+                                required="true" 
+                                requiredMessage="La capacidad es obligatoria"
+                            />
+                            <p:message for="capacidad"/>                               
+                        </div>
+                    </div>
+                    
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="obsInternas" 
+                                value="#{modificarTransporteBean.obsInternas}" 
+                                title="Observaciones Internas"
+                                required="false"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                            <p:inputTextarea 
+                                class="cov-input"
+                                rows="2" 
+                                autoResize="false" 
+                                id="obsPublicas" 
+                                value="#{modificarTransporteBean.obsPublicas}" 
+                                title="Observaciones Públicas"
+                                required="false"/>                                 
+                        </div>
+                    </div>
+                    <div style="text-align: right; padding-top:16px">
+                        <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" actionListener="#{modificarTransporteBean.cancelar()}" value="Cancelar" oncomplete="closeDialog('TransporteEditDialog')" immediate="true"/>
+                        <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{modificarTransporteBean.guardar()}" value="Guardar" update="display,:TransporteListForm:datalist,:growl" oncomplete="handleSubmit(args,'TransporteEditDialog');"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+        <e:empresaSelectorDialog
+            id="TransporteEmpresaSelectorPopup"
+            updateId="TransporteEmpresaSelector"
+        />
+    </ui:composition>
+</html>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ss="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/transporte"
+      xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock/stock-por-numero-serie"
+>
+    <ui:composition>
+        <p:panel id="panel-interior" header="Modificar Linea Contrato">
+            <h:form id="ContratoLineaEditForm">
+                <p:defaultCommand target="GuardarButton"/>
+                <h:panelGroup id="display">
+                    <div class="width-responsive">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <p:panel header="Tipo Operación" styleClass="panel-datatable header-mediano" style="margin:6px 0">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:selectOneMenu 
+                                                class="cov-input" 
+                                                id="tipoOperacion" 
+                                                value="#{contratoLineaModificarBean.tipoOperacion}"
+                                                required="true"
+                                            >
+                                                <p:ajax 
+                                                    event="change"
+                                                    update="ContratoLineaEditForm"
+                                                />
+                                                <f:selectItems 
+                                                    value="#{contratoLineaModificarBean.tiposOperacionPosibles}"
+                                                    var="item"
+                                                    itemLabel="#{item.nombre}"
+                                                    itemValue="#{item.id}"
+                                                />
+                                            </p:selectOneMenu>
+                                            <p:message for="tipoOperacion"/>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Fecha Entrega Prevista" for="fechaEntregaPrevista" />
+                                            <p:datePicker id="fechaEntregaPrevista" class="cov-input" value="#{contratoLineaModificarBean.fechaEntregaPrevista}" locale="es" monthNavigator="true" pattern="dd-MM-yyyy"/>
+                                            <p:message for="fechaEntregaPrevista"/>
+                                        </div>
+                                    </div> 
+                                </p:panel>
+                                <div>
+                                    <p:panel header="Producto" styleClass="panel-datatable header-mediano ModificarLinea-Producto" style="margin:6px 0">
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-12 ui-lg-12" style="padding-bottom:0">
+                                                <ss:seleccionStock
+                                                    id="tipoProducto"
+                                                    tipoProducto="#{contratoLineaModificarBean.tipoProducto}"
+                                                    almacen="#{contratoLineaModificarBean.ubicacion}"
+                                                    lote="#{contratoLineaModificarBean.lote}"
+                                                    numSerie="#{contratoLineaModificarBean.numeroSerie}"
+                                                    estado="#{contratoLineaModificarBean.stockEstado}"
+                                                />
+                                            </div>
+                                        </div>
+                                        
+                                       
+                                    </p:panel>
+                                    <div style="text-align: right">
+                                        <p:commandButton 
+                                            class="boton boton-primary boton-peque"
+                                            value="Buscar"
+                                            immediate="true"
+                                            update="@(.ModificarLinea-StockSelector)"
+                                            oncomplete="PF('StockSelectorPopupDialog').show()"
+                                            actionListener="#{contratoLineaModificarBean.prepareSelectStock}"
+                                            icon="fa fa-fw fa-search"
+                                        />
+                                    </div>
+                                </div>
+                                <p:panel header="Detalle" styleClass="panel-datatable header-mediano" style="margin:6px 0">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Concepto" for="concepto" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="concepto" 
+                                                value="#{contratoLineaModificarBean.concepto}" 
+                                                title="Concepto" 
+                                                required="true"
+                                            />
+                                            <p:message for="concepto"/>
+                                            <div style="text-align: right">
+                                                <p:commandButton 
+                                                    class="boton boton-primary boton-peque"
+                                                    value="Copiar de producto"
+                                                    immediate="true"
+                                                    actionListener="#{contratoLineaModificarBean.assignarConceptoAutomatico}"
+                                                    update="concepto"
+                                                    icon="fa fa-fw fa-copy"
+                                                    process="@this"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Importe" for="importe" />
+                                            <p:inputText 
+                                                class="cov-input"
+                                                id="importe" 
+                                                value="#{contratoLineaModificarBean.importe}" 
+                                                title="Importe" 
+                                                required="true"
+                                            />
+                                            <p:message for="importe"/>
+                                        </div>
+                                    </div>                                                                       
+                                </p:panel>
+                            <div class="ui-g">
+                                    <div class="ui-g-6 ui-md-6 ui-lg-6" style="padding-left:0;padding-bottom:0">    
+                                        <p:panel header="Transporte Entrega" styleClass="panel-datatable header-mediano" style="margin:6px 0">
+                                            <div class="">
+                                                <div>
+                                                    <p:outputLabel value="Transportista" for="teTransporte" />
+                                                    <e:transporteSeleccionable
+                                                        id="teTransporte"
+                                                        value="#{contratoLineaModificarBean.entregaTransporte}"
+                                                        dialog="TransporteEntregaSelectorPopup"
+                                                        updateId="EntregaTransporteSeleccionable"
+                                                        update="@(.ModificarLinea-TransporteEntregaSelector)"
+                                                        prepareAction="#{contratoLineaModificarBean.prepareSelectEntregaTransporte}"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div>
+                                                    <p:outputLabel value="Importe" for="teImporte" />
+                                                    <div style="position: relative">
+                                                        <p:inputText 
+                                                            class="cov-input"
+                                                            id="teImporte" 
+                                                            value="#{contratoLineaModificarBean.entregaImporte}" 
+                                                            title="Importe" 
+                                                            required="false" 
+                                                        />                                            
+                                                    </div>
+                                                    <p:message for="teImporte"></p:message>
+                                                </div>
+                                            </div>
+                                        </p:panel>
+                                    </div>
+                                    <h:panelGroup rendered="#{contratoLineaModificarBean.tipoOperacion=='AL'}" layout="block" class="ui-g-6 ui-md-6 ui-lg-6" style="padding-right:0;padding-bottom:0">
+                                        <p:panel header="Transporte Recogida" styleClass="panel-datatable header-mediano" style="margin:6px 0">
+                                            <div class="ui-g">
+                                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                                    <p:outputLabel value="Transportista" for="trTransporte" />
+                                                    <e:transporteSeleccionable
+                                                        id="trTransporte"
+                                                        value="#{contratoLineaModificarBean.recogidaTransporte}"
+                                                        dialog="TransporteRecogidaSelectorPopup"
+                                                        updateId="RecogidaTransporteSeleccionable"
+                                                        update="@(.ModificarLinea-TransporteRecogidaSelector)"
+                                                        prepareAction="#{contratoLineaModificarBean.prepareSelectRecogidaTransporte}"
+                                                    /> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g">
+                                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                                    <p:outputLabel value="Importe" for="trImporte" />
+                                                    <div style="position: relative">
+                                                        <p:inputText 
+                                                            class="cov-input"
+                                                            id="trImporte" 
+                                                            value="#{contratoLineaModificarBean.recogidaImporte}" 
+                                                            title="Importe" 
+                                                            required="false" 
+                                                        />                                            
+                                                    </div>
+                                                    <p:message for="trImporte"></p:message>
+                                                </div>
+                                            </div>
+                                        </p:panel>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">                                
+                                <div>
+                                   <p:panel 
+                                        id="PanelComplementos" 
+                                        header="Complementos  #{contratoLineaModificarBean.complementosImporteTotal} (#{contratoLineaModificarBean.complementos.size()})" 
+                                        styleClass="panel-datatable header-mediano" 
+                                        style="margin:6px 0"
+                                    >
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                                <p:selectManyMenu
+                                                    class="cov-input"
+                                                    value="#{contratoLineaModificarBean.complementosSelecteds}"
+                                                    converter="complementoDtoConverter"
+                                                    var="p"
+                                                    id="complementos"
+                                                >
+                                                    <p:ajax 
+                                                        partialSubmit="true"
+                                                        process="@this complementos"
+                                                        event="change" 
+                                                        update="PanelComplementos"
+                                                    />
+                                                    <f:selectItems 
+                                                        value="#{contratoLineaModificarBean.complementos}" 
+                                                        var="item" 
+                                                        itemLabel="#{item.concepto}"
+                                                        itemValue="#{item}"
+                                                    />
+                                                    <p:column>
+                                                        <div style="display: flex; align-items: left; justify-content: left;">
+                                                            <div style="width:50%">#{p.concepto}</div>
+                                                            <div style="width:10%">#{p.cantidad}</div>
+                                                            <div style="width:20%">#{p.importe}€</div>
+                                                            <div style="width:20%">#{p.importeTotal}€</div>
+                                                        </div>
+                                                    </p:column>
+                                                </p:selectManyMenu>
+                                                <div style="text-align:right;padding-top:0.2em">
+                                                    <p:commandButton 
+                                                        disabled="#{empty contratoLineaModificarBean.complementosSelecteds}"
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Bajar"
+                                                        partialSubmit="true"
+                                                        process="@this complementos"
+                                                        actionListener="#{contratoLineaModificarBean.complementosBajar}"
+                                                        update="PanelComplementos"
+                                                        icon="fa fa-fw fa-arrow-down"
+                                                    />
+                                                    <p:commandButton 
+                                                        disabled="#{empty contratoLineaModificarBean.complementosSelecteds}"
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Subir"
+                                                        partialSubmit="true"
+                                                        process="@this complementos"
+                                                        actionListener="#{contratoLineaModificarBean.complementosSubir}"
+                                                        update="PanelComplementos"
+                                                        icon="fa fa-fw fa-arrow-up"
+                                                    />
+                                                    <p:commandButton
+                                                        disabled="#{empty contratoLineaModificarBean.complementosSelecteds}"
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Eliminar"    
+                                                        partialSubmit="true"
+                                                        process="@this complementos"
+                                                        actionListener="#{contratoLineaModificarBean.complementosEliminar}"
+                                                        update="PanelComplementos"
+                                                        icon="fa fa-fw fa-close"
+                                                    />
+                                                    <p:commandButton
+                                                        disabled="#{empty contratoLineaModificarBean.complementosSelecteds}"
+                                                        id='ComplementoModificarButton'
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Modificar"    
+                                                        immediate="true"
+                                                        actionListener="#{contratoLineaModificarBean.complementosPrepareModificar}"
+                                                        update=":ComplementoEditDlg"
+                                                        oncomplete="if (#{not empty contratoLineaModificarBean.complementosSelecteds }) { PF('ComplementoEditDialog').show() }"
+                                                        icon="fa fa-fw fa-edit"
+                                                    />
+                                                    <p:commandButton 
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Nuevo"    
+                                                        immediate="true"
+                                                        actionListener="#{contratoLineaModificarBean.complementosPrepareNuevo}"
+                                                        update=":ComplementoEditDlg"
+                                                        oncomplete="PF('ComplementoEditDialog').show()"
+                                                        icon="fa fa-fw fa-plus"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </p:panel>
+                                    
+                                </div>
+                                <div>
+                                   <p:panel
+                                        id="PanelGastosAdicionales"
+                                        header="Gastos Adicionales #{contratoLineaModificarBean.gastosAdicionalesImporteTotal} (#{contratoLineaModificarBean.gastosAdicionales.size()})" 
+                                        styleClass="panel-datatable header-mediano" 
+                                        style="margin:6px 0"                                        
+                                    >
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                                <p:selectManyMenu
+                                                    class="cov-input"
+                                                    value="#{contratoLineaModificarBean.gastosAdicionalesSelecteds}"
+                                                    converter="gastoAdicionalDtoConverter"
+                                                    var="p"
+                                                    id="gastosAdicionales"
+                                                >
+                                                    <p:ajax 
+                                                        partialSubmit="true"
+                                                        process="@this gastosAdicionales"
+                                                        event="change" 
+                                                        update="PanelGastosAdicionales"/>
+                                                    <f:selectItems
+                                                        value="#{contratoLineaModificarBean.gastosAdicionales}"
+                                                        var="item"
+                                                        itemLabel="#{item.concepto}"
+                                                        itemValue="#{item}"
+                                                    />
+                                                    <p:column>
+                                                        <div style="display: flex; align-items: left; justify-content: left;">
+                                                            <div style="width:50%">#{p.concepto}</div>
+                                                            <div style="width:10%">#{p.cantidad}</div>
+                                                            <div style="width:20%">#{p.importe}€</div>
+                                                            <div style="width:20%">#{p.importeTotal}€</div>
+                                                        </div>
+                                                    </p:column>
+                                                </p:selectManyMenu>
+                                                <div style="text-align:right">
+                                                    <p:commandButton 
+                                                        disabled="#{empty contratoLineaModificarBean.gastosAdicionalesSelecteds}"
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Bajar"
+                                                        partialSubmit="true"
+                                                        process="@this gastosAdicionales"
+                                                        actionListener="#{contratoLineaModificarBean.gastosAdicionalesBajar}"
+                                                        update="PanelGastosAdicionales"
+                                                        icon="fa fa-fw fa-arrow-down"
+                                                    />
+                                                    <p:commandButton 
+                                                        disabled="#{empty contratoLineaModificarBean.gastosAdicionalesSelecteds}"
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Subir"
+                                                        partialSubmit="true"
+                                                        process="@this gastosAdicionales"
+                                                        actionListener="#{contratoLineaModificarBean.gastosAdicionalesSubir}"
+                                                        update="PanelGastosAdicionales"
+                                                        icon="fa fa-fw fa-arrow-up"
+                                                    />
+                                                    <p:commandButton 
+                                                        disabled="#{empty contratoLineaModificarBean.gastosAdicionalesSelecteds}"
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Eliminar"
+                                                        partialSubmit="true"
+                                                        process="@this gastosAdicionales"
+                                                        actionListener="#{contratoLineaModificarBean.gastosAdicionalesEliminar}"
+                                                        update="PanelGastosAdicionales"
+                                                        icon="fa fa-fw fa-close"
+                                                    />
+                                                    <p:commandButton
+                                                        disabled="#{empty contratoLineaModificarBean.gastosAdicionalesSelecteds}"
+                                                        id='GastoAdicionalModificarButton'
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Modificar"    
+                                                        immediate="true"
+                                                        actionListener="#{contratoLineaModificarBean.gastosAdicionalesPrepareModificar}"
+                                                        update=":GastoAdicionalEditDlg"
+                                                        oncomplete="if (#{not empty contratoLineaModificarBean.gastosAdicionalesSelecteds }) { PF('GastoAdicionalEditDialog').show() }"
+                                                        icon="fa fa-fw fa-edit"
+                                                    />
+                                                    <p:commandButton 
+                                                        class="boton boton-primary boton-peque"
+                                                        value="Nuevo"    
+                                                        immediate="true"
+                                                        actionListener="#{contratoLineaModificarBean.gastosAdicionalesPrepareNuevo}"
+                                                        update=":GastoAdicionalEditDlg"
+                                                        oncomplete="PF('GastoAdicionalEditDialog').show()"
+                                                        icon="fa fa-fw fa-plus"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </p:panel>
+                                </div>
+                                <p:panel header="Observaciones" styleClass="panel-datatable header-mediano" style="margin:6px 0">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="obsInternas" 
+                                                value="#{contratoLineaModificarBean.obsInternas}" 
+                                                title="Observaciones Internas"
+                                                required="false"/> 
+                                            <p:message for="obsInternas"/>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                                            <p:inputTextarea 
+                                                class="cov-input"
+                                                rows="2" 
+                                                autoResize="false" 
+                                                id="obsPublicas" 
+                                                value="#{contratoLineaModificarBean.obsPublicas}" 
+                                                title="Observaciones Públicas"
+                                                required="false"/>
+                                            <p:message for="obsPublicas"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="padding-top:0;padding-bottom:0;text-align: right">
+                                        <p:commandButton 
+                                            class="boton boton-primary"
+                                            value="Volver"    
+                                            immediate="true"
+                                            actionListener="#{contratoLineaModificarBean.cancelar}"
+                                            update=":mi-layout-contenido"
+                                            icon="fa fa-fw fa-close"
+                                        />
+                                        <p:commandButton 
+                                            id="GuardarButton"
+                                            class="boton boton-primary" 
+                                            value="Guardar"
+                                            actionListener="#{contratoLineaModificarBean.guardar}"
+                                            icon="fa fa-fw fa-save"
+                                            update=":growl,:mi-layout-contenido"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+            <s:StockSelectorDialog
+                id="StockSelectorPopup"
+                updateId="ModificarLinea-StockSelector"
+            />
+            <e:transporteSelectorDialog
+                id="TransporteEntregaSelectorPopup"
+                updateId="ModificarLinea-TransporteEntregaSelector"
+                items="#{contratoLineaModificarBean.busquedaSelectorTransporte.items}"
+                selected="#{contratoLineaModificarBean.entregaTransporte}"
+                update=":growl,@(.EntregaTransporteSeleccionable)"
+                actionListener="#{contratoLineaModificarBean.prepareSelectEntregaTransporte}"
+            />
+            <e:transporteSelectorDialog
+                id="TransporteRecogidaSelectorPopup"
+                updateId="ModificarLinea-TransporteRecogidaSelector"
+                items="#{contratoLineaModificarBean.busquedaSelectorTransporte.items}"
+                selected="#{contratoLineaModificarBean.recogidaTransporte}"
+                update=":growl,@(.RecogidaTransporteSeleccionable)"
+                actionListener="#{contratoLineaModificarBean.prepareSelectRecogidaTransporte}"
+            />            
+            <ui:include src="complemento-dialog.xhtml"/>
+            <ui:include src="gasto-adicional-dialog.xhtml"/>
+        </p:panel>
+    </ui:composition>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/poblacion"
+    
+>
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="updateId" />
+        </composite:interface> 
+        <composite:implementation>#{cc.attrs.updateId}
+            <h:panelGroup id="EditarDireccionPanel" styleClass="#{cc.attrs.updateId}">
+                <p:outputLabel value="No hay dirección" rendered="#{empty direccionEditController.direccion}"/>
+                <h:form id="EditarDireccionForm" rendered="#{not empty direccionEditController.direccion}">
+                    <h:panelGroup id="display">
+                        <div class="width-responsive">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Dirección" for="direccion" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="direccion" 
+                                        value="#{direccionEditController.direccion.direccion}" 
+                                        title="Dirección" 
+                                        required="true" 
+                                    />
+                                    <p:message for="direccion"></p:message>
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="direccion2" 
+                                        value="#{direccionEditController.direccion.direccion2}" 
+                                        title="Dirección2" 
+                                        required="false" 
+                                    />
+                                     <p:message for="direccion2"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Código Postal" for="codigoPostal" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="codigoPostal" 
+                                        value="#{direccionEditController.direccion.codigoPostal}" 
+                                        title="Código Postal" 
+                                        required="false" 
+                                    />
+                                    <p:message for="codigoPostal"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Poblacion" for="poblacion" />
+                                    <c:poblacionEditable
+                                        id="poblacion"
+                                        value="#{direccionEditController.direccion.poblacion}"
+                                        dialog="#{cc.id}SelectorPoblacion"
+                                        prepareAction="#{direccionEditController.prepareUpdatePoblacion}"
+                                        update="@(.direccionEditPanel-SelectorPoblacion)"
+                                        updateId="empresa-poblacionfiscal-dialogo-poblacion"
+                                    />
+                                    <p:message for="poblacion"></p:message>
+                                </div>
+                            </div>
+                            <div style="text-align: right; padding-top:16px">
+                                <p:commandButton 
+                                    class="boton boton-primary"
+                                    value="Cancelar"
+                                    oncomplete="#{cc.attrs.onCompleteCancelar}" 
+                                    immediate="true"
+                                    icon="fa fa-fw fa-close"
+                                />
+                                <p:commandButton 
+                                    class="boton boton-primary" 
+                                    value="Aceptar" 
+                                    actionListener="#{direccionEditController.onAceptar}" 
+                                    update="@parent,#{direccionEditController.update}" 
+                                    oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                    icon="fa fa-fw fa-check"
+                                />
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+                <c:poblacionSelectorDialog 
+                    id="#{cc.id}SelectorPoblacion"
+                    updateId="direccionEditPanel-SelectorPoblacion"
+                />
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

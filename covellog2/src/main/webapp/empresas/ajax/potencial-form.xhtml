@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/comercial"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa">
+    <ui:composition>
+        <h:form id="PotencialForm" style="border: none">   
+            <div class="ui-g">
+                <div class="ui-g-6 ui-md-6 ui-lg-6">
+                    <div>
+                        <p:outputLabel value="Comerciales" for="SelectorComercial" />
+                        <c:comercialesSeleccionable
+                            id="SelectorComercial"
+                            value="#{potencialController.model.potencial.comerciales}"
+                            dialog="PotencialComercialesPopup"
+                            update="@(.Potencial-ComercialesPopup)"
+                            updateId="Potencial-Comerciales"
+                            prepareAction="#{potencialController.prepareUpdateComerciales}"
+                        />
+                        <p:message for="SelectorComercial"/>
+                    </div>                    
+                    <div>
+                        <p:outputLabel value="Observaciones Internas" for="obsInternas" />
+                        <p:inputTextarea 
+                            class="cov-input"
+                            rows="2" 
+                            autoResize="false" 
+                            id="obsInternas" 
+                            value="#{potencialController.model.potencial.observaciones.obsInternas}" 
+                            title="Observaciones Internas"
+                            required="false"
+                            rendered="#{not empty potencialController.model.potencial.observaciones}"
+                        />
+                        <p:message for="obsInternas"/>
+                    </div>
+                    <div>
+                        <p:outputLabel value="Observaciones Públicas" for="obsPublicas" />
+                        <p:inputTextarea 
+                            class="cov-input"
+                            rows="2" 
+                            autoResize="false" 
+                            id="obsPublicas" 
+                            value="#{potencialController.model.potencial.observaciones.obsPublicas}" 
+                            title="Observaciones Públicas"
+                            required="false"
+                            rendered="#{not empty potencialController.model.potencial.observaciones}"
+                        />
+                        <p:message for="obsPublicas"/>
+                    </div>
+                </div>
+                <div class="ui-g-6 ui-md-6 ui-lg-6">
+                   <div>
+                        <e:contactosSeleccionable
+                            id="contactos"
+                            title="Contactos Potencial"
+                            value="#{potencialController.model.potencial.contactos}"
+                            dialog="PotencialContactosPopup"
+                            updateId="Potencial-Contactos"
+                            prepareUpdateAction="#{potencialController.prepareUpdateContactos}"
+                            update="@(.Potencial-ContactosPopup),:growl"
+                        />
+                    </div> 
+                </div>
+            </div>
+        </h:form>
+        <c:comercialesSelectorDialog
+            id="PotencialComercialesPopup"
+            updateId="Potencial-ComercialesPopup"          
+        />
+        <e:contactosSelectorDialog 
+            id="PotencialContactosPopup"
+            updateId="Potencial-ContactosPopup"
+        />
+    </ui:composition>
+</html>

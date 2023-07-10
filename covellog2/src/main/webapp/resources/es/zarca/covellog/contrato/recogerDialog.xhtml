@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}Dlg"
+                responsive="true"
+                widgetVar="#{cc.id}Dialog"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="Recoger Productos"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                styleClass="#{cc.attrs.updateId}"
+            >
+                <h:form id="RecogerProductosForm">
+                    <h:panelGroup id="display">
+                        <div>
+                            <div>
+                                <p:outputLabel value="Fecha" for="fecha" />
+                                <div style="padding:4px 0">
+                                    <p:inputText 
+                                        class="cov-input"
+                                        style="width:15em"
+                                        id="fecha" 
+                                        value="#{contratoRecogerBean.fecha}" 
+                                        title="Fecha" 
+                                        required="true"
+                                        requiredMessage="La fecha es obligatoria"
+                                    >
+                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET" />
+                                        <p:ajax 
+                                            event="change" 
+                                            listener="#{contratoRecogerBean.udpateCalendar}"
+                                            update="fechaPicker"
+                                        />
+                                    </p:inputText>
+                                    <p:message for="fecha"/>
+                                </div>
+                            </div>
+                            <div style="padding:2px 0">
+                                <p:datePicker 
+                                    id="fechaPicker" 
+                                    value="#{contratoRecogerBean.fechaPicker}" 
+                                    locale="es" 
+                                    monthNavigator="true"
+                                    pattern="dd-MM-yyyy"
+                                    inline="true"
+                                    styleClass="big"
+                                >
+                                    <p:ajax 
+                                        event="dateSelect" 
+                                        listener="#{contratoRecogerBean.udpateFecha}"
+                                        update="fecha"
+                                    />
+                                </p:datePicker>                                
+                                <div style="text-align: right; padding-top:16px">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        icon="fa fa-fw fa-close"
+                                        actionListener="#{contratoRecogerBean.cancelar}"
+                                        value="Cancelar"
+                                        oncomplete="closeDialog('#{cc.id}Dialog')"
+                                        immediate="true"
+                                    />
+                                    <p:commandButton
+                                        class="boton boton-primary"
+                                        icon="fa fa-fw fa-check"
+                                        actionListener="#{contratoRecogerBean.guardar}"
+                                        value="Aceptar"
+                                        update="Pestanas:LineasContratoForm:Lineas,RecogerProductosForm,:growl"
+                                        oncomplete="handleSubmit(args,'#{cc.id}Dialog');"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>  

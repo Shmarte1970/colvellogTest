@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="title" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="height" required="false" default="200px"/>
+        </composite:interface> 
+        <composite:implementation>            
+            <p:panel
+                header="#{cc.attrs.title} (#{cc.attrs.value.size()})"
+                styleClass="contactos-seleccionables-panel header-mediano #{cc.attrs.updateId}"
+            >
+                <h:panelGroup 
+                    layout="block"
+                    style="font-size:1.5em;padding:6px;text-align: center"
+                    rendered="#{cc.attrs.value.size() == 0}"
+                >
+                    <span>sin contactos</span>
+                </h:panelGroup>
+                <p:scrollPanel
+                    rendered="#{cc.attrs.value.size() > 0}"
+                    mode="native" 
+                    style="max-height: #{cc.attrs.height};padding:2px;border:none"
+                >
+                    <ui:repeat 
+                        value="#{cc.attrs.value}" 
+                        var="contacto"
+                        varStatus="estado"
+                    >
+                        <c:contacto 
+                            id="contacto"
+                            value="#{contacto}" 
+                        />
+                    </ui:repeat>
+                </p:scrollPanel>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:d="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="updateId" required="false"/>
+        </composite:interface>  
+        <composite:implementation>  
+            <p:panel 
+                id="direccion" 
+                header="Direccion" 
+                class="ui-inputfield cov-input" 
+                style="position:relative"
+                styleClass="contactos-seleccionables-panel header-mediano #{cc.attrs.updateId}"
+            >
+                <d:direccion value="#{cc.attrs.value}" />
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

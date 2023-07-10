@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ci="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/idioma"
+        >  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="onCompleteAceptar" />
+            <composite:attribute name="onCompleteCancelar" />
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface>  
+        <composite:implementation>
+            <h:panelGroup id="ContactoEditPanel" styleClass="#{cc.attrs.updateId}" >
+                <p:outputLabel value="No hay contacto" rendered="#{contactoEditController.contacto == null}"/>
+                <h:form id="ContactoEditForm" rendered="#{contactoEditController.contacto != null}">
+                    <p:defaultCommand target="GuardarButton"/>
+                    <h:panelGroup id="displayX">
+                        <div class="width-responsive">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Nombre" for="nombre" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="nombre" 
+                                        value="#{contactoEditController.contacto.nombre}" 
+                                        title="Nombre" 
+                                        required="true"
+                                        requiredMessage="El nombre es obligatorio"
+                                    />
+                                    <p:message for="nombre"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Apellidos" for="apellidos" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="apellidos" 
+                                        value="#{contactoEditController.contacto.apellidos}" 
+                                        title="Apellidos" 
+                                        required="false"
+                                    />
+                                    <p:message for="nombre"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Teléfono" for="telefono" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="telefono" 
+                                        value="#{contactoEditController.contacto.telefono}" 
+                                        title="Teléfono" 
+                                        required="false" 
+                                    />
+                                    <p:message for="telefono"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Teléfono 2" for="telefono2" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="telefono2" 
+                                        value="#{contactoEditController.contacto.telefono2}" 
+                                        title="Teléfono2" 
+                                        required="false" 
+                                    />
+                                    <p:message for="telefono2"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Email" for="email" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="email" 
+                                        value="#{contactoEditController.contacto.email}" 
+                                        title="Email" 
+                                        required="false" 
+                                    />
+                                    <p:message for="email"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Horario" for="horario" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="horario" 
+                                        value="#{contactoEditController.contacto.horario}" 
+                                        title="Horario" 
+                                        required="false" 
+                                    />
+                                    <p:message for="horario"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Idioma" for="idioma" />
+                                    <ci:idiomaSelector 
+                                        id="idioma"
+                                        value="#{contactoEditController.contacto.idioma}" 
+                                    />
+                                    <p:message for="idioma"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Descripción" for="descripcion" />
+                                    <p:inputText 
+                                        class="cov-input"
+                                        id="descripcion" 
+                                        value="#{contactoEditController.contacto.descripcion}" 
+                                        title="Email" 
+                                        required="false" 
+                                    />
+                                    <p:message for="descripcion"></p:message>
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                    <p:outputLabel value="Observaciones" for="observaciones" />
+                                    <p:inputTextarea 
+                                        class="cov-input"
+                                        rows="5" 
+                                        autoResize="false" 
+                                        id="observaciones" 
+                                        value="#{contactoEditController.contacto.observaciones}" 
+                                        title="Observaciones"
+                                        required="false"
+                                    />
+                                    <p:message for="observaciones"></p:message>
+                                </div>
+                            </div>
+                            <div style="text-align: right; padding-top:16px">
+                                <p:commandButton 
+                                    class="boton boton-primary"
+                                    value="Cancelar"
+                                    actionListener="#{contactoEditController.cancelar}"
+                                    immediate="true"
+                                    oncomplete="#{cc.attrs.onCompleteCancelar}"
+                                    icon="fa fa-fw fa-close"
+                                />
+                                <p:commandButton 
+                                    id="GuardarButton"
+                                    class="boton boton-primary" 
+                                    value="Guardar"
+                                    actionListener="#{contactoEditController.guardar}"
+                                    oncomplete="#{cc.attrs.onCompleteAceptar}"
+                                    update="displayX,:growl,#{contactoEditController.update}"
+                                    icon="fa fa-fw fa-save"
+                                />
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

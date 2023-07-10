@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="updateId" required="false" default=""/>
+            <composite:attribute name="numSerie" required="false" default=""/>
+            <composite:attribute name="stock" required="false" type="es.zarca.covellog.interfaces.facade.stock.dto.StockDto"/>
+            <composite:attribute name="ubicacion" required="false" type="es.zarca.covellog.interfaces.facade.ubicaciones.dto.UbicacionDto"/>
+            <composite:attribute name="tipoProducto" required="false" type="es.zarca.covellog.interfaces.facade.stock.dto.TipoProductoDto"/>
+            <composite:attribute name="lote" required="false" default=""/>
+            <composite:attribute name="updateId" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel
+                id="content" 
+                styleClass="#{cc.attrs.updateId}"
+                style="position: relative;min-height: 5em;padding:0px;border: none;text-align: left"
+            >
+                <div style="font-size:1.5em">
+                    <div jsf:rendered="#{not empty cc.attrs.numSerie}">
+                        <div class="my-row">
+                            <div class="my-col">
+                                <div style="padding: 0.15em 0">
+                                    <h:link 
+                                        class="app-codigo"
+                                        style="padding: 0.2em 0.2em 0.1em 0.2em;border-width: 3px;"
+                                        value="#{cc.attrs.numSerie}" 
+                                        outcome="/stock/gestion.xhtml"
+                                        onclick="event.stopPropagation()"
+                                    >
+                                        <f:param name="num_serie" value="#{cc.attrs.numSerie}" />
+                                    </h:link>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.5em">
+                            <i class="fa fa-location-dot" style="padding-right: 0.3em"></i>
+                            <p:outputLabel style="padding:0" value="Actual: #{cc.attrs.stock.ubicacion.nombre}" />
+                        </div>
+                    </div>
+                    <div jsf:rendered="#{empty cc.attrs.numSerie}">
+                        <strong>
+                            <p:outputLabel style="padding:0;color:red;font-style: italic" value="PENDIENTE ASIGNAR" />
+                        </strong>
+                    </div>
+                </div>             
+                <div style="padding-top:0.2em">                 
+                    <div style="font-size: 0.9em">
+                        <div style="float:left" jsf:rendered="#{not empty cc.attrs.ubicacion}">
+                            <i class="fa fa-fw fa-warehouse" style="padding-right: 0.1em"></i>
+                            #{cc.attrs.ubicacion.nombre}
+                            <div style="float:right;font-size: 1em;padding:0 0.5em;font-weight: bold;">
+                                <i class="fa-solid fa-circle-arrow-right"></i>
+                            </div>
+                        </div>
+                        
+                        <div style="float:left">
+                            #{cc.attrs.tipoProducto.familia.nombre}/#{cc.attrs.tipoProducto.id}
+                            <h:panelGroup rendered="#{!empty cc.attrs.lote}">
+                                <div>
+                                    <i>Lote: #{cc.attrs.lote}</i>
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

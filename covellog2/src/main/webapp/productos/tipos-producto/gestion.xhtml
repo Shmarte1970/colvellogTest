@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Gestión Tipos Productos"></h:outputText>
+        </ui:define>
+        <ui:define name="footer">
+        </ui:define>
+        <ui:define name="body">
+            <script type="text/javascript">
+               $(document).ready(function() {
+                  $("th > input:first").focus();
+               });
+            </script>
+            <p:panel id="panel-interior" header="Gestión Tipos Productos">
+                <h:form id="TipoListForm">
+                    <div style="text-align: right; padding:8px 0">
+                        <h:panelGroup id="PanelBotones">
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                id="mostrarOcultarBajasButton"
+                                icon="fa fa-fw #{gestionTipoProductoBean.mostrarBajas ? 'fa-eye-slash' : 'fa-eye'}" 
+                                value="#{gestionTipoProductoBean.mostrarBajas ? 'Ocultar Bajas' : 'Mostrar Bajas'}" 
+                                actionListener="#{gestionTipoProductoBean.invertirMostrarBajas}" 
+                                update=":growl,datalist,mostrarOcultarBajasButton" 
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary" 
+                                id="createButton" 
+                                icon="fa fa-fw fa-plus" 
+                                value="#{appBundle.Create}" 
+                                actionListener="#{gestionTipoProductoBean.prepareNuevo}" 
+                                update=":TipoEditDlg" 
+                                oncomplete="PF('TipoEditDialog').show()"
+                            />
+                            <p:commandButton 
+                                rendered="#{!empty gestionTipoProductoBean.selected}"
+                                class="boton boton-primary"
+                                id="editButton"
+                                icon="fa fa-fw fa-edit"
+                                value="#{appBundle.Edit}"
+                                actionListener="#{gestionTipoProductoBean.prepareModificar}"
+                                update=":TipoEditDlg"
+                                oncomplete="PF('TipoEditDialog').show()"
+                            />
+                            <p:commandButton 
+                                rendered="#{!empty gestionTipoProductoBean.selected and empty gestionTipoProductoBean.selected.fechaBaja}" 
+                                class="boton boton-error" id="deleteButton"
+                                icon="fa fa-fw fa-trash" 
+                                value="Baja" 
+                                actionListener="#{gestionTipoProductoBean.baja}" 
+                                update=":growl,TipoListForm:datalist,TipoListForm:PanelBotones"
+                            >                                
+                                <p:confirm header="Baja Tipo" message="¿Desea dar de baja el tipo de producto #{gestionTipoProductoBean.selected.id}?" icon="fa fa-fw fa-question-circle" />
+                            </p:commandButton>
+                            <p:commandButton 
+                                rendered="#{!empty gestionTipoProductoBean.selected and !empty gestionTipoProductoBean.selected.fechaBaja}"
+                                class="boton boton-success" 
+                                id="reactivarButton" 
+                                icon="fa fa-fw fa-trash" 
+                                value="Reactivar" 
+                                actionListener="#{gestionTipoProductoBean.anularBaja}" 
+                                update=":growl,TipoListForm:datalist,TipoListForm:PanelBotones"
+                            >                                
+                                <p:confirm header="Reactivar Tipo" message="¿Desea anular la baja del tipo de producto #{gestionTipoProductoBean.selected.id}?" icon="fa fa-fw fa-question-circle" />
+                            </p:commandButton>
+                            
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                                <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                            </p:confirmDialog>   
+                        </h:panelGroup>
+                    </div>
+                    <p:dataTable id="datalist" scrollRows="800" virtualScroll="true" reflow="false" 
+                            rowStyleClass="#{item.fechaBaja == null ? '' : 'row-roja'}" 
+                            scrollHeight="600"
+                            value="#{gestionTipoProductoBean.items}" 
+                            var="item"
+                            selectionMode="single"
+                            selection="#{gestionTipoProductoBean.selected}"
+                            rowKey="#{item.id}"
+                            lazy="true"
+                            emptyMessage="No se ha encontrado ningún registro."
+                            sortBy="#{item.id}"
+                            sortOrder="ascending"
+                            scrollable="false">           
+                       <p:ajax event="rowSelect"   update=":TipoListForm:createButton :TipoListForm:editButton :TipoListForm:deleteButton :TipoListForm:reactivarButton :TipoListForm:PanelBotones"/>
+                       <p:ajax event="rowUnselect" update=":TipoListForm:createButton :TipoListForm:editButton :TipoListForm:deleteButton :TipoListForm:reactivarButton :TipoListForm:PanelBotones"/>
+                       <p:column rendered="false">
+                           <f:facet name="header">
+                               <h:outputText value="id"/>       
+                           </f:facet>
+                           <h:outputText value="#{item.id}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.id}" filterMatchMode="contains" sortBy="#{item.id}">
+                           <f:facet name="header">
+                               <h:outputText value="Id"/>
+                           </f:facet>
+                           <h:outputText value="#{item.id}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.descripcion}" filterMatchMode="contains" sortBy="#{item.descripcion}">
+                           <f:facet name="header">
+                               <h:outputText value="Descripcion"/>
+                           </f:facet>
+                           <h:outputText value="#{item.descripcion}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.familia.nombre}" filterMatchMode="contains" sortBy="#{item.familia.nombre}">
+                           <f:facet name="header">
+                               <h:outputText value="Familia"/>
+                           </f:facet>
+                           <h:outputText value="#{item.familia.nombre}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.unidadMedida}" filterMatchMode="contains" sortBy="#{item.unidadMedida}">
+                           <f:facet name="header">
+                               <h:outputText value="U.Medida"/>
+                           </f:facet>
+                           <h:outputText value="#{item.unidadMedida}"/>
+                       </p:column>
+                       <p:column priority="1" resizable="true" filterBy="#{item.clase.nombre}" filterMatchMode="contains" sortBy="#{item.clase.nombre}">
+                           <f:facet name="header">
+                               <h:outputText value="Clase"/>
+                           </f:facet>
+                           <h:outputText value="#{item.clase.nombre}"/>
+                       </p:column>
+                       <p:column rendered="#{gestionTipoProductoBean.mostrarBajas}" priority="3" resizable="true" filterBy="#{item.fechaBaja}" filterMatchMode="contains" sortBy="#{item.fechaBaja}">
+                           <f:facet name="header">
+                               <h:outputText value="Fecha Baja"/>
+                           </f:facet>
+                           <h:outputText value="#{item.fechaBaja}"/>
+                       </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+            
+            <ui:include src="modificar-form-dialog.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

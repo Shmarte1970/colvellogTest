@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition>
+        <h:form id="DetallePropietarioStockForm">
+            <h:panelGroup id="display">
+                <div class="width-responsive">                    
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h2>Producto</h2>
+                            <s:stock
+                                rendered="#{detallePropietariosBean.model.stock != null}" 
+                                value="#{detallePropietariosBean.model.stock}" 
+                            />
+                            <h2>Propietario</h2>
+                            <e:empresa-compacta 
+                                rendered="#{detallePropietariosBean.propietario != null}" 
+                                value="#{detallePropietariosBean.propietario}" 
+                            />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6" style="text-align: right">    
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Cambiar Propietario"
+                                immediate="true"
+                                actionListener="#{detallePropietariosBean.prepareCambiarPropietario}" 
+                                update="DetallePropietarioCambiarDlg"
+                                oncomplete="PF('DetallePropietarioCambiarDialog').show()"
+                                icon="fa fa-fw fa-edit"
+                            />
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Deshacer ultimo cambio propietario"
+                                immediate="true"
+                                actionListener="#{detallePropietariosBean.deshacerUltimoCambioPropietario}" 
+                                update="display"
+                                icon="fa fa-fw fa-undo"
+                            >
+                                <p:confirm 
+                                    header="Deshacer ultimo cambio propietario" 
+                                    message="¿Esta seguro?" 
+                                    icon="fa fa-fw fa-question-circle" 
+                                />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                                <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <h2>Historico Propietarios</h2>
+                            <p:dataTable 
+                                id="propietariosAnterioresTable" 
+                                value="#{detallePropietariosBean.model.historico}" 
+                                var="item"
+                                emptyMessage="No hay informacion sobre propietarios anteriores."
+                                style="max-width: 1200px "
+                            >        
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Propietario"/>
+                                </f:facet>
+                                <h:outputText value="#{empty item.propietario.alias ? item.propietario.nombre : item.propietario.alias}"/>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                                width="120"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Inicio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaInicio}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                                width="120"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Fin"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaFin}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Palabras Clave"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tags}"/>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Observaciones"/>
+                                </f:facet>
+                                <h:outputText value="#{item.observaciones}"/>
+                            </p:column>
+                        </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+        <p:dialog 
+            id="DetallePropietarioCambiarDlg"
+            responsive="true"
+            widgetVar="DetallePropietarioCambiarDialog"
+            modal="true"
+            resizable="true"
+            appendTo="@(body)"
+            header="Cambiar Propietario" 
+            dynamic="true"
+            position="center center"
+            style="overflow:visible"
+            
+        >
+            <div id="dlg-content" style="max-height: 80vh"> 
+                <ui:include src="cambiarPropietario.xhtml"/>
+            </div>
+        </p:dialog>
+    </ui:composition>
+</html>

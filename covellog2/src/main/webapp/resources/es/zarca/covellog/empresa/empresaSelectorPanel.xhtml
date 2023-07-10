@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+>
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="onCompleteSeleccionar" />
+            <composite:attribute name="onCompleteCancelar" />
+        </composite:interface> 
+        <composite:implementation>
+            <h:panelGroup id="SelectorPoblacionPanel" styleClass="#{cc.attrs.updateId}">
+                <script type="text/javascript">
+                    $( document ).ready(function() {
+                        focusFirst();
+                        //onInputChangeTimeout($('#Panel\\:EmpresaSelectorPopup\\:EmpresaSelectorPopupPanel\\:EmpresaListForm\\:filtro-diagonal'), buscarJs);
+                        onInputChangeTimeout($('.empresa-filtro-diagonal'), buscarJs);
+                        //onWindowFocus(buscarJs);
+                    });
+                </script>
+                <h:form id="EmpresaListForm" rendered="#{not empty selectorEmpresaController.model}">
+                    <p:remoteCommand 
+                        name="buscarJs"
+                        update="listados,PanelBotones,:growl"
+                    />
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                                <p:autoUpdate />
+                            </p:messages>
+                            <p:selectManyCheckbox 
+                                id="selectTipo" 
+                                value="#{selectorEmpresaController.model.selectedTipoEmpresa}" 
+                                rendered="#{selectorEmpresaController.model.filtroRolEmpresa == FiltroRolEmpresa.TODAS}"
+                            >
+                                <p:ajax 
+                                    listener="#{selectorEmpresaController.model.actualizarBusqueda}" 
+                                    update="@parent,:growl"
+                                />
+                                <f:selectItem itemLabel="Proveedores" itemValue="PROVEEDOR"/>
+                                <f:selectItem itemLabel="Potenciales" itemValue="POTENCIAL" />
+                                <f:selectItem itemLabel="Clientes" itemValue="CLIENTE" />
+                            </p:selectManyCheckbox>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p:inputText 
+                                id="filtro-diagonal"
+                                styleClass="empresa-filtro-diagonal"
+                                value="#{selectorEmpresaController.model.filtro}" 
+                                title="Filtro"
+                                placeholder="Filtro"
+                                autocomplete="off"
+                            />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h:panelGroup id="PanelBotones" layout="block" style="text-align: right" styleClass="panel-botones-seleccion">
+                                <p:commandButton
+                                    class="boton boton-primary"
+                                    id="cancelButton"
+                                    value="Cancelar"
+                                    actionListener="#{selectorEmpresaController.onCancelar}"
+                                    update=":growl,#{selectorEmpresaController.onCancelarUpdate}"
+                                    oncomplete="#{cc.attrs.onCompleteCancelar}"
+                                    immediate="true"
+
+                                /> 
+                                <p:commandButton
+                                    disabled="#{selectorEmpresaController.selected == null}"
+                                    class="boton boton-primary"
+                                    id="selectButton"
+                                    value="Seleccionar"
+                                    actionListener="#{selectorEmpresaController.onSeleccionar}"
+                                    update=":growl,#{selectorEmpresaController.onSeleccionarUpdate}"
+                                    oncomplete="#{cc.attrs.onCompleteSeleccionar}"
+                                    immediate="true"
+                                /> 
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <h:panelGroup 
+                        layout="block"
+                        id="listados"
+                    >
+                        <h:panelGroup layout="block" class="ui-g" rendered="#{empty selectorEmpresaController.model.filtro}">
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <p:remoteCommand name="updateRowCount" update="ListadoPanel:Panel"/>
+                                <e:selectorDataTable
+                                    id="ListadoPanel" 
+                                    value="#{selectorEmpresaController.model.items}"
+                                    header="Empresas #{selectorEmpresaController.model.items.rowCount}/#{selectorEmpresaController.model.items.rowCountSinFiltrar}"
+                                    height="#{viewController.contentHeight-230}"
+                                    changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                    onSelectionUpdate="#{selectorEmpresaController.onSeleccionarUpdate}"
+                                    onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                    onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                />
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup 
+                            layout="block"
+                            rendered="#{not empty selectorEmpresaController.model.filtro}"
+                            class="ui-g"
+                        >
+                            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                <h:panelGroup 
+                                    layout="block"
+                                    style="font-size:1.5em;font-weight: bold;padding:20px;text-align: center"
+                                    rendered="#{not selectorEmpresaController.model.hayResultadosDiagonal}"
+                                >
+                                    <span>No hay resultados</span>
+                                </h:panelGroup>
+                                <ui:repeat 
+                                    value="#{selectorEmpresaController.model.itemsDiagonalKeys}" 
+                                    var="key"
+                                    varStatus="estado"
+                                >
+                                    <p:remoteCommand name="updateRowCount#{estado.index}" update="ListadoPanel:Panel"/>
+                                    <e:selectorDataTable
+                                        id="ListadoPanel"
+                                        value="#{selectorEmpresaController.model.itemsDiagonal[key]}"
+                                        rendered="#{selectorEmpresaController.model.itemsDiagonal[key].rowCountSinSubFiltro > 0}"
+                                        header="#{empresasBundle[key]} &quot;#{selectorEmpresaController.model.filtro}&quot; (#{selectorEmpresaController.model.itemsDiagonal[key].rowCount}/#{selectorEmpresaController.model.itemsDiagonal[key].rowCountSinSubFiltro})" 
+                                        style="margin-bottom:2em"
+                                        onFilter="updateRowCount#{estado.index}()"
+                                        height="250"
+                                        changeSelectionUpdate="@(.panel-botones-seleccion)"
+                                        onSelectionUpdate="#{selectorEmpresaController.onSeleccionarUpdate}"
+                                        onCompleteSeleccionar="#{cc.attrs.onCompleteSeleccionar}"
+                                        onCompleteCancelar="#{cc.attrs.onCompleteCancelar}" 
+                                    /> 
+                                </ui:repeat>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+            </h:panelGroup>
+        </composite:implementation>  
+    </h:body>  
+</html>  

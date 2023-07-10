@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+    <ui:composition>
+        <h:form id="DetalleEstadoStockForm">
+            <h:panelGroup id="display">
+                <div class="width-responsive">                    
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h2>Producto</h2>
+                            <s:stock
+                                rendered="#{historicoEstadosBean.model.stock != null}" 
+                                value="#{historicoEstadosBean.model.stock}" 
+                            />
+                            <h2>Estado</h2>
+                            <s:estadoStock 
+                                rendered="#{historicoEstadosBean.estado != null}" 
+                                value="#{historicoEstadosBean.estado}" 
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <h2>Historico Estados</h2>
+                            <p:dataTable 
+                                id="estadosAnterioresTable" 
+                                value="#{historicoEstadosBean.model.historico}" 
+                                var="item"
+                                emptyMessage="No hay informacion sobre estados anteriores."
+                                style="max-width: 1200px "
+                            >        
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Estado"/>
+                                </f:facet>
+                                <h:outputText value="#{item.estado.nombre}"/>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                                width="120"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Inicio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaInicio}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                                width="120"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Fin"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechaFin}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column 
+                                priority="1" 
+                                resizable="true"
+                            >
+                                <f:facet name="header">
+                                    <h:outputText value="Observaciones"/>
+                                </f:facet>
+                                <h:outputText value="#{item.observaciones}"/>
+                            </p:column>
+                        </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </h:form>
+        
+    </ui:composition>
+</html>

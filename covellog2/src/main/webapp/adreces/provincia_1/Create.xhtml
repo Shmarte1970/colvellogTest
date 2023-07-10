@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProvinciaCreateDlg" widgetVar="ProvinciaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{adrecesBundle.CreateProvinciaTitle}">
+            <h:form id="ProvinciaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{gestioProvinciaController.selected != null}">
+                        <p:outputLabel value="#{adrecesBundle.CreateProvinciaLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{gestioProvinciaController.selected.nom}" title="#{adrecesBundle.CreateProvinciaTitle_nom}" required="true" requiredMessage="#{adrecesBundle.CreateProvinciaRequiredMessage_nom}"/>
+                        <p:outputLabel value="#{adrecesBundle.CreateProvinciaLabel_codi}" for="codigo" />
+                        <p:inputText id="codigo" value="#{gestioProvinciaController.selected.codi}" title="#{adrecesBundle.CreateProvinciaTitle_codi}" required="true" requiredMessage="#{adrecesBundle.CreateProvinciaRequiredMessage_codi}"/>
+                        <p:outputLabel value="#{adrecesBundle.CreateProvinciaLabel_codiPostal}" for="codiPostal" />
+                        <p:inputText id="codiPostal" value="#{gestioProvinciaController.selected.codiPostal}" title="#{adrecesBundle.CreateProvinciaTitle_codiPostal}" required="true" requiredMessage="#{adrecesBundle.CreateProvinciaRequiredMessage_codiPostal}"/>
+                        <p:outputLabel value="#{adrecesBundle.CreateProvinciaLabel_pais}" for="pais" />
+                        <p:selectOneMenu id="pais" value="#{gestioProvinciaController.selected.pais}" required="true" requiredMessage="#{adrecesBundle.CreateProvinciaRequiredMessage_pais}">
+                            <f:selectItems value="#{gestioProvinciaController.paisosPosibles}"
+                                           var="paisItem"
+                                           itemLabel="#{paisItem.nom}"
+                                           itemValue="#{paisItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton class="boton boton-primary" actionListener="#{gestioProvinciaController.create}" value="#{adrecesBundle.Save}" update="display,:ProvinciaListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProvinciaCreateDialog');"/>
+                    <p:commandButton class="boton boton-primary" actionListener="#{gestioProvinciaController.cancelCreate}" value="#{adrecesBundle.Cancel}" onclick="ProvinciaCreateDialog.hide()" immediate="true"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

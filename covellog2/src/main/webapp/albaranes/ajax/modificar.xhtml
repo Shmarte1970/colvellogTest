@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:al="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/albaran"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/transporte"
+      xmlns:a="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/almacen"
+      xmlns:co="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+      xmlns:em="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:email="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/email"
+>
+    <ui:composition>
+        <p:panel 
+            id="panel-interior" 
+            header="Albaran #{modificarAlbaranBean.albaran.tipo.nombre} #{modificarAlbaranBean.albaran.codigoAlbaran}"
+            rendered="#{modificarAlbaranBean.albaran != null}"
+        >
+            <h:form id="AlbaranEditForm">
+                <h:panelGroup id="display">
+                    <div class="ui-g">
+                        <div class="ui-g-4 ui-md-4 ui-lg-4" style="text-align: left">
+                            <div class="app-estado app-estado-#{modificarAlbaranBean.estadoLowerCase}">
+                                <div class="my-row">
+                                    <div class="my-col">
+                                        <i class="fa-solid fa-truck" style="font-size:1.3em"></i>
+                                    </div>
+                                    <div class="my-col" style="margin-left:0.5em">
+                                        #{modificarAlbaranBean.albaran.estado}
+                                        <div style="font-size:0.7em">Desde</div>
+                                        <div style="font-size:0.8em;padding-left: 0.5em">
+                                            <h:outputText value="#{modificarAlbaranBean.albaran.estadoFecha}">
+                                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"/>
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-8 ui-md-8 ui-lg-8" style="text-align: right">
+                            <p:commandButton
+                                rendered="#{modificarAlbaranBean.albaran.canAnular}"
+                                class="boton boton-error"
+                                value="Anular"
+                                immediate="true"
+                                actionListener="#{modificarAlbaranBean.anular}"
+                                update=":growl,:panel-interior"
+                                icon="fa fa-close"
+                            >
+                                <p:confirm header="Anular Albaran" message="¿Desea anular el albaran?" icon="fa fa-fw fa-question-circle" />
+                            </p:commandButton>
+                            <p:commandButton 
+                                class="boton boton-primary"
+                                value="Enviar Por Email"
+                                immediate="true"
+                                actionListener="#{modificarContratoBean.prepareEnviarEmail}"
+                                oncomplete="PF('EnviarEmailPopupDialog').show()"
+                                icon="fa fa-fw fa-envelope"
+                            />
+                            <p:commandButton
+                                class="boton boton-primary"
+                                value="Imprimir"
+                                actionListener="#{modificarAlbaranBean.imprimir}"
+                                onclick="this.form.target = '_blank'"
+                                ajax="false"
+                                immediate="true"
+                                icon="fa fa-print"
+                            />
+                            <p:commandButton
+                                rendered="#{modificarAlbaranBean.albaran.canReabrir}"
+                                class="boton boton-primary"
+                                value="Reabrir"
+                                immediate="true"
+                                actionListener="#{modificarAlbaranBean.reabrir}"
+                                update=":growl,:panel-interior"
+                                icon="fa fa-lock-open"
+                            />
+                            <p:commandButton
+                                rendered="#{modificarAlbaranBean.albaran.canActivar}"
+                                class="boton boton-primary"
+                                value="Activar"
+                                immediate="true"
+                                actionListener="#{modificarAlbaranBean.activar}"
+                                update=":growl,:panel-interior"
+                                icon="fa fa-share"
+                            />
+                            <p:commandButton
+                                rendered="#{modificarAlbaranBean.albaran.canFinalizar}"
+                                class="boton boton-primary"
+                                value="Finalizar"
+                                immediate="true"
+                                actionListener="#{modificarAlbaranBean.finalizar}"
+                                update=":growl,:panel-interior"
+                                icon="fa fa-flag-checkered"
+                            />
+                        </div>
+                    </div>  
+                    <div class="ui-g">
+                        <div class="ui-g-6 ui-md-6 ui-lg-6">
+                            <p:panel 
+                                header="Referencias" 
+                                styleClass="panel-datatable header-mediano" 
+                            >
+                                <div class="ui-panel-content">
+                                    <h:outputLabel value="Cliente" style="display:block" />
+                                    <div class="my-row" style="padding:0 1em">
+                                        <div class="my-col">
+                                            <h:link 
+                                                class="app-codigo"
+                                                outcome="/empresas/modificar.xhtml"
+                                                style="width:7em"
+                                            >
+                                                <i class="fa-solid fa-industry" style="font-size: 1.2em"></i>
+                                                #{modificarAlbaranBean.albaran.clienteFriendlyId}
+                                                <f:param name="id" value="#{modificarAlbaranBean.albaran.clienteId}" />
+                                            </h:link>
+                                        </div>
+                                        <div class="my-col" style="padding: 0 0.625em;">
+                                            <h:outputText 
+                                                style="display: block;font-size:0.9em"
+                                                value="#{modificarAlbaranBean.albaran.clienteCif}" 
+                                            />
+                                            <h:outputText 
+                                                style="display: block;font-weight: bold;font-size:1.1em"
+                                                value="#{modificarAlbaranBean.albaran.clienteNombre}" 
+                                            />
+                                        </div>
+                                    </div>
+                                    <h:outputLabel value="Contrato / Booking" style="display:block" />
+                                    <div class="my-row" style="padding:0 1em">
+                                        <div class="my-col">
+                                            <h:link 
+                                                class="app-codigo"
+                                                outcome="/contratos/modificar.xhtml"
+                                                style="width:7em"
+                                            >
+                                                <i class="fa-solid fa-file-contract" style="font-size: 1.2em;padding:0 0 0 0.2em"></i>
+                                                #{modificarAlbaranBean.albaran.contratoFriendlyId}
+                                                <f:param name="id" value="#{modificarAlbaranBean.albaran.contratoId}" />
+                                                <f:param name="tab" value="1" />
+                                            </h:link>
+                                        </div>
+                                        <div class="my-col" style="padding: 0 0.625em;">
+                                            <h:outputLabel
+                                                style="display: block;font-size:0.9em;font-weight:bold;padding:0"
+                                                value="Código Pedido Cliente" 
+                                            />
+                                            <h:outputText 
+                                                style="display: block;padding-left:0.5em;font-size:1em"
+                                                value="#{modificarAlbaranBean.albaran.contratoCodigoPedidoCliente}" 
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>
+                            <p:panel 
+                                header="Transporte" 
+                                style="margin-top: 8px"
+                                styleClass="panel-datatable header-mediano" 
+                            >
+                                <e:infoTransporteSeleccionable
+                                    id="transporte"
+                                    value="#{modificarAlbaranBean.albaran.transporte}"
+                                    dialog="TransporteSelectorPopup"
+                                    updateId="TransporteSeleccionable"
+                                    update="@(.ModificarAlbaran-TransporteSelector)"
+                                    onClickSusMedios="#{modificarAlbaranBean.onClickSusMedios}"
+                                    onClickSusMediosUpdate=":growl,panel-interior"
+                                    onClickSeleccionar="#{modificarAlbaranBean.prepareSelectTransporte}"
+                                    rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                />
+                                <e:infoTransporte                                 
+                                    value="#{modificarAlbaranBean.albaran.transporte}"
+                                    rendered="#{modificarAlbaranBean.albaran.estado != 'BORRADOR'}"
+                                    updateId="TransporteSeleccionable"
+                                />
+                            </p:panel>
+                        </div>
+                        <div class="ui-g-6 ui-md-6 ui-lg-6">
+                            <p:panel 
+                                header="Info" 
+                                styleClass="panel-datatable header-mediano" 
+                            >
+                                <div class="ui-g">
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <h:outputLabel value="Fecha" style="display: block" />
+                                        <h:outputText 
+                                            value="#{modificarAlbaranBean.albaran.fecha}"
+                                            style="display:block;padding-left:1em;font-size:1.2em;font-weight:bold">
+                                            <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET"/>  
+                                        </h:outputText>
+                                        <div jsf:rendered="#{empty modificarAlbaranBean.albaran.fecha}" class="ui-message-error">Asigne una fecha</div>
+                                        <h:outputLabel value="Texto Aviso" style="display: block" />
+                                        <h:outputText 
+                                            rendered="#{not empty modificarAlbaranBean.albaran.textoAviso}"
+                                            value="#{modificarAlbaranBean.albaran.textoAviso}"
+                                            style="display:block;padding-left:1em"
+                                        />
+                                        <h:outputText 
+                                            rendered="#{empty modificarAlbaranBean.albaran.textoAviso}"
+                                            value="Sin texto de aviso"
+                                            style="display:block;padding-left:1em"
+                                        />
+                                        <h:outputLabel value="Observaciones Internas" style="display: block" />
+                                        <h:outputText 
+                                            rendered="#{not empty modificarAlbaranBean.albaran.observaciones.obsInternas}"
+                                            value="#{modificarAlbaranBean.albaran.observaciones.obsInternas}"
+                                            style="display:block;padding-left:1em;height:2.25em"
+                                        />
+                                        <h:outputText 
+                                            rendered="#{empty modificarAlbaranBean.albaran.observaciones.obsInternas}"
+                                            value="Sin observaciones"
+                                            style="display:block;padding-left:1em;height:2.25em"
+                                        />                                 
+                                        <h:outputLabel value="Observaciones Públicas" style="display: block" />
+                                        <h:outputText 
+                                            rendered="#{not empty modificarAlbaranBean.albaran.observaciones.obsPublicas}"
+                                            value="#{modificarAlbaranBean.albaran.observaciones.obsPublicas}"
+                                            style="display:block;padding-left:1em;height:2.25em"
+                                        />
+                                        <h:outputText 
+                                            rendered="#{empty modificarAlbaranBean.albaran.observaciones.obsPublicas}"
+                                            value="Sin observaciones"
+                                            style="display:block;padding-left:1em;height:2.25em"
+                                        />
+                                    </div>
+                                </div>
+                                <div style="text-align:right">
+                                    <p:commandButton 
+                                        rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                        id="GuardarButton"
+                                        class="boton boton-primary" 
+                                        value="Editar"
+                                        actionListener="#{modificarAlbaranBean.prepareUpdate}"
+                                        oncomplete="openDialog('AlbaranEditDialog')"
+                                        update=":growl,@(.ModificarAlbaran-EditForm)"
+                                        icon="fa fa-fw fa-edit" 
+                                    />
+                                </div>
+                            </p:panel>
+                        </div>
+                    </div>  
+                    <div class="ui-g">
+                        <div class="ui-g-6 ui-md-6 ui-lg-6">
+                            <p:panel 
+                                header="Origen" 
+                                styleClass="panel-datatable header-mediano" 
+                                style="margin-top:8px;"
+                            >
+                                    <ub:ubicacion value="#{modificarAlbaranBean.albaran.origen}"/>
+                                    <div jsf:rendered="#{empty modificarAlbaranBean.albaran.origen}" class="ui-message-error">Asigne un origen</div>
+                                    <div style="text-align:right;padding-top:8px">
+                                        <p:commandButton 
+                                            rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                            class="boton boton-primary boton-peque" 
+                                            value="Seleccionar"
+                                            immediate="true"
+                                            actionListener="#{modificarAlbaranBean.prepareSelectOrigen}"                                            
+                                            icon="fa fa-fw fa-search"
+                                        />
+                                    </div>
+                            </p:panel>  
+                        </div>
+                        <div class="ui-g-6 ui-md-6 ui-lg-6">
+                            <p:panel 
+                                header="Destino"
+                                styleClass="panel-datatable header-mediano" 
+                                style="margin-top:8px"
+                            >                                    
+                                    <ub:ubicacion value="#{modificarAlbaranBean.albaran.destino}"/>
+                                    <div jsf:rendered="#{empty modificarAlbaranBean.albaran.destino}" class="ui-message-error">Asigne un destino</div>
+                                    <div style="text-align:right;padding-top:8px">
+                                        <p:commandButton 
+                                            rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                            class="boton boton-primary boton-peque" 
+                                            value="Seleccionar"
+                                            immediate="true"
+                                            icon="fa fa-fw fa-search"
+                                            actionListener="#{modificarAlbaranBean.prepareSelectDestino}"                                            
+                                        />
+                                    </div>
+                            </p:panel>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
+                            <p:panel 
+                                id="AlbaranLineasPanel"
+                                header="Lineas (#{modificarAlbaranBean.albaran.lineas.size()})" 
+                                styleClass="panel-datatable header-mediano" 
+                                style=""
+                            >
+                                <p:commandButton 
+                                    rendered="#{modificarAlbaranBean.albaran.canCrearReserva}"
+                                    disabled="#{not modificarAlbaranBean.canCrearReservaDeLineasSeleccionadas }"
+                                    class="boton boton-primary boton-peque"
+                                    value=" Crear #{modificarAlbaranBean.albaran.tipo.id == 'E' ? 'Entreguese' : 'Admitase'}"
+                                    partialSubmit="true"
+                                    icon="fa fa-fw fa-truck"
+                                    actionListener="#{modificarAlbaranBean.prepareReservar}"
+                                    update="@(.Reserva-EditForm)"
+                                    oncomplete="PF('ReservaPopupDialog').show()"
+                                />
+                                <p:commandButton 
+                                    rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                    disabled="#{empty modificarAlbaranBean.lineasSelecteds}"
+                                    class="boton boton-primary boton-peque"
+                                    value="Bajar"
+                                    partialSubmit="true"
+                                    icon="fa fa-fw fa-arrow-down"
+                                    actionListener="#{modificarAlbaranBean.lineasBajar}"
+                                    update="panel-interior"
+                                />
+                                <p:commandButton 
+                                    rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                    disabled="#{empty modificarAlbaranBean.lineasSelecteds}"
+                                    class="boton boton-primary boton-peque"
+                                    value="Subir"
+                                    partialSubmit="true"
+                                    icon="fa fa-fw fa-arrow-up"
+                                    actionListener="#{modificarAlbaranBean.lineasSubir}"
+                                    update="panel-interior"
+                                />
+                                <p:commandButton
+                                    rendered="#{modificarAlbaranBean.albaran.estado == 'BORRADOR'}"
+                                    disabled="#{empty modificarAlbaranBean.lineasSelecteds}"
+                                    class="boton boton-primary boton-peque"
+                                    value="Eliminar"    
+                                    partialSubmit="true"
+                                    icon="fa fa-fw fa-close"
+                                    actionListener="#{modificarAlbaranBean.lineasEliminar}"
+                                    update="panel-interior"
+                                >
+                                    <p:confirm header="Eliminar Linea" message="¿Desea eliminar la linea de albaran?" icon="fa fa-fw fa-question-circle" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                    <p:commandButton value="#{appBundle.Si}"  type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-fw fa-check" />
+                                    <p:commandButton value="#{appBundle.No}" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+                                </p:confirmDialog> 
+                                <p:scrollPanel 
+                                    mode="native" 
+                                    rendered="#{not empty modificarAlbaranBean.albaran.lineas}"
+                                    style="max-height:60vh;border:none"
+                                >
+                                    <p:selectManyMenu 
+                                        style="width:100%;box-sizing:border-box" 
+                                        id="Lineas" 
+                                        converter="contratoAlbaranLineaConverter"
+                                        value="#{modificarAlbaranBean.lineasSelecteds}"
+                                        var="p"
+                                    >
+                                        <f:selectItems 
+                                            value="#{modificarAlbaranBean.albaran.lineas}"
+                                            var="item"
+                                            itemLabel="#{item}"
+                                            itemValue="#{item}"
+                                        />
+                                        <p:ajax
+                                            event="change"
+                                            update="AlbaranLineasPanel"
+                                        />
+                                        <p:column>
+                                            <co:lineaAlbaran value="#{p}"/>
+                                        </p:column>
+                                    </p:selectManyMenu>
+                                </p:scrollPanel>
+                            </p:panel>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:panel>
+        <e:transporteSelectorDialog
+            id="TransporteSelectorPopup"
+            updateId="ModificarAlbaran-TransporteSelector"
+            items="#{modificarAlbaranBean.busquedaSelectorTransporte.items}"
+            selected="#{modificarAlbaranBean.transporteSeleccionado}"
+            actionListener="#{modificarAlbaranBean.cambiarTransporte}"
+            update=":growl,@(.TransporteSeleccionable)"
+        />
+        <em:direccionEnvioSelectorDialog
+            id="DireccionEnvioSelectorPopup"
+            updateId="ModificarAlbaran-DireccionEnvioSelector"
+        />
+        <al:lineaContratoSelectorDialog
+            id="LineaContratoSelectorPopup"
+            updateId="LineaContratoSelectorDialog"
+            update=":growl,:panel-interior"
+        />
+        <a:almacenSelectorDialog
+            id="AlmacenSelectorPopup"
+            updateId="ModificarAlbaran-AlmacenSelector"
+        />
+        <al:albaranEditDialog
+            id="AlbaranEditDialog"
+            updateId="ModificarAlbaran-EditForm"
+            value="#{modificarAlbaranBean.editarInfoForm}"
+            actionListener="#{modificarAlbaranBean.onUpdate}"
+            update=":growl, AlbaranEditForm"
+        />
+        <al:reservaDialog
+            id="ReservaPopup"
+            updateId="Reserva-EditForm"
+            update=":growl, AlbaranEditForm"
+        />
+        <email:enviarEmailDialog
+            id="EnviarEmailPopup"
+            updateId="enviar-email"          
+        />
+    </ui:composition>
+</html>

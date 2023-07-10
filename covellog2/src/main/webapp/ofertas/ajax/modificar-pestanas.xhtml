@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+      xmlns:email="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/email"
+      xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
+>
+    <ui:composition>        
+        <p:panel id="panel-interior" header="Modificar Contrato #{modificarContratoBean.contrato.friendlyId}">
+            <h:panelGroup id="display">
+                <div class="width-responsive">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h:link 
+                                rendered="#{not empty modificarContratoBean.contrato.cliente}"
+                                style="display: block;text-decoration: none;"
+                                outcome="/empresas/modificar.xhtml"
+                                onclick="event.stopPropagation();"
+                            >
+                                <e:empresa-compacta
+                                    value="#{modificarContratoBean.contrato.cliente}"
+                                    updateId="empresa-header"
+                                    styleclass="iluminar-on-hover"
+                                />
+                                <f:param name="id" value="#{modificarContratoBean.contrato.cliente.id}" />
+                            </h:link>
+                            <e:empresa-compacta
+                                rendered="#{empty modificarContratoBean.contrato.cliente}"
+                                value="#{modificarContratoBean.contrato.cliente}"
+                                updateId="empresa-header"
+                                styleclass="iluminar-on-hover"
+                            />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p:panel style="text-align:left;min-height: 5rem">
+                                <div class="app-estado app-estado-#{modificarContratoBean.contrato.estado.toLowerCase()}">
+                                    <div class="my-row">
+                                        <div class="my-col">
+                                            <i class="fa-solid fa-file-contract" style="font-size:1.3em"></i>
+                                        </div>
+                                        <div class="my-col" style="margin-left:0.5em">
+                                            <div style="font-size:0.8em">Estado Contrato</div>
+                                            #{modificarContratoBean.contrato.estado}
+                                            <div style="font-size:0.7em">Desde</div>
+                                            <div style="font-size:0.8em;padding-left: 0.5em">
+                                                <h:outputText value="#{modificarContratoBean.contrato.estadoPagoFecha}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="app-estado app-estado-#{modificarContratoBean.contrato.estadoPago.toLowerCase()}">
+                                    <div class="my-row">
+                                        <div class="my-col">
+                                            <i class="fa-solid fa-euro-sign" style="font-size:1.3em"></i>
+                                        </div>
+                                        <div class="my-col" style="margin-left:0.5em">
+                                            <div style="font-size:0.8em">Pago</div>
+                                            #{modificarContratoBean.contrato.estadoPago}
+                                            <div style="font-size:0.7em">Desde</div>
+                                            <div style="font-size:0.8em;padding-left: 0.5em">
+                                                <h:outputText value="#{modificarContratoBean.contrato.estadoPagoFecha}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="app-auditoria">
+                                    <div class="my-row">
+                                        <div class="my-col">
+                                            <i class="fa fa-calendar-days" style="font-size:1.3em"></i>
+                                        </div>
+                                        <div class="my-col" style="margin-left:0.5em">
+                                            <div style="padding:0 0">
+                                                <div style="font-size:0.8em">Fecha creacion</div>
+                                                <div style="font-size:0.8em;padding-left: 0.5em">
+                                                    <h:outputText value="#{modificarContratoBean.contrato.auditoria.createdDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                                    </h:outputText>
+                                                </div>
+                                            </div>
+                                            <div style="padding:0 0">
+                                                <div style="font-size:0.8em">Fecha modificacion</div>
+                                                <div style="font-size:0.8em;padding-left: 0.5em">
+                                                    <h:outputText 
+                                                        rendered="#{not empty modificarContratoBean.contrato.auditoria.updatedDate}"
+                                                        value="#{modificarContratoBean.contrato.auditoria.updatedDate}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                                    </h:outputText>
+                                                    <h:outputText 
+                                                        rendered="#{empty modificarContratoBean.contrato.auditoria.updatedDate}"
+                                                        value="Sin modificar">
+                                                    </h:outputText>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:panel>-
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
+                            <h:form id="ContratoModificarForm">
+                                <p:commandButton 
+                                    id="menuContratoButton"
+                                    class="boton boton-primary"
+                                    value="Contrato"
+                                    icon="fa fa-fw fa-bars"
+                                    immediate="true"
+                                />
+                                <p:menu
+                                    overlay="true"
+                                    trigger="menuContratoButton"
+                                    my="left top"
+                                    at="left bottom"
+                                    style="width:15em"
+                                >
+                                    <p:submenu label="Cliente">
+                                        <p:menuitem 
+                                            value="Cambiar Cliente"
+                                            immediate="true"
+                                            actionListener="#{modificarContratoBean.prepareSelectEmpresa}"
+                                            icon="fa fa-fw fa-user"
+                                            update=""
+                                            oncomplete="PF('EmpresaSelectorPopupDialog').show()"
+                                        />
+                                        <p:menuitem 
+                                            value="Traspasar"
+                                            immediate="true"
+                                            actionListener="#{modificarContratoBean.prepareTraspasar}"
+                                            oncomplete="PF('ContratoTraspasarPopupDialog').show()"
+                                            icon="fa fa-fw fa-share"
+                                        />
+                                    </p:submenu>                                    
+                                    <p:submenu label="Contrato">
+                                        <p:menuitem 
+                                            value="Activar"
+                                            immediate="true"
+                                            actionListener="#{modificarContratoBean.cancelar}"
+                                            icon="fa fa-fw fa-check"
+                                        />
+                                        <p:menuitem 
+                                            value="Eliminar"
+                                            immediate="true"
+                                            actionListener="#{modificarContratoBean.cancelar}"
+                                            icon="fa fa-fw fa-close"
+                                        />
+                                        <p:menuitem 
+                                            value="Imprimir PDF"
+                                            immediate="true"
+                                            actionListener="#{modificarContratoBean.imprimir}"
+                                            onclick="$('#ContratoModificarForm').attr('target', '_blank')"
+                                            ajax="false"
+                                            icon="fa fa-fw fa-print"
+                                        />
+                                        <p:menuitem 
+                                            value="Enviar Por Email"
+                                            immediate="true"
+                                            actionListener="#{modificarContratoBean.prepareEnviarEmail}"
+                                            oncomplete="PF('EnviarEmailPopupDialog').show()"
+                                            icon="fa fa-fw fa-envelope"
+                                        />
+                                        <p:menuitem 
+                                            value="Copiar Contrato"
+                                            immediate="true"
+                                            oncomplete="PF('ContratoTraspasarDialog').show()"
+                                            icon="fa fa-fw fa-copy"
+                                        />
+                                    </p:submenu>
+                                    <p:submenu label="Pago">
+                                        <p:menuitem 
+                                            value="Actualizar Estado Pago"
+                                            immediate="true"
+                                            oncomplete="PF('EstadoPagoModificarDialog').show()"
+                                            icon="pi pi-dollar"
+                                        />
+                                    </p:submenu>
+                                </p:menu>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            <p:messages id="messages" showSummary="false" showDetail="true" closable="true" for="messages">
+                                <p:autoUpdate />
+                            </p:messages>
+                            <h:form id="PestanasForm"></h:form>
+                           
+                            <p:tabView 
+                                id="Pestanas" 
+                                cache="false"
+                                dynamic="true"
+                                style="padding:0"
+                                activeIndex="#{modificarContratoBean.tabIndex}" 
+                            >
+                                <p:ajax event="tabChange" form="PestanasForm" listener="#{modificarContratoBean.onTabChange}" />
+                                <p:tab id="ResumenTab" title="Resumen" rendered="true">
+                                    <ui:include src="resumen.xhtml" rendered="#{modificarContratoBean.tabIndex == 0}"/>
+                                </p:tab>
+                                <p:tab id="GeneralTab" title="General" rendered="true">
+                                    <ui:include src="general.xhtml" rendered="#{modificarContratoBean.tabIndex == 1}"/>
+                                </p:tab>
+                                <p:tab id="LineasTab" title="Lineas" rendered="true">
+                                    <ui:include src="lineas.xhtml" rendered="#{modificarContratoBean.tabIndex == 2}"/>
+                                </p:tab>
+                                <p:tab id="PersonasTab" title="Personas" rendered="true">
+                                    <ui:include src="personas.xhtml" rendered="#{modificarContratoBean.tabIndex == 3}"/>
+                                </p:tab>
+                                <p:tab id="CondicionesTab" title="Condiciones" rendered="true">
+                                    <ui:include src="condiciones.xhtml" rendered="#{modificarContratoBean.tabIndex == 4}"/>
+                                </p:tab>
+                                <p:tab id="FacturacionTab" title="Datos Facturacion" rendered="true">
+                                    <ui:include src="facturacion.xhtml" rendered="#{modificarContratoBean.tabIndex == 5}"/>
+                                </p:tab>
+                                <p:tab id="DocumentacionTab" title="Documentacion" rendered="true">
+                                    <ui:include src="documentacion.xhtml" rendered="#{modificarContratoBean.tabIndex == 6}"/>
+                                </p:tab>
+                                <p:tab id="AlbaranesTab" title="Albaranes" rendered="true">
+                                    <ui:include src="albaranes.xhtml" rendered="#{modificarContratoBean.tabIndex == 7}"/>
+                                </p:tab>
+                                <p:tab id="FacturasTab" title="Facturas" rendered="true">
+                                </p:tab>
+                            </p:tabView>
+                        </div>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </p:panel>
+        <email:enviarEmailDialog
+            id="EnviarEmailPopup"
+            updateId="enviar-email"          
+        />
+        <e:empresaSelectorDialog
+            id="EmpresaSelectorPopup"
+            updateId="empresa-selector"          
+        />
+        <ui:include src="estado-pago-modificar.xhtml"/>
+        <c:contratoTraspasarDialog
+            id="ContratoTraspasarPopup"
+            updateId="ContratoTraspasarDialog"
+        /> 
+    </ui:composition>
+</html>

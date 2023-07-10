@@ -1,0 +1,42 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.albaran.dto.AlbaranDto"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel
+                id="content" 
+                styleClass="#{cc.attrs.updateId}"
+                style="min-height: 5em;padding:6px"
+            >
+                <div style="text-align:left">
+                    <div style="font-size:1.5em">
+                        <strong>
+                            <p:outputLabel style="padding:0" value="#{cc.attrs.value.codigoAlbaran}" />
+                        </strong>
+                    </div>
+                    <div style="font-size:1.5em">
+                        <strong>
+                            <h:outputText value="#{cc.attrs.value.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="CET"/>
+                            </h:outputText>
+                        </strong>
+                    </div>
+                    <div style="font-size:1.3em">
+                        TTE: #{cc.attrs.value.transporte.transportistaNombre}
+                    </div>
+                    <div>
+                        #{cc.attrs.value.origen.direccion.poblacion.nom} => #{cc.attrs.value.destino.direccion.poblacion.nom}
+                    </div>
+                </div>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

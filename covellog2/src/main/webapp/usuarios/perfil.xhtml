@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{modificarPerfilController.prepareUpdate}" />
+    </f:metadata>
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Perfil Usuario"></h:outputText>
+        </ui:define>
+        <ui:define name="footer">
+        </ui:define>
+        <ui:define name="body">
+            <p:panel id="panel-interior" header="Perfil Usuario">
+                <h:form id="PerfilUsuarioEditForm">
+                    <h:panelGroup id="display" rendered="#{modificarPerfilController.perfilUsuarioForm != null}">
+                        <div class="width-responsive" style="width:440px">
+                            <p:messages id="messages" showSummary="false" showDetail="true" closable="true">
+                                <p:autoUpdate />
+                            </p:messages>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                    <p:outputLabel value="Username" for="username" />
+                                </div>
+                                <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                    <p:inputText 
+                                        style="width:100%" 
+                                        id="username" 
+                                        value="#{modificarPerfilController.perfilUsuarioForm.username}" 
+                                        title="Username" 
+                                        required="true" 
+                                        requiredMessage="El username es obligatorio"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                    <p:outputLabel value="Nombre" for="nombre" />
+                                </div>
+                                <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                    <p:inputText 
+                                        style="width:100%" 
+                                        id="nombre" 
+                                        value="#{modificarPerfilController.perfilUsuarioForm.nombre}" 
+                                        title="Nombre" 
+                                        required="true" 
+                                        requiredMessage="El nombre es obligatorio"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                    <p:outputLabel value="Apellidos" for="apellidos" />
+                                </div>
+                                <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                    <p:inputText 
+                                        style="width:100%" 
+                                        id="apellidos" 
+                                        value="#{modificarPerfilController.perfilUsuarioForm.apellidos}" 
+                                        title="Apellidos" 
+                                        required="true" 
+                                        requiredMessage="Los apellidos son obligatorios"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
+                                    <p:outputLabel value="Email" for="email" />
+                                </div>
+                                <div class="ui-g-12 ui-md-9 ui-lg-9">
+                                    <p:inputText 
+                                        style="width:100%" 
+                                        id="email" 
+                                        value="#{modificarPerfilController.perfilUsuarioForm.email}" 
+                                        title="Email" 
+                                        required="true"
+                                        requiredMessage="El email es obligatorio"
+                                    />
+                                </div>
+                            </div>
+                            <div style="text-align: right; padding-top:16px">
+                                <p:commandButton 
+                                    class="boton boton-primary" 
+                                    icon="fa fa-fw fa-save" 
+                                    actionListener="#{modificarPerfilController.guardar}" 
+                                    value="Guardar" 
+                                    update="display,:growl" 
+                                />
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

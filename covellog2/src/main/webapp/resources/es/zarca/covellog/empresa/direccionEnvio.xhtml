@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
+    xmlns:d="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/direccion"
+>  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+        </composite:interface>  
+        <composite:implementation>  
+                <p:panel header="#{cc.attrs.value.id}: #{cc.attrs.value.nombre}" class="direccion-envio" styleClass="panel-datatable" >                    
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <div>
+                                <d:direccionPanelada value="#{cc.attrs.value.direccion}" />
+                            </div>
+                            <div style="margin-top: 0.5em">
+                                <p:panel header="Detalle" class="header-mediano">
+                                    <div><span>#{cc.attrs.value.descripcion}</span></div>
+                                    <div><span>Horario: </span><span>#{cc.attrs.value.horario}</span></div>
+                                    <div><p class="observaciones observaciones-internas">#{cc.attrs.value.observaciones.obsInternas}</p></div> 
+                                    <div><p class="observaciones">#{cc.attrs.value.observaciones.obsPublicas}</p></div> 
+                                </p:panel>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <c:contactos
+                                id="contactos"
+                                title="Contactos"
+                                value="#{cc.attrs.value.contactos}"
+                                updateId="DireccionEnvio-Contactos"
+                            />
+                        </div>
+                    </div>                    
+                </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

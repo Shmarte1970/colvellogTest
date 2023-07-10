@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+        
+    xmlns:f="http://xmlns.jcp.org/jsf/core">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.stock.dto.BookingMiniDatosTransversalesDto"/>
+            <composite:attribute name="updateId" required="false" default=""/>
+        </composite:interface>  
+        <composite:implementation>          
+            <p:panel 
+                id="content"                
+                styleClass="#{cc.attrs.updateId} panel-info"
+                style="position: relative;min-height: 4.5em"
+                header="#{cc.attrs.value.contratoFriendlyId} &nbsp;&nbsp;&nbsp;Ref.#{cc.attrs.value.booking}"
+            >
+                <p:outputPanel 
+                    layout="block" 
+                    style="font-style: italic;font-weight: bold" 
+                >
+                    <h:panelGroup 
+                        layout="block"
+                        rendered="#{not empty cc.attrs.value.stock}"
+                        style="font-size:1.5em"
+                    >
+                        #{cc.attrs.value.stock.numSerie}
+                    </h:panelGroup>
+                    <h:panelGroup 
+                        layout="block"
+                        rendered="#{empty cc.attrs.value.stock}"
+                        style="font-size:1.5em;color: darkred"
+                    >
+                        SIN ASIGNAR
+                    </h:panelGroup>
+                </p:outputPanel>
+                <div style="font-size:1em;padding-top:0.2em">
+                    <h:outputText 
+                        value="#{cc.attrs.value.fecha}"
+                        style="display:block;font-size:1.3em;font-weight:bold">
+                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET"/>  
+                    </h:outputText>
+                    <div>
+                        <span>
+                            #{cc.attrs.value.tipoProducto.familia.nombre} / #{cc.attrs.value.tipoProducto.id} / #{cc.attrs.value.tipoProducto.descripcion}
+                        </span>
+                    </div>
+                    <div>#{cc.attrs.value.lote}</div>
+                    <div class="app-estado #{cc.attrs.value.pagoEstado.id == 'PE' ? 'app-estado-anulado' : 'app-estado-fi'}">
+                        PAGO #{cc.attrs.value.pagoEstado.nombre}
+                    </div>
+                    <div style="text-align: right">
+                        <p:commandButton 
+                            class="boton boton-primary boton-peque" 
+                            icon="fa fa-fw fa-folder-open" 
+                            value="Contrato" 
+                            oncomplete="location.href='../contratos/modificar.xhtml?id=#{cc.attrs.value.contratoId}'"
+                        />
+                    </div>
+                </div>
+            </p:panel>
+        </composite:implementation>  
+    </h:body>  
+</html>  

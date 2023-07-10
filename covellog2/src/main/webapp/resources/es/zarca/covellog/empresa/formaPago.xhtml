@@ -1,0 +1,78 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">  
+    <h:body>  
+        <composite:interface>  
+            <composite:attribute name="value" required="true"/>
+            <composite:attribute name="updateId" required="true"/>
+            <composite:attribute name="seleccionados" required="false" type="java.util.List"/>
+            <composite:attribute name="listenerDoubleClick" required="false" method-signature="void actionListener()"/>
+            <composite:attribute name="oncompleteDoubleClick" required="false"/>
+            <composite:attribute name="updateDoubleClick" required="false"/>
+        </composite:interface>  
+        <composite:implementation>
+            <p:dataTable 
+                id="formaPago" 
+                value="#{cc.attrs.value.lineas}" 
+                var="item"
+                selectionMode="multiple"
+                selection="#{cc.attrs.seleccionados}"
+                rowKey="#{item.numLinea}"
+                lazy="false"
+                emptyMessage="Sin forma de pago"
+                widgetVar="formaPagoTable"
+                styleClass="#{cc.attrs.updateId}"
+            >         
+                <c:if test="#{not empty cc.attrs.oncompleteDoubleClick}">
+                    <p:ajax 
+                        event="rowDblselect"
+                        listener="#{cc.attrs.listenerDoubleClick}"
+                        oncomplete="#{cc.attrs.oncompleteDoubleClick}"
+                        update="#{cc.attrs.updateDoubleClick}">
+                    </p:ajax>
+                </c:if>    
+                <p:column width="5%">
+                    <f:facet name="header">
+                        <h:outputText value="%"/>
+                    </f:facet>
+                    <h:outputText value="#{item.porcentaje}%" style="float:right" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tipo Pago"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoPago.nombre}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Vencimiento"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoVencimiento.nombre}" />
+                </p:column>
+                <p:column width="10%">
+                    <f:facet name="header">
+                        <h:outputText value="Día Pago"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diaPago}" style="float:right" rendered="#{item.diaPago != null}"/>
+                    <h:panelGroup layout="block" style="width: 100%;text-align: center" rendered="#{item.diaPago == null}">
+                        Sin día pago
+                    </h:panelGroup>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cuenta"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuenta}" rendered="#{!empty item.cuenta}"/>
+                    <h:panelGroup layout="block" style="width: 100%;text-align: center" rendered="#{empty item.cuenta}">
+                        Sin cuenta
+                    </h:panelGroup>
+                </p:column>
+            </p:dataTable>
+            <p:message for="formaPago"></p:message>
+        </composite:implementation>  
+    </h:body>  
+</html>  

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"  
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+        
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>  
+        <composite:interface>
+            <composite:attribute name="updateId" required="true"/>
+        </composite:interface> 
+        <composite:implementation>
+            <p:dialog 
+                id="#{cc.id}Dlg"
+                responsive="true"
+                widgetVar="#{cc.id}Dialog"
+                modal="true"
+                resizable="false"
+                appendTo="@(body)"
+                header="#{contratoAsignarFechaBean.titulo}"
+                dynamic="true"
+                position="center center"
+                maximizable="false"
+                styleClass="#{cc.attrs.updateId}"
+            >
+                <h:form id="AsignarFechaForm">
+                    <h:panelGroup id="display">
+                        <div>
+                            <div>
+                                <p:outputLabel value="Fecha" for="fecha" />
+                                <div style="padding:4px 0">
+                                    <p:inputText 
+                                        class="cov-input"
+                                        style="width:15em"
+                                        id="fecha" 
+                                        value="#{contratoAsignarFechaBean.fecha}" 
+                                        title="Fecha" 
+                                        required="true"
+                                        requiredMessage="La fecha es obligatoria"
+                                    >
+                                        <f:convertDateTime pattern="dd-MM-yyyy" timeZone="CET" />
+                                        <p:ajax 
+                                            event="change" 
+                                            listener="#{contratoAsignarFechaBean.udpateCalendar}"
+                                            update="fechaPicker"
+                                        />
+                                    </p:inputText>
+                                    <p:message for="fecha"/>
+                                </div>
+                                <div style="padding:4px 0">
+                                    <p:outputLabel value="Hora" for="hora" />
+                                    <p:datePicker 
+                                        id="hora" 
+                                        class="cov-input" 
+                                        value="#{contratoAsignarFechaBean.hora}" 
+                                        timeOnly="true" 
+                                        pattern="HH:mm"
+                                        required="true"
+                                        requiredMessage="La hora es obligatoria"
+                                    />
+                                    <p:message for="hora"/>
+                                </div>
+                            </div>
+                            <div style="padding:2px 0">
+                                <p:datePicker 
+                                    id="fechaPicker" 
+                                    value="#{contratoAsignarFechaBean.fechaPicker}" 
+                                    locale="es" 
+                                    monthNavigator="true"
+                                    pattern="dd-MM-yyyy"
+                                    inline="true"
+                                >
+                                    <p:ajax 
+                                        event="dateSelect" 
+                                        listener="#{contratoAsignarFechaBean.udpateFecha}"
+                                        update="fecha"
+                                    />
+                                </p:datePicker>
+                                <div style="text-align: right; padding-top:16px">
+                                    <p:commandButton 
+                                        class="boton boton-primary"
+                                        icon="fa fa-fw fa-close"
+                                        actionListener="#{contratoAsignarFechaBean.cancelar}"
+                                        value="Cancelar"
+                                        oncomplete="closeDialog('#{cc.id}Dialog')"
+                                        immediate="true"
+                                    />
+                                    <p:commandButton
+                                        class="boton boton-primary"
+                                        icon="fa fa-fw fa-check"
+                                        actionListener="#{contratoAsignarFechaBean.guardar}"
+                                        value="Aceptar"
+                                        update="Pestanas:LineasContratoForm,AsignarFechaForm,:growl"
+                                        oncomplete="handleSubmit(args,'#{cc.id}Dialog');"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>  
+        </composite:implementation>  
+    </h:body>  
+</html>  
