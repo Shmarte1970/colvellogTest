@@ -1,11 +1,20 @@
 
+/*
 #top {
     position: relative;
-    background-color: #036fab;
+    background-color: #bedbf5;
     color: white;
-    padding: 5px;
-    margin: 0px 0px 10px 0px;
+    padding: 80px;
+    margin: 80px;
 }
+*/
+
+.top{
+    background-color:grey;
+    margin:80px;
+    color:black;
+}
+
 
 #bottom {
     position: relative;
@@ -37,6 +46,7 @@
 .left_content {
     background-color: #dddddd;
     padding: 5px;
+    margin-top: 120px;
     margin-left: 220px;
 }
 
@@ -45,6 +55,12 @@
     padding: 5px;
     margin: 0px 170px 0px 170px;
 }
+
+.menuitem, submenu, menuitem {
+    font-size: 16px;    
+}
+
+
 
 #top a:link, #top a:visited {
   color: white;

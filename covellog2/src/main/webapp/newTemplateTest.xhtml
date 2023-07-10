@@ -18,14 +18,16 @@
 
 
         <div id="top" class="top">
-            <ui:insert name="top">Top</ui:insert>
+            <ui:insert name="top">
+                <h1>Este es mi titulo</h1>
+            </ui:insert>
         </div>
         <div>
             <div id="left">
                 <ui:insert name="left">
                     <h:form>
                         <p:growl/>
-                        <p:tieredMenu>
+                        <p:tieredMenu class="menuitem">
                             <p:menuitem value="Gestion Zarca" />                                                             
 
                             <p:submenu label="Usuarios" icon="fa fa-fw fa-user">  
