@@ -7,40 +7,32 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Author     : Pedro Ríos
 */
 
- .container {
-            width: 300px;
-            margin: 0 auto;
-            margin-top: 100px;
-            background-color: #e0e9f0;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        }
         
-        .container h2 {
+        .Tituloh2 {
             text-align: center;
             color: #555;
         }
         
-        .form-group {
+        .form-groupGrid {
             margin-bottom: 20px;
+             
         }
         
-        .form-group label {
+        .form-groupLabel {
             display: block;
             color: #666;
             margin-bottom: 5px;
+            
         }
         
-        .form-group input[type="text"],
-        .form-group input[type="password"] {
+        .form-groupInput {
             width: 100%;
             padding: 10px;
             border-radius: 3px;
             border: 1px solid #ccc;
         }
         
-        .form-group button {
+        .form-groupButton {
             width: 100%;
             padding: 10px;
             border-radius: 3px;
@@ -50,6 +42,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
             cursor: pointer;
         }
         
-        .form-group button:hover {
+        .form-groupButton:hover {
             background-color: #3072af;
         }
