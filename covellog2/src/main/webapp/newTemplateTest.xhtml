@@ -10,6 +10,7 @@
         <h:outputStylesheet library="css" name="primeicons.css"/>
         <h:outputStylesheet library="css" name="default.css"/>
         <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="main.css"/>
         <h:outputStylesheet library="webjars" name="font-awesome/6.0.0/css/all-jsf.css" />
         <title>Facelets Template</title>
     </h:head>
@@ -31,6 +32,7 @@
                             <p:menuitem value="Gestion Zarca" />                                                             
 
                             <p:submenu label="Usuarios" icon="fa fa-fw fa-user">  
+                                <p:menuitem value ="Login" url="./faces/login.xhml" icon="fa fa-fw fa-user"/>
                                 <p:menuitem value="Modificar Perfil"  icon="fa fa-fw fa-user" />
                                 <p:menuitem value="Modificar Contraseña" icon="fa fa-fw fa-user" />
                             </p:submenu>

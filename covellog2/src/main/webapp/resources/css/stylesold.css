@@ -366,8 +366,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 
 
-
-@import url(//db.onlinewebfonts.com/c/86203afc717c0d2960e0b34fd4041e95?family=Ticking+Timebomb+BB);
+/*
+@import url(//db.onlinewebfonts.com/c/86203afc717c0d2960e0b34fd4041e95?family=Ticking+Timebomb+BB);*/
 @font-face {
     font-family: "Ticking Timebomb BB";
     src: url("//db.onlinewebfonts.com/t/86203afc717c0d2960e0b34fd4041e95.eot");
