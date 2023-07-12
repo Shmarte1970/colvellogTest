@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -41,9 +42,9 @@
                             </p:submenu>               
                             <p:submenu label="M&#243;dulo Ubicaci&#243;n"  icon="fa fa-solid fa-globe"  >                                                             
                                 <p:menuitem value="Gesti&#243;n Pa&#237;ses "  icon="fa fa-solid fa-globe" />  
-                                 <p:menuitem value="Gesti&#243;n Provincias "  icon="fa fa-solid fa-location-dot" />  
-                                 <p:menuitem value="Gesti&#243;n Pa&#237;ses "  icon="fa fa-solid fa-plane" />  
-                                        
+                                <p:menuitem value="Gesti&#243;n Provincias "  icon="fa fa-solid fa-location-dot" />  
+                                <p:menuitem value="Gesti&#243;n Pa&#237;ses "  icon="fa fa-solid fa-plane" />  
+
                             </p:submenu>      
                             <p:submenu label="Productos" icon="fa fa-brands fa-product-hunt">                                   
                                 <p:submenu label="Familias" icon="fa fa-solid fa-bars">
@@ -52,38 +53,43 @@
                                     <p:menuitem value="Reefers" icon="fa fa-solid fa-snowflake" />       
                                     <p:menuitem value="Varios" icon="fa fa-solid fa-diamond" />       
                                 </p:submenu>      
-                                    <p:menuitem value="Tipos" icon="fa fa-solid fa-business-time" />       
+                                <p:menuitem value="Tipos" icon="fa fa-solid fa-business-time" />       
                             </p:submenu>      
-                               <p:submenu label="Gesti&#243;n Comercial"  icon="fa fa-solid fa-at"  >                                                             
-                                <p:menuitem value="Ofertas"  icon="fa fa-solid fa-gift" />  
-                                 <p:menuitem value="Contratos"  icon="fa fa-brands fa-gitter" />  
-                                 <p:menuitem value="Albaranes "  icon="fa fa-solid fa-code-commit" />  
-                                 <p:menuitem value="Stock "  icon="fa fa-solid fa-gifts" />         
+                            <p:submenu label="Gesti&#243;n Comercial"  icon="fa fa-solid fa-at"  >                                                             
+                                <p:menuitem value="Ofertas" action="/faces/contratos/gestion.xhtml"  icon="fa fa-solid fa-gift" />  
+                                <p:menuitem value="Contratos"  icon="fa fa-brands fa-gitter" />  
+                                <p:menuitem value="Albaranes "  icon="fa fa-solid fa-code-commit" />  
+                                <p:menuitem value="Stock "  icon="fa fa-solid fa-gifts" />         
                             </p:submenu>     
-                                 <p:submenu label="Logistica"  icon="fa fa-solid fa-truck-fast"  >                                                             
+                            <p:submenu label="Logistica"  icon="fa fa-solid fa-truck-fast"  >                                                             
                                 <p:menuitem value="Entrada"  icon="fa fa-solid fa-right-to-bracket" />  
-                                 <p:menuitem value="Salida"  icon="fa fa-solid fa-right-from-bracket fa-rotate-180" />  
-                                 <p:menuitem value="Reservas"  icon="fa fa-solid fa-circle-xmark" />  
-                                 <p:menuitem value="Movimientos"  icon="fa fa-solid fa-gears" />         
-                                 <p:menuitem value="Almacenes"  icon="fa fa-solid fa-warehouse" />         
-                                 <p:menuitem value="Transportes"  icon="fa fa-solid fa-truck" />         
+                                <p:menuitem value="Salida"  icon="fa fa-solid fa-right-from-bracket fa-rotate-180" />  
+                                <p:menuitem value="Reservas"  icon="fa fa-solid fa-circle-xmark" />  
+                                <p:menuitem value="Movimientos"  icon="fa fa-solid fa-gears" />         
+                                <p:menuitem value="Almacenes"  icon="fa fa-solid fa-warehouse" />         
+                                <p:menuitem value="Transportes"  icon="fa fa-solid fa-truck" />         
                             </p:submenu>   
-                                  <p:submenu label="C R M"  icon="fa fa-solid fa-bookmark"  >                                                             
+                            <p:submenu label="C R M"  icon="fa fa-solid fa-bookmark"  >                                                             
                                 <p:menuitem value="Peticiones Contacto "  icon="fa fa-solid fa-id-badge" />  
-                                 <p:menuitem value="Oportunidades "  icon="fa fa-solid fa-dice-d6 " />  
-                                 <p:menuitem value="Acciones "  icon="fa fa-solid fa-section " />  
-                                 <p:menuitem value="Importar"  icon="fa fa-solid fa-exclamation " />                                          
+                                <p:menuitem value="Oportunidades "  icon="fa fa-solid fa-dice-d6 " />  
+                                <p:menuitem value="Acciones "  icon="fa fa-solid fa-section " />  
+                                <p:menuitem value="Importar"  icon="fa fa-solid fa-exclamation " />                                          
                             </p:submenu>   
-                                                  
+
 
                         </p:tieredMenu>
                     </h:form>
                 </ui:insert>
             </div>
             <div id="content" class="left_content">
-                <ui:insert name="content">Content</ui:insert>
+                <ui:insert name="body">
+                        body
+                </ui:insert>
+
             </div>
         </div>
+
+
     </h:body>
 
 </html>
