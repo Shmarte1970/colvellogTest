@@ -41,6 +41,8 @@
     position: relative;
     background-color: #dddddd;
     padding: 5px;
+    width:300px;
+    height:600px;
 }
 
 .left_content {
