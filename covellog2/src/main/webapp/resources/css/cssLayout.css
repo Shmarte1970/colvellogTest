@@ -16,6 +16,12 @@
 }
 
 
+.button_save{
+    text-align: right;
+    padding-top: 0px;
+}
+
+
 #bottom {
     position: relative;
     background-color: #c2dfef;

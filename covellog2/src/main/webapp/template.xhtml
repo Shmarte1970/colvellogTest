@@ -13,10 +13,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <h:outputStylesheet library="css" name="primeicons.css"/>
         <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="float.css"/>
         <h:outputStylesheet library="css" name="cssLayout.css"/>
+        
         <h:outputStylesheet library="webjars" name="font-awesome/6.0.0/css/all-jsf.css" />
         <h:outputScript library="js" name="jsfcrud.js"/>
         <h:outputScript library="js" name="main.js" />
+        <h:outputScript library="js" name="popup.js"/>
 
         
         <!-- Fuente vintage relog Pedro -->
@@ -54,7 +57,7 @@
                             <p:menuitem value="Gestion Zarca" />                                                             
 
                             <p:submenu label="Usuarios" icon="fa fa-fw fa-user">  
-                                <p:menuitem value ="Login" action="login.xhtml"  icon="fa fa-fw fa-user" />                               
+                                <p:menuitem value="Login" action="login.xhtml"  icon="fa fa-fw fa-user" />                               
                                 <p:menuitem value="Modificar Perfil"  icon="fa fa-fw fa-user" />
                                 <p:menuitem value="Modificar Contraseña" icon="fa fa-fw fa-user" />
                             </p:submenu>
@@ -77,27 +80,36 @@
                                     <p:menuitem value="Reefers" icon="fa fa-solid fa-snowflake" />       
                                     <p:menuitem value="Varios" icon="fa fa-solid fa-diamond" />       
                                 </p:submenu>      
-                                <p:menuitem value="Tipos" icon="fa fa-solid fa-business-time" />       
+                                <p:menuitem value="Tipos" url="/covellog2-test-templates/faces/productos/tipos-producto/gestion.xhtml" icon="fa fa-solid fa-business-time" />       
                             </p:submenu>      
                             <p:submenu label="Gesti&#243;n Comercial"  icon="fa fa-solid fa-at"  >                                                             
-                                <p:menuitem value="Ofertas" url="/face/ofertas/gestion.xhtml" icon="fa fa-solid fa-gift" />  
-                                <p:menuitem value="Contratos"  icon="fa fa-brands fa-gitter" />  
-                                <p:menuitem value="Albaranes "  icon="fa fa-solid fa-code-commit" />  
-                                <p:menuitem value="Stock "  icon="fa fa-solid fa-gifts" />         
+                                <p:menuitem value="Ofertas" url="/covellog2-test-templates/faces/ofertas/gestion.xhtml" icon="fa fa-solid fa-gift" />  
+                                <p:menuitem value="Contratos"  url="/covellog2-test-templates/faces/contratos/gestion.xhtml" icon="fa fa-brands fa-gitter" />  
+                                <p:menuitem value="Albaranes "   url="/covellog2-test-templates/faces/albaranes/gestion.xhtml" icon="fa fa-solid fa-code-commit" />  
+                                <p:menuitem value="Stock " url="/covellog2-test-templates/faces/stock/gestion.xhtml"  icon="fa fa-solid fa-gifts" />         
                             </p:submenu>     
                             <p:submenu label="Logistica"  icon="fa fa-solid fa-truck-fast"  >                                                             
-                                <p:menuitem value="Entrada"  icon="fa fa-solid fa-right-to-bracket" />  
-                                <p:menuitem value="Salida"  icon="fa fa-solid fa-right-from-bracket fa-rotate-180" />  
-                                <p:menuitem value="Reservas"  icon="fa fa-solid fa-circle-xmark" />  
-                                <p:menuitem value="Movimientos"  icon="fa fa-solid fa-gears" />         
-                                <p:menuitem value="Almacenes"  icon="fa fa-solid fa-warehouse" />         
-                                <p:menuitem value="Transportes"  icon="fa fa-solid fa-truck" />         
+                                <p:menuitem value="Entrada" url="/covellog2-test-templates/faces/movimientos/entrada-asistida.xhtml" icon="fa fa-solid fa-right-to-bracket" />  
+                                <p:menuitem value="Salida" url="/covellog2-test-templates/faces/movimientos/salida-asistida.xhtml"  icon="fa fa-solid fa-right-from-bracket fa-rotate-180" />  
+                                <p:menuitem value="Reservas" url="/covellog2-test-templates/faces/reservas/gestion.xhtml" icon="fa fa-solid fa-circle-xmark" />  
+                                <p:menuitem value="Movimientos" url="/covellog2-test-templates/faces/movimientos/gestion.xhtml" icon="fa fa-solid fa-gears" />         
+                                <p:menuitem value="Almacenes" url="/covellog2-test-templates/faces/almacenes/gestion.xhtml" icon="fa fa-solid fa-warehouse" />         
+                                <p:menuitem value="Transportes" url="/covellog2-test-templates/faces/transportes/gestion.xhtml" icon="fa fa-solid fa-truck" />         
                             </p:submenu>   
                             <p:submenu label="C R M"  icon="fa fa-solid fa-bookmark"  >                                                             
-                                <p:menuitem value="Peticiones Contacto "  icon="fa fa-solid fa-id-badge" />  
-                                <p:menuitem value="Oportunidades "  icon="fa fa-solid fa-dice-d6 " />  
-                                <p:menuitem value="Acciones "  icon="fa fa-solid fa-section " />  
-                                <p:menuitem value="Importar"  icon="fa fa-solid fa-exclamation " />                                          
+                                <p:submenu label="Peticiones Contacto "  icon="fa fa-solid fa-id-badge" >  
+                                    <p:menuitem value = "Oportunidades" action="/peticiones-contacto/convertir-en-oportunidades" icon="fa fa-solid fa-star"/>
+                                    <p:menuitem value="Pendientes"  action="/peticiones-contacto/listado-pendientes" icon="fa fa-solid fa-check"/>
+                                    <p:menuitem value="Todas" action="/peticiones-contacto/listado" icon="fa fa-fw fa-list"  />
+                                    <p:menuitem value="GA Repartici&#243;n " action="/crm/algoritmo-reparticion-oportunidades/listado" icon="fa fa-solid fa-dice-d6 " />
+                                </p:submenu>
+                                
+                                <p:submenu label="Acciones "  icon="fa fa-solid fa-section " >  
+                                     <p:menuitem value="Crear Acci&#243;n" action="/proves/List" icon="fa fa-fw fa-plus" />
+                                    <p:menuitem value="Listar Peticiones" action="/proves/List" icon="fa fa-fw fa-list" />
+                                    <p:menuitem value="Listar Acciones" action="/proves/List" icon="fa fa-fw fa-list" />
+                                </p:submenu>
+                                <p:menuitem value="Importar" action="/proves/List"  icon="fa fa-solid fa-exclamation " />                                          
                             </p:submenu>   
 
 

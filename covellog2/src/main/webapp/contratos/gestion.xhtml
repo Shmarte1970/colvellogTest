@@ -4,13 +4,13 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
 >
-    <ui:composition template="/newTemplateTest.xhtml">
+    <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="Gestión Contratos"></h:outputText>
         </ui:define>
         <ui:define name="footer">
         </ui:define>
-        <ui:define name="content">
+        <ui:define name="body">
             <ui:include src="ajax/#{gestionContratosBean.accionActual}.xhtml"/>
         </ui:define>
     </ui:composition>

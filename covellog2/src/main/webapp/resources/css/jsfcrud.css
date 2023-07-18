@@ -543,8 +543,13 @@ label.ui-helper-hidden {
 
 .ui-panel-titlebar  {
     color: #d9edf7;
-    background-color:#3a87ad;
+    background-color:#0078b5;
     border:1px solid lightgray;
+}
+
+.ui-button {
+    background-color: #0078b5!important;
+    
 }
 
 .panel-datatable > .ui-panel-titlebar  {

@@ -40,7 +40,7 @@ function updateTime() {
 
 
 function openAlarmPopup() {
-    var hour = prompt("Ingrese la hora (0-12):");
+    var hour = prompt("Ingrese la hora (0-24):");
     var minute = prompt("Ingrese los minutos (0-59):");
     var message = prompt("Ingrese un mensaje para la alarma:");
     hour = parseInt(hour, 10);

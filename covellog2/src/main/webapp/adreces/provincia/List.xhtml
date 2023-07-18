@@ -22,7 +22,7 @@
                 <h:form id="ProvinciaListForm">
                     <div style="text-align: right; padding:8px 0">
                         <div style="float: right">
-                            <p:commandButton class="boton boton-primary" id="createButton" icon="fa fa-fw fa-plus" value="#{appBundle.Create}" actionListener="#{gestioProvinciaController.prepareCreate}" update=":ProvinciaCreateForm" oncomplete="PF('ProvinciaCreateDialog').show()"/>
+                            <p:commandButton class="boton boton-primary btn-abrir-pop" id="createButton" icon="fa fa-fw fa-plus" value="#{appBundle.Create}" actionListener="#{gestioProvinciaController.prepareCreate}" update=":ProvinciaCreateForm" oncomplete="PF('ProvinciaCreateDialog').show()"/>
                             <p:commandButton class="boton boton-primary" id="editButton" icon="fa fa-fw fa-edit" value="#{appBundle.Edit}" actionListener="#{gestioProvinciaController.prepareEdit}" update=":ProvinciaEditForm" oncomplete="PF('ProvinciaEditDialog').show()" disabled="#{empty gestioProvinciaController.selected}"/>
                             <p:commandButton class="boton boton-error" id="deleteButton" icon="fa fa-fw fa-trash"  value="#{appBundle.Delete}" actionListener="#{gestioProvinciaController.destroy}" update=":growl,ProvinciaListForm:datalist" disabled="#{empty gestioProvinciaController.selected}">                                
                                 <p:confirm header="Eliminar Población" message="¿Desea eliminar #{gestioProvinciaController.selected.nom}?" icon="fa fa-fw fa-question-circle" />
