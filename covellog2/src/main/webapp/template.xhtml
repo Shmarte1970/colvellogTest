@@ -12,8 +12,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <h:outputStylesheet library="css" name="primeicons.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
         <h:outputStylesheet library="webjars" name="font-awesome/6.0.0/css/all-jsf.css" />
-        <h:outputStylesheet library="css" name="app.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
         <h:outputScript library="js" name="main.js" />
 
@@ -28,13 +29,7 @@
             <div id="mi-layout-header">
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="Menu" onclick="showHideMenu()" icon="fa fa-fw fa-bars"/>
-                        <p:menuitem value="#{appBundle.Home}" outcome="/index" icon="fa fa-fw fa-home"/>
-                        <p:submenu label="#{appBundle.Maintenance}" icon="fa fa-fw fa-gear">
-                            <p:menuitem value="Pais" outcome="/adreces/pais/List.xhtml" />
-                            <p:menuitem value="Poblacio" outcome="/adreces/poblacio/List.xhtml" />
-                            <p:menuitem value="Provincia" outcome="/adreces/provincia/List.xhtml" />
-                        </p:submenu>
+                    
                             <f:facet name="options" >
                                 
                                 <div id="mi-layout-opciones">
@@ -43,16 +38,9 @@
                                         layout="block"
                                         id="viewControllerPanel" 
                                         styleClass="view-controller-panel"
-                                    >
-                                            
-                                    <p:outputLabel value="#{viewController.width}" style="margin-right:0.5em"/>
-                                    <p:outputLabel value="#{viewController.height}" style="margin-right:1em"/>
-                                    <p:outputLabel value="#{viewController.contentWidth}" style="margin-right:0.5em"/>
-                                    <p:outputLabel value="#{viewController.contentHeight}" style="margin-right:0.5em"/> -->
+                                    >                                                                              
                                 </h:panelGroup> 
-                                    <p:inputText style="margin:1px 10px 1px 1px;" placeholder="Search"/>
-                                    <p:commandButton type="button" value="#{appBundle.Search}" icon="fa fa-fw fa-search" style="margin-top: 0px !important"/>
-                                    Usuario: #{request.remoteUser} #{request.isUserInRole("ADMIN")} #{request.isUserInRole("USER")}
+                                  
                                 </div>
                             </f:facet>
                     </p:menubar>
@@ -60,71 +48,62 @@
             </div>
             <div id="mi-layout-menu">
                 <h:form>
-                     <p:panelMenu>
-                    <p:submenu label="Gestión Usuarios" icon="fa fa-fw fa-close" rendered="#{request.isUserInRole('ADMIN')}">
-                        <p:menuitem value="Gestión Usuarios" outcome="/usuarios/admin/lista.xhtml"  icon="fa fa-fw fa-user" />
-                    </p:submenu>
-                    <p:submenu label="Mí Perfil" icon="fa fa-fw fa-close">
-                        <p:menuitem value="Modificar Perfil" url="/covellog2/faces/usuarios/perfil.xhtml" icon="fa fa-fw fa-user" />
-                        <p:menuitem value="Modificar Contraseña" url="/covellog2/faces/usuarios/cambiar-password.xhtml" icon="fa fa-fw fa-user" />
-                    </p:submenu>
-                    <p:submenu label="Empresas">
-                        <p:menuitem value="Empresas" url="/covellog2/faces/empresas/gestion.xhtml" icon="fa fa-fw fa-gear" />
-                        <p:menuitem value="Potenciales" url="/covellog2/faces/empresas/gestion.xhtml?tipo=potenciales" icon="fa fa-fw fa-gear" />
-                        <p:menuitem value="Clientes" url="/covellog2/faces/empresas/gestion.xhtml?tipo=clientes" icon="fa fa-fw fa-gear" />
-                        <p:menuitem value="Proveedores" url="/covellog2/faces/empresas/gestion.xhtml?tipo=proveedores" icon="fa fa-fw fa-gear" />
-                    </p:submenu>
-                    <p:submenu label="#{adrecesBundle.ModulTitle}">
-                        <p:menuitem value="#{adrecesBundle.GestioPaisosTitle}" url="/covellog2/faces/adreces/pais/List.xhtml" icon="fa fa-fw fa-gear" />
-                        <p:menuitem value="#{adrecesBundle.GestioProvinciesTitle}" url="/covellog2/faces/adreces/provincia/List.xhtml" icon="fa fa-fw fa-gear" />
-                        <p:menuitem value="#{adrecesBundle.GestioPoblacionsTitle}" url="/covellog2/faces/adreces/poblacio/List.xhtml" icon="fa fa-fw fa-gear" />
-                    </p:submenu>
-                         
-                    <p:submenu label="Productos" icon="fa fa-fw fa-close">
-                        <p:menuitem value="Familias" url="/covellog2/faces/productos/familias/gestion.xhtml" icon="fa fa-fw fa-gear" />
-                        <p:menuitem value="Tipos" url="/covellog2/faces/productos/tipos-producto/gestion.xhtml" icon="fa fa-fw fa-gear  " />
-                    </p:submenu>
-                    <p:submenu label="Gestión Comercial" icon="fa fa-fw fa-close">
-                        <p:menuitem value="Ofertas" url="/covellog2/faces/ofertas/gestion.xhtml" icon="fa fa-fw fa-file-contract" />
-                        <p:menuitem value="Contratos" url="/covellog2/faces/contratos/gestion.xhtml" icon="fa fa-fw fa-file-contract" />
-                        <p:menuitem value="Albaranes" url="/covellog2/faces/albaranes/gestion.xhtml" icon="fa fa-fw fa-truck" />
-                        <p:menuitem value="Stock" url="/covellog2/faces/stock/gestion.xhtml" icon="fa fa-fw fa-boxes-stacked" />
-                    </p:submenu>
-                    <p:submenu label="Logística" icon="fa fa-fw fa-close">
-                        <p:menuitem value="Entrada" url="/covellog2/faces/movimientos/entrada-asistida.xhtml" icon="fa fa-fw fa-right-to-bracket" />
-                        <p:menuitem value="Salida" url="/covellog2/faces/movimientos/salida-asistida.xhtml" icon="fa fa-fw fa-right-from-bracket" />
-                        <p:menuitem value="Reservas" url="/covellog2/faces/reservas/gestion.xhtml" icon="fa fa-fw fa-book" />
-                        <p:menuitem value="Movimientos" url="/covellog2/faces/movimientos/gestion.xhtml" icon="fa fa-fw fa-share-from-square" />
-                        <p:menuitem value="Almacenes" url="/covellog2/faces/almacenes/gestion.xhtml" icon="fa fa-fw fa-warehouse" />
-                        <p:menuitem value="Transportes" url="/covellog2/faces/transportes/gestion.xhtml" icon="fa fa-fw fa-truck" />
-                    </p:submenu>
-                    <p:submenu label="CRM" icon="fa fa-fw fa-close">
-                        <p:submenu label="Peticiones Contacto">
-                            <p:menuitem value="Convertir en oportunidades" action="/peticiones-contacto/convertir-en-oportunidades" icon="fa fa-fw fa-cog" />
-                            <p:menuitem value="Pendientes" action="/peticiones-contacto/listado-pendientes" icon="fa fa-fw fa-list" />
-                            <p:menuitem value="Todas" action="/peticiones-contacto/listado" icon="fa fa-fw fa-list" />
-                            <p:menuitem value="Algoritmo Repartición" action="/crm/algoritmo-reparticion-oportunidades/listado" icon="fa fa-fw fa-cog" />
-                        </p:submenu>
-                        <p:submenu label="Oportunidades">
-                            <p:menuitem value="Crear Acción" action="/proves/List" icon="fa fa-fw fa-plus" />
-                            <p:menuitem value="Todas" action="/crm/oportunidades/listado" icon="fa fa-fw fa-list" />
-                            <p:menuitem value="Listado acciones" action="/proves/List" icon="fa fa-fw fa-list" />
-                            <p:menuitem value="Algoritmo Repartición" action="/crm/algoritmo-reparticion-oportunidades/listado" icon="fa fa-fw fa-cog" />
-                        </p:submenu>
-                        <p:submenu label="Acciones">
-                            <p:menuitem value="Crear Acción" action="/proves/List" icon="fa fa-fw fa-plus" />
-                            <p:menuitem value="Listado acciones pendientes" action="/proves/List" icon="fa fa-fw fa-list" />
-                            <p:menuitem value="Listado acciones" action="/proves/List" icon="fa fa-fw fa-list" />
-                        </p:submenu>
-                        <p:menuitem value="Importar" action="/proves/List" icon="fa fa-fw fa-user" />
-                    </p:submenu>
-                </p:panelMenu>
-            </h:form>
-               <h:form id="MenuForm">
-                    <p:commandButton id="closeSessionButton"  icon="fa fa-fw fa-close" value="#{adrecesBundle.CloseSession}" actionListener="#{sessionController.closeSession}"/>
-                    <p:commandButton id="logoutButton"  icon="fa fa-fw fa-close" value="Logout" action="#{authController.logout}"/>
-                    <p:commandButton id="migrarButton"  icon="fa fa-fw fa-close" value="Migracion" action="#{migracionController.migracion}"/>
-                </h:form>
+                    
+                    
+                    <p:tieredMenu class="menuitem">
+                            <p:menuitem value="Gestion Zarca" />                                                             
+
+                            <p:submenu label="Usuarios" icon="fa fa-fw fa-user">  
+                                <p:menuitem value ="Login" action="login.xhtml"  icon="fa fa-fw fa-user" />                               
+                                <p:menuitem value="Modificar Perfil"  icon="fa fa-fw fa-user" />
+                                <p:menuitem value="Modificar Contraseña" icon="fa fa-fw fa-user" />
+                            </p:submenu>
+                            <p:submenu label="Empresas "  icon="fa fa-solid fa-briefcase"  >                                                             
+                                <p:menuitem value="Empresas " url="/covellog2-test-templates/faces/empresas/modificar.xhtml" icon="fa fa-solid fa-briefcase" />                                  
+                                <p:menuitem value="Potenciales " url="/covellog2-test-templates/faces/empresas/gestion.xhtml?tipo=potenciales" icon="fa fa-solid fa-pencil" />        
+                                <p:menuitem value ="Clientes"  url="/covellog2-test-templates/faces/empresas/gestion.xhtml?tipo=clientes" icon="fa fa-solid fa-person"/>
+                                <p:menuitem value="Proveedores" url="/covellog2-test-templates/faces/empresas/gestion.xhtml?tipo=proveedores" icon="fa fa-solid fa-handshake"/>
+                            </p:submenu>               
+                            <p:submenu label="M&#243;dulo Ubicaci&#243;n"  icon="fa fa-solid fa-globe"  >                                                             
+                                <p:menuitem value="Gesti&#243;n Paises " url="/covellog2-test-templates/faces/adreces/pais/List.xhtml" icon="fa fa-solid fa-globe" />  
+                                <p:menuitem value="Gesti&#243;n Provincias "  url="/covellog2-test-templates/faces/adreces/provincia/List.xhtml"  icon="fa fa-solid fa-location-dot" />  
+                                <p:menuitem value="Gesti&#243;n Poblaciones "  url="/covellog2-test-templates/faces/adreces/poblacio/List.xhtml"  icon="fa fa-solid fa-plane" />  
+
+                            </p:submenu>      
+                            <p:submenu label="Productos" icon="fa fa-brands fa-product-hunt">                                   
+                                <p:submenu label="Familias" icon="fa fa-solid fa-bars">
+                                    <p:menuitem value="Modulares" icon="fa fa-solid fa-box" />       
+                                    <p:menuitem value="Contenedores" icon="fa fa-solid fa-cart-shopping" />       
+                                    <p:menuitem value="Reefers" icon="fa fa-solid fa-snowflake" />       
+                                    <p:menuitem value="Varios" icon="fa fa-solid fa-diamond" />       
+                                </p:submenu>      
+                                <p:menuitem value="Tipos" icon="fa fa-solid fa-business-time" />       
+                            </p:submenu>      
+                            <p:submenu label="Gesti&#243;n Comercial"  icon="fa fa-solid fa-at"  >                                                             
+                                <p:menuitem value="Ofertas" url="/face/ofertas/gestion.xhtml" icon="fa fa-solid fa-gift" />  
+                                <p:menuitem value="Contratos"  icon="fa fa-brands fa-gitter" />  
+                                <p:menuitem value="Albaranes "  icon="fa fa-solid fa-code-commit" />  
+                                <p:menuitem value="Stock "  icon="fa fa-solid fa-gifts" />         
+                            </p:submenu>     
+                            <p:submenu label="Logistica"  icon="fa fa-solid fa-truck-fast"  >                                                             
+                                <p:menuitem value="Entrada"  icon="fa fa-solid fa-right-to-bracket" />  
+                                <p:menuitem value="Salida"  icon="fa fa-solid fa-right-from-bracket fa-rotate-180" />  
+                                <p:menuitem value="Reservas"  icon="fa fa-solid fa-circle-xmark" />  
+                                <p:menuitem value="Movimientos"  icon="fa fa-solid fa-gears" />         
+                                <p:menuitem value="Almacenes"  icon="fa fa-solid fa-warehouse" />         
+                                <p:menuitem value="Transportes"  icon="fa fa-solid fa-truck" />         
+                            </p:submenu>   
+                            <p:submenu label="C R M"  icon="fa fa-solid fa-bookmark"  >                                                             
+                                <p:menuitem value="Peticiones Contacto "  icon="fa fa-solid fa-id-badge" />  
+                                <p:menuitem value="Oportunidades "  icon="fa fa-solid fa-dice-d6 " />  
+                                <p:menuitem value="Acciones "  icon="fa fa-solid fa-section " />  
+                                <p:menuitem value="Importar"  icon="fa fa-solid fa-exclamation " />                                          
+                            </p:submenu>   
+
+
+                        </p:tieredMenu>
+                    
+                   </h:form>
                 <ui:insert name="menu"/>
     
             </div>
