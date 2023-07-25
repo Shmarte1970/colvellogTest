@@ -83,7 +83,13 @@
                             </p:submenu>      
                             <p:submenu label="Gesti&#243;n Comercial"  icon="fa fa-solid fa-at"  >                                                             
                                 <p:menuitem value="Ofertas" url="/covellog2-test-templates/faces/ofertas/gestion.xhtml" icon="fa fa-solid fa-gift" />  
-                                <p:menuitem value="Contratos"  url="/covellog2-test-templates/faces/contratos/gestion.xhtml" icon="fa fa-brands fa-gitter" />  
+                                <p:submenu label="Contratos" icon="fa fa-brands fa-gitter" >
+                                    <p:menuitem value="Listar Contratos"  url="/covellog2-test-templates/faces/contratos/gestion.xhtml" icon="fa fa-brands fa-gitter" />  
+                                    <p:menuitem value="Imprimir PDF" immediate = "true" actionListener="#{modificarContratoBean.imprimir}" onclick="$('#ContratoModificarForm').attr('target', '_blank')" ajax="false" icon="fa fa-fw fa-print" />
+                                    <p:menuitem value="Enviar por Email" immediate="true" actionListener="#{modificarContratoBean.prepareEnviarEmail}"  oncomplete="PF('EnviarEmailPopupDialog').show()" icon="fa fa-fw fa-envelope" />
+                                    <p:menuitem value="Copiar Contrato" immediate="true" oncomplete="PF('ContratoTraspasarDialog').show()" icon="fa fa-fw fa-copy"/>
+                                </p:submenu>
+                                
                                 <p:menuitem value="Albaranes "   url="/covellog2-test-templates/faces/albaranes/gestion.xhtml" icon="fa fa-solid fa-code-commit" />  
                                 <p:menuitem value="Stock " url="/covellog2-test-templates/faces/stock/gestion.xhtml"  icon="fa fa-solid fa-gifts" />         
                             </p:submenu>     
