@@ -6,6 +6,8 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
 >  
+    
+    
     <h:body>  
         <composite:interface>  
             <composite:attribute name="value" required="true" type="es.zarca.covellog.interfaces.facade.ubicaciones.dto.UbicacionDto"/>
@@ -18,23 +20,23 @@
                 styleClass="#{cc.attrs.updateId} panel-info"
                 style="position: relative;min-height: 2em"
             >
-                <h:outputLabel value="Sin asignar" rendered="#{empty cc.attrs.value}"/>
+
+                <h:outputLabel  value="Sin asignar" rendered="#{empty cc.attrs.value}"/>
                 <ul class="datos" jsf:rendered="#{not empty cc.attrs.value}">
                     <li>
                         <h:outputText 
-                            value="#{cc.attrs.value.id}: #{cc.attrs.value.nombre}" 
-                            style="font-weight:bold"
+                             class="Direc_title" value="#{cc.attrs.value.id}: #{cc.attrs.value.nombre}"                                                  
                         />
                     </li>
                     <li>
                         <i class="fa fa-clock-o"></i>
-                        <h:outputText 
+                        <h:outputText class="font-size-18 font-style-italic padLeft025"
                             value="#{cc.attrs.value.horario}" 
-                            style="font-style:italic;padding-left: 0.25em"
+                            
                         />
                     </li>
-                    <li style="font-size:0.8em;">
-                        <ul style="padding-left:1em">
+                    <li class="padgLeft1">
+                        <ul class="font-size14">
                             <li jsf:rendered="#{not empty cc.attrs.value.direccion.direccion}">
                                 <h:outputText value="#{cc.attrs.value.direccion.direccion}"/>
                             </li>
@@ -50,40 +52,44 @@
                         </ul>
                     </li>
                     <li jsf:rendered="#{not empty cc.attrs.value.observaciones.obsInternas and cc.attrs.showContactos}">
-                        <h:outputText value="#{cc.attrs.value.observaciones.obsInternas}" style="font-size:0.7em;font-style:italic"/>
+                        <h:outputText value="#{cc.attrs.value.observaciones.obsInternas}" class="font-size-09 font-style-italic padgLeft1"/>
                     </li>
                     <li jsf:rendered="#{not empty cc.attrs.value.observaciones.obsPublicas and cc.attrs.showContactos}">
-                        <h:outputText value="#{cc.attrs.value.observaciones.obsPublicas}" style="font-size:0.7em;font-style:italic"/>
+                        <h:outputText value="#{cc.attrs.value.observaciones.obsPublicas}" class="font-size-09 font-style-italic padgLeft1"/>
                     </li>
                     <li jsf:rendered="#{not empty cc.attrs.value.contactos and cc.attrs.showContactos}">
                         <h:outputText 
                             rendered="#{empty cc.attrs.value.contactos}"
                             value="No hay contactos."
-                            style="font-size:0.7em;font-style:italic"
+                            class="font-size-09 font-style-italic padgLeft1"
                         />
                     </li>
                     <li widgetVar="#{cc.id}" id="#{cc.id}.contactos" jsf:rendered="#{not empty cc.attrs.value.contactos and cc.attrs.showContactos}" style="padding-top:0.2em">
                         <p:panel styleClass="panel-datatable header-mediano" toggleable="true" toggleTitle="Contactos" toggleableHeader="true" collapsed="true" header="Contactos">
-                        <ul style="padding-left:0.6em">
+                        <ul class="font-size-06">
                             <ui:repeat
                                 value="#{cc.attrs.value.contactos}"
                                 var="item"
                                 varStatus="estado"
                             >
                                 <li>
-                                    <div style="padding-left:0.1em;font-size:0.9em;display:inline-block">
-                                        <i class="fa fa-user" style="padding-right:0.3em"></i>
+                                    <div class="  font-size14" >                                    
+                                        <i class="fa fa-user padRight03 font-size14" ></i>                                        
                                         <h:outputText value="#{item.id}: #{item.nombre}"/>
                                         <h:outputText rendered="#{not empty item.descripcion}" value="(#{item.descripcion})"/>
-                                        <div style="padding-left:1em" jsf:rendered="#{not empty item.telefono or not empty item.telefono2}">
-                                            <i class="fa fa-phone" style="padding-right:0.4em"></i>
+                                        <div jsf:rendered="#{not empty item.telefono or not empty item.telefono2}">
+                                            <i class="fa fa-phone"></i>
                                             <h:outputText rendered="#{not empty item.telefono}" value="#{item.telefono}"/>
                                             <h:outputText rendered="#{not empty item.telefono2}" value=" - #{item.telefono2}"/>
                                         </div>
-                                        <div style="padding-left:1em" jsf:rendered="#{not empty item.email}">
-                                            <i class="fa fa-envelope" style="padding-right:0.3em"></i>
+                                        <div  jsf:rendered="#{not empty item.email}">
+                                            <i class="fa fa-envelope " ></i>
                                             <h:outputText value="#{item.email}"/>
                                         </div>
+                                        <div class="dpinline">
+                                            
+                                        </div>
+                                        
                                     </div>
                                 </li>
                             </ui:repeat>
@@ -91,7 +97,7 @@
                         </p:panel>    
                     </li>
                 </ul>
-                
+ 
             </p:panel>
         </composite:implementation>  
     </h:body>  

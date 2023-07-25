@@ -8,6 +8,7 @@
       xmlns:s="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/stock"
 
       xmlns:jsf="http://xmlns.jcp.org/jsf">
+    
     <ui:composition>
         <p:panel id="panel-interior" header="Gestión Contratos">
             <h:form id="ContratoListForm">
@@ -135,7 +136,7 @@
                         <div><h:outputText class="app-estado app-estado-#{item.estado.id}" value="#{item.estado.nombre}"/></div>
                     </p:column>
                     <p:column 
-                        priority="1" 
+                        priority="2"                         
                         resizable="true" 
                         width="100" 
                         filterBy="#{item.pagoEstado}" 

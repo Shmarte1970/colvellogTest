@@ -7,6 +7,8 @@
       xmlns:ub="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/ubicacion"
       xmlns:em="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
 >
+    
+
     <ui:composition>        
         <div>
             <h:form id="ContratoGeneralForm">
@@ -16,7 +18,7 @@
                             <div class="ui-g-6 ui-md-6 ui-lg-6">
                                 <div class="ui-g">
                                     <div class="ui-g-12 ui-md-12 ui-lg-12">
-                                        <p:outputLabel value="Fecha" for="fecha" />
+                                        <p:outputLabel  value="Fecha" for="fecha" />
                                         <p:datePicker 
                                             id="fecha"
                                             class="cov-input"
@@ -97,21 +99,25 @@
                                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                                         <p:outputLabel value="Dirección Envio"/>
                                         <p:panel 
-                                            styleClass="panel-datatable header-mediano contrato-direccion-envio" 
+                                            
                                             style="margin-top:8px"
                                         >
+                                            
+                                            
                                             <ub:ubicacion value="#{modificarContratoGeneralBean.direccionEnvio}"/>
-                                                <div style="text-align:right;padding-top:8px">
-                                                    <p:commandButton 
-                                                        class="boton boton-primary boton-peque" 
-                                                        value="Seleccionar"
-                                                        immediate="true"
-                                                        icon="fa fa-fw fa-search"
-                                                        actionListener="#{modificarContratoGeneralBean.prepareUpdateDireccionEnvio}"
-                                                        update="@(.ModificarContrato-DireccionEnvioSelector)"
-                                                        oncomplete="PF('DireccionEnvioSelectorPopupDialog').show()"
-                                                    />
-                                                </div>
+                                            
+                                            
+                                            <div class="texRight paddingtop8">
+                                                <p:commandButton 
+                                                    class="boton boton-primary boton-peque" 
+                                                    value="Seleccionar"
+                                                    immediate="true"
+                                                    icon="fa fa-fw fa-search"
+                                                    actionListener="#{modificarContratoGeneralBean.prepareUpdateDireccionEnvio}"
+                                                    update="@(.ModificarContrato-DireccionEnvioSelector)"
+                                                    oncomplete="PF('DireccionEnvioSelectorPopupDialog').show()"
+                                                />
+                                            </div>
                                         </p:panel>
                                     </div>
                                 </div>
