@@ -29,7 +29,7 @@
                         />
                     </li>
                     <li>
-                        <i class="fa fa-clock-o"></i>
+                        <i class="fa fa-clock-o"></i>                        
                         <h:outputText class="font-size-18 font-style-italic padLeft025"
                             value="#{cc.attrs.value.horario}" 
                             
@@ -65,25 +65,25 @@
                         />
                     </li>
                     <li widgetVar="#{cc.id}" id="#{cc.id}.contactos" jsf:rendered="#{not empty cc.attrs.value.contactos and cc.attrs.showContactos}" style="padding-top:0.2em">
-                        <p:panel styleClass="panel-datatable header-mediano" toggleable="true" toggleTitle="Contactos" toggleableHeader="true" collapsed="true" header="Contactos">
+                        <p:panel  styleClass="panel-datatable header-mediano" toggleable="true" toggleTitle="Contactos" toggleableHeader="true" collapsed="true" header="Contactos">
                         <ul class="font-size-06">
                             <ui:repeat
                                 value="#{cc.attrs.value.contactos}"
                                 var="item"
                                 varStatus="estado"
                             >
-                                <li>
-                                    <div class="  font-size14" >                                    
-                                        <i class="fa fa-user padRight03 font-size14" ></i>                                        
-                                        <h:outputText value="#{item.id}: #{item.nombre}"/>
+                                <li  class="padgLeft1">
+                                    <div class="  font-size14 " >                                    
+                                        <i class="fa fa-user padRight08 font-size14" ></i>                                        
+                                        <h:outputText value="#{item.nombre}"/>
                                         <h:outputText rendered="#{not empty item.descripcion}" value="(#{item.descripcion})"/>
                                         <div jsf:rendered="#{not empty item.telefono or not empty item.telefono2}">
-                                            <i class="fa fa-phone"></i>
+                                            <i class="fa fa-phone padRight08"></i>
                                             <h:outputText rendered="#{not empty item.telefono}" value="#{item.telefono}"/>
                                             <h:outputText rendered="#{not empty item.telefono2}" value=" - #{item.telefono2}"/>
                                         </div>
                                         <div  jsf:rendered="#{not empty item.email}">
-                                            <i class="fa fa-envelope " ></i>
+                                            <i class="fa fa-envelope padRight08 " ></i>
                                             <h:outputText value="#{item.email}"/>
                                         </div>
                                         <div class="dpinline">

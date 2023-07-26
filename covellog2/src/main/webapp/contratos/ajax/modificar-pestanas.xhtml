@@ -8,7 +8,7 @@
       xmlns:e="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/empresa"
       xmlns:email="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/email"
       xmlns:c="http://xmlns.jcp.org/jsf/composite/es/zarca/covellog/contrato"
->
+      >
     <ui:composition>        
         <p:panel id="panel-interior" header="Modificar Contrato #{modificarContratoBean.contrato.friendlyId}">
             <h:panelGroup id="display">
@@ -20,12 +20,12 @@
                                 rendered="#{not empty modificarContratoBean.contrato.cliente}"                                
                                 outcome="/empresas/modificar.xhtml"
                                 onclick="event.stopPropagation();"
-                            >
+                                >
                                 <e:empresa-compacta
                                     value="#{modificarContratoBean.contrato.cliente}"
                                     updateId="empresa-header"
                                     styleclass="iluminar-on-hover"
-                                />
+                                    />
                                 <f:param name="id" value="#{modificarContratoBean.contrato.cliente.id}" />
                             </h:link>
                             <e:empresa-compacta
@@ -33,76 +33,80 @@
                                 value="#{modificarContratoBean.contrato.cliente}"
                                 updateId="empresa-header"
                                 styleclass="iluminar-on-hover"
-                            />
+                                />
                         </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-6">
-                            <p:panel  class="bgcolorjs textLeft min-height5">
-                                <div class="app-estado app-estado-#{modificarContratoBean.contrato.estado.toLowerCase()}">
-                                    <div class="my-row">
-                                        <div class="my-col">
-                                            <i class="fa-solid fa-file-contract font-size-13" ></i>
-                                        </div>
-                                        <div class="my-col marleft05">
-                                            <div  class="font-size-08">Estado Contrato</div>
-                                            #{modificarContratoBean.contrato.estado}
-                                            <div  class="font-size-07">Desde</div>
-                                            <div class="font-size-08 padLeft05">
-                                                <h:outputText value="#{modificarContratoBean.contrato.estadoPagoFecha}">
-                                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
-                                                </h:outputText>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6" >
+                            <p:panel  class="bgcolorjs textLeft min-height5" >    
+                                <div>
+                                    <div class="app-estado app-estado-#{modificarContratoBean.contrato.estado.toLowerCase()}">
+                                        <div class="my-row">
+                                            <div class="my-col">
+                                                <i class="fa-solid fa-file-contract font-size-13 padLeft25" ></i>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="app-estado app-estado-#{modificarContratoBean.contrato.estadoPago.toLowerCase()}">
-                                    <div class="my-row">
-                                        <div class="my-col">
-                                            <i class="fa-solid fa-euro-sign font-size-13"></i>
-                                        </div>
-                                        <div class="my-col marleft05">
-                                            <div class="font-size-08 ">Pago</div>
-                                            #{modificarContratoBean.contrato.estadoPago}
-                                            <div class="font-size-07">Desde</div>
-                                            <div class="font-size-08 padLeft05">
-                                                <h:outputText value="#{modificarContratoBean.contrato.estadoPagoFecha}">
-                                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
-                                                </h:outputText>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="app-auditoria">
-                                    <div class="my-row">
-                                        <div class="my-col">
-                                            <i class="fa fa-calendar-days font-size-13"></i>
-                                        </div>
-                                        <div class="my-col padLeft05">
-                                            <div class="padding00">
-                                                <div class= "font-size-08">Fecha creacion</div>
-                                                <div class="font-size-08 padLeft05">
-                                                    <h:outputText value="#{modificarContratoBean.contrato.auditoria.createdDate}">
+                                            <div class="my-col marleft05">
+                                                <div  class="font-size-08">Estado Contrato</div>
+                                                #{modificarContratoBean.contrato.estado}
+                                                <div  class="font-size-09">Desde</div>
+                                                <div class="font-size-09 padLeft05">
+                                                    <h:outputText value="#{modificarContratoBean.contrato.estadoPagoFecha}">
                                                         <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
                                                     </h:outputText>
                                                 </div>
                                             </div>
-                                            <div class="padding00">
-                                                <div class="font-size-08">Fecha modificacion</div>
-                                                <div class="font-size-08 padLeft05">
-                                                    <h:outputText 
-                                                        rendered="#{not empty modificarContratoBean.contrato.auditoria.updatedDate}"
-                                                        value="#{modificarContratoBean.contrato.auditoria.updatedDate}">
+
+                                            <!-- Fecha creacion-->
+                                            <div class="my-col">
+                                                <i class="fa fa-calendar-days font-size-13 padLeft25"></i>
+                                            </div>
+
+                                            <div class="my-col padLeft05">
+                                                <div class="padding00">
+                                                    <div class= "font-size-09">Fecha creacion</div>
+                                                    <div class="font-size-09 padLeft05">
+                                                        <h:outputText value="#{modificarContratoBean.contrato.auditoria.createdDate}">
+                                                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                                        </h:outputText>
+                                                    </div>
+                                                </div>
+                                                <div class="padding00">
+                                                    <div class="font-size-09">Fecha modificacion</div>
+                                                    <div class="font-size-09 padLeft05">
+                                                        <h:outputText 
+                                                            rendered="#{not empty modificarContratoBean.contrato.auditoria.updatedDate}"
+                                                            value="#{modificarContratoBean.contrato.auditoria.updatedDate}">
+                                                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
+                                                        </h:outputText>
+                                                        <h:outputText 
+                                                            rendered="#{empty modificarContratoBean.contrato.auditoria.updatedDate}"
+                                                            value="Sin modificar">
+                                                        </h:outputText>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Opcion Pago  -->
+                                            <div class="my-col">
+                                                <i class="fa-solid fa-euro-sign font-size-13 padLeft25" ></i>
+                                            </div>
+
+                                            <div class="my-col marleft05">
+                                                <div class="font-size-08 ">Pago</div>
+                                                #{modificarContratoBean.contrato.estadoPago}
+                                                <div class="font-size-09">Desde</div>
+                                                <div class="font-size-09 padLeft05">
+                                                    <h:outputText value="#{modificarContratoBean.contrato.estadoPagoFecha}">
                                                         <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="CET"/>
-                                                    </h:outputText>
-                                                    <h:outputText 
-                                                        rendered="#{empty modificarContratoBean.contrato.auditoria.updatedDate}"
-                                                        value="Sin modificar">
                                                     </h:outputText>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+
+
+                                        </div>                                                                               
+                                    </div>                                                                           
                                 </div>
+
                             </p:panel>
+
                         </div>
                     </div>
                     <div class="ui-g">
@@ -114,15 +118,15 @@
                                     value="Contrato"
                                     icon="fa fa-fw fa-bars"
                                     immediate="true"
-                                />
+                                    />
                                 <p:menu
                                     overlay="true"
                                     trigger="menuContratoButton"
                                     my="left top"
                                     at="left bottom"
                                     class="width15"
-                                    
-                                >
+
+                                    >
                                     <p:submenu label="Cliente">
                                         <p:menuitem 
                                             value="Cambiar Cliente"
@@ -131,14 +135,14 @@
                                             icon="fa fa-fw fa-user"
                                             update=""
                                             oncomplete="PF('EmpresaSelectorPopupDialog').show()"
-                                        />
+                                            />
                                         <p:menuitem 
                                             value="Traspasar"
                                             immediate="true"
                                             actionListener="#{modificarContratoBean.prepareTraspasar}"
                                             oncomplete="PF('ContratoTraspasarPopupDialog').show()"
                                             icon="fa fa-fw fa-share"
-                                        />
+                                            />
                                     </p:submenu>                                    
                                     <p:submenu label="Contrato">
                                         <p:menuitem 
@@ -146,13 +150,13 @@
                                             immediate="true"
                                             actionListener="#{modificarContratoBean.cancelar}"
                                             icon="fa fa-fw fa-check"
-                                        />
+                                            />
                                         <p:menuitem 
                                             value="Eliminar"
                                             immediate="true"
                                             actionListener="#{modificarContratoBean.cancelar}"
                                             icon="fa fa-fw fa-close"
-                                        />
+                                            />
                                         <p:menuitem 
                                             value="Imprimir PDF"
                                             immediate="true"
@@ -160,20 +164,20 @@
                                             onclick="$('#ContratoModificarForm').attr('target', '_blank')"
                                             ajax="false"
                                             icon="fa fa-fw fa-print"
-                                        />
+                                            />
                                         <p:menuitem 
                                             value="Enviar Por Email"
                                             immediate="true"
                                             actionListener="#{modificarContratoBean.prepareEnviarEmail}"
                                             oncomplete="PF('EnviarEmailPopupDialog').show()"
                                             icon="fa fa-fw fa-envelope"
-                                        />
+                                            />
                                         <p:menuitem 
                                             value="Copiar Contrato"
                                             immediate="true"
                                             oncomplete="PF('ContratoTraspasarDialog').show()"
                                             icon="fa fa-fw fa-copy"
-                                        />
+                                            />
                                     </p:submenu>
                                     <p:submenu label="Pago">
                                         <p:menuitem 
@@ -181,7 +185,7 @@
                                             immediate="true"
                                             oncomplete="PF('EstadoPagoModificarDialog').show()"
                                             icon="pi pi-dollar"
-                                        />
+                                            />
                                     </p:submenu>
                                 </p:menu>
                             </h:form>
@@ -193,14 +197,14 @@
                                 <p:autoUpdate />
                             </p:messages>
                             <h:form id="PestanasForm"></h:form>
-                           
+
                             <p:tabView 
                                 id="Pestanas" 
                                 cache="false"
                                 dynamic="true"
                                 class="padding0"                                
                                 activeIndex="#{modificarContratoBean.tabIndex}" 
-                            >
+                                >
                                 <p:ajax event="tabChange" form="PestanasForm" listener="#{modificarContratoBean.onTabChange}" />
                                 <p:tab id="ResumenTab" title="Resumen" rendered="true">
                                     <ui:include src="resumen.xhtml" rendered="#{modificarContratoBean.tabIndex == 0}"/>
@@ -237,15 +241,15 @@
         <email:enviarEmailDialog
             id="EnviarEmailPopup"
             updateId="enviar-email"          
-        />
+            />
         <e:empresaSelectorDialog
             id="EmpresaSelectorPopup"
             updateId="empresa-selector"          
-        />
+            />
         <ui:include src="estado-pago-modificar.xhtml"/>
         <c:contratoTraspasarDialog
             id="ContratoTraspasarPopup"
             updateId="ContratoTraspasarDialog"
-        /> 
+            /> 
     </ui:composition>
 </html>

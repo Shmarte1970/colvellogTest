@@ -181,9 +181,7 @@ marleft1{
     font-size:1.5em;
 }
 
-.font-size14{
-    font-size: 14px;
-}
+
 
 .font-size-18{
     font-size: 18px;
@@ -289,6 +287,10 @@ font-size18{
     padding-right: 0.4em;
 }
 
+.padRight08{
+    padding-right: 0.8em;
+}
+
 .padgLeft01{
 padding-left: 0.1em;    
 }
@@ -334,13 +336,15 @@ padding-left: 0.1em;
     padding-left: 0.25em;
 }
 
+.padLeft25{
+    padding-left:25px;
+}
+    
+
 
 .txAlingCenter{
     text-align: center;
 }
-
-
-
 
 
 .marco-183{
@@ -453,7 +457,7 @@ padding-left: 0.1em;
 }
 
 .min-height5{
-    min-height: 5rem;
+    min-height: 5.2rem;
 }
 
 /*
