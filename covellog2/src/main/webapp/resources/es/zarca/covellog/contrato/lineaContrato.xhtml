@@ -140,41 +140,42 @@
                                 </h:panelGroup>
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.fechaEntrega}">
                                     <div class ="dpflex  jutbetwen">
-                                        <span style="padding-left:1em">Real: </span>
-                                        <h:outputText value="#{cc.attrs.value.fechaEntrega}" style="padding-left:0.5em;font-size:1.2em">
+                                        <span class="padgLeft1">Real: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaEntrega}" class="padgLeft05 font-size-12">
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm"  timeZone="CET"/>
                                         </h:outputText>
                                     </div>
                                 </h:panelGroup>
                             </h:panelGroup>
                         </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:left;font-size:0.8rem">
+                        <div class="ui-g-12 ui-md-6 ui-lg-2 textLeft fonts08rem">
                             <h:panelGroup 
                                 rendered="#{not empty cc.attrs.value.fechaDevolucionPrevista or not empty cc.attrs.value.fechaDevolucion}" 
-                                style="display:inline-block;text-align:left"
+                                class="dpinline textLeft"
+                                
                             >
                                 <div><strong>DEVOLUCION</strong></div>
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.recogidaAlbaran}">
-                                    <div style="padding-left:0.5em">
+                                    <div class="marleft05">
                                         <span>Albaran: </span>
-                                        <span style="font-weight:bold;color:green">#{cc.attrs.value.recogidaAlbaran.codigoAlbaran}</span>
+                                        <span class="font-weight-blod color000">#{cc.attrs.value.recogidaAlbaran.codigoAlbaran}</span>
                                     </div>
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{not empty cc.attrs.value.recogidaTransporte.empresa}">
-                                    <span style="padding-left:0.5em">#{cc.attrs.value.recogidaTransporte.empresa.nombre}: #{cc.attrs.value.recogidaImporte}€</span>
+                                    <span class="marleft05">#{cc.attrs.value.recogidaTransporte.empresa.nombre}: #{cc.attrs.value.recogidaImporte}€</span>
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{!empty cc.attrs.value.fechaDevolucionPrevista}">
-                                    <div style="display:flex;justify-content:space-between">
-                                        <span style="padding-left:1em">Prevista: </span>
-                                        <h:outputText value="#{cc.attrs.value.fechaDevolucionPrevista}" style="padding-left:0.5em;font-size:1.2em">
+                                    <div class="dpflex jutbetwen">
+                                        <span class="padgLeft1">Prevista: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaDevolucionPrevista}" class="padgLeft05 font-size-12" >
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET"/>
                                         </h:outputText>
                                     </div>
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{!empty cc.attrs.value.fechaDevolucion}">
-                                    <div style="display:flex;justify-content:space-between">
-                                        <span style="padding-left:1em">Real: </span>
-                                        <h:outputText value="#{cc.attrs.value.fechaDevolucion}" style="padding-left:0.5em;font-size:1.2em">
+                                    <div class="dpflex jutbetwen">
+                                        <span class="padgLeft1">Real: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaDevolucion}" class="padgLeft05 font-size-12">
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET"/>
                                         </h:outputText>
                                     </div>
