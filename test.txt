@@ -1,0 +1,3 @@
+cls
+echo off
+echo fichero de testeo
