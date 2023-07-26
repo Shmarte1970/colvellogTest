@@ -21,12 +21,12 @@
             <p:panel
                 id="content" 
                 styleClass="#{cc.attrs.updateId}"
-                style="position: relative;min-height: 5em;padding:6px"
+                class="pos minheight1 pad6"                              
             >
                 <div>
-                    <div style="float:left;width:50%">
-                        <div style="text-align:left">
-                            <div style="font-size:1.3em">
+                    <div class="floatLeft width50" >
+                        <div class="textLeft">
+                            <div class="font-siza-13">
                                 #{cc.attrs.value.concepto}
                             </div>
                             <s:stockInfoSubPanel 
@@ -39,19 +39,19 @@
                         </div>
                     </div>
                     
-                    <div style="float:right;">
-                        <div style="text-align:right">
-                            <div style="font-size:1em">
+                    <div class="floatRight" >
+                        <div class="textRight">
+                            <div class="font-size-1">
                                 <strong>#{cc.attrs.value.tipoOperacion.nombre}<h:panelGroup rendered="#{cc.attrs.value.tipoOperacion.id=='AL'}">/#{cc.attrs.contrato != null ? cc.attrs.contrato.condiciones.facturarPor.nombre : 'ojito sin contrato'}</h:panelGroup></strong>
                             </div>
-                            <div style="font-size:1.8em">
+                            <div class="font-size18">
                                 <strong>
                                     <helpers:money value="#{cc.attrs.value.importeTotal}"/>
                                 </strong>
                             </div>
                             <h:panelGroup 
                                 layout="block" 
-                                style="font-size:1.2em"
+                                class ="font-size-12"                                
                                 rendered="#{cc.attrs.value.gastosAdicionalesImporte > 0}"
                             >
                                 <strong>
@@ -60,80 +60,80 @@
                             </h:panelGroup>
                         </div>
                     </div>
-                    <a:albaranLink value="#{cc.attrs.value.recogidaAlbaran}" style="margin-right:20px;margin-top:4px;"/>
-                    <a:albaranLink value="#{cc.attrs.value.entregaAlbaran}" style="margin-right:20px;margin-top:4px;"/>
-                    <div class="app-codigo" style="float:right;margin-right:20px;margin-top:4px;font-size:1rem;text-align:right" >
-                        <div style="font-size:0.8rem">Booking</div>
+                    <a:albaranLink value="#{cc.attrs.value.recogidaAlbaran}" class="marRight20 marTop04"/>
+                    <a:albaranLink value="#{cc.attrs.value.entregaAlbaran}" class="marRight20 marTop04" />
+                    <div class="app-codigo marRight20 marTop04 floatRight font-size-1 extRight">
+                        <div class = "font-size-08" >Booking</div>
                         <div>#{cc.attrs.contrato.friendlyId}-#{cc.attrs.value.id}</div>
                     </div>
-                    <div class="app-estado app-estado-#{cc.attrs.value.estado.id}" style="float:right;margin-right:20px;margin-top:4px;font-size:1rem;text-align:right" >
-                        <div style="font-size:0.8rem">Estado</div>
+                    <div class="app-estado floatRight  marRight20 marTop04 fonts1rem textRight app-estado-#{cc.attrs.value.estado.id}"  >
+                        <div class = "font-size-08">Estado</div>
                         <div>#{cc.attrs.value.estado.nombre}</div>
                     </div>
-                    <div style="clear:both"></div>
-                    <div class="ui-g" style="text-align:left;font-size:0.8em;padding-left:2em">
-                        <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align:left">                        
-                            <div style="display:inline-block;text-align:left;">
+                    <div class="clboth"></div>
+                    <div class="ui-g textLeft font-size-08 padLeft2em">
+                        <div class="ui-g-12 ui-md-6 ui-lg-4 textLeft">                        
+                            <div class="dpinline textLeft">
                                 <h:panelGroup layout="block" rendered="#{!empty cc.attrs.value.complementos}">
-                                    <div style="display:flex;justify-content:space-between">
+                                    <div class="dpflex jutbetwen">
                                         <strong>COMPLEMENTOS</strong>
-                                        <strong style="padding-left: 1em">#{cc.attrs.value.complementosImporte}€</strong>
+                                        <strong  class="font-size-1" >#{cc.attrs.value.complementosImporte}€</strong>
                                     </div>
-                                    <table style="margin-left:1em;width:100%">
+                                    <table class="font-size-1 width100" >
                                         <ui:repeat value="#{cc.attrs.value.complementos}" var="item">
                                             <tr>
-                                                <td style="text-align:left">#{item.concepto}</td>
-                                                <td style="text-align:right">x#{item.cantidad}</td>
-                                                <td style="text-align:right">#{item.importe}€</td>
-                                                <td style="text-align:right">#{item.importeTotal}€</td>
+                                                <td class="textLeft">#{item.concepto}</td>
+                                                <td class="textRight">x#{item.cantidad}</td>
+                                                <td class="textRight">#{item.importe}€</td>
+                                                <td class="textRight">#{item.importeTotal}€</td>
                                             </tr>
                                         </ui:repeat>
                                     </table>
                                 </h:panelGroup>
                             </div>
                         </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align:left">
-                            <div style="display:inline-block;text-align:left">
+                        <div class="ui-g-12 ui-md-6 ui-lg-4 textLeft">
+                            <div class="dpinline textRight">
                                 <h:panelGroup layout="block" rendered="#{!empty cc.attrs.value.gastosAdicionales}">
-                                    <div style="display:flex;justify-content:space-between">
+                                    <div class="dpflex jutbetwen">
                                         <strong>GASTOS ADICIONALES</strong>
-                                        <strong style="padding-left: 1em">#{cc.attrs.value.gastosAdicionalesImporte}€</strong>
+                                        <strong class="padgLeft">#{cc.attrs.value.gastosAdicionalesImporte}€</strong>
                                     </div>
-                                    <table style="margin-left:1em;width:100%">
+                                    <table class="padgLeft width100">
                                         <ui:repeat value="#{cc.attrs.value.gastosAdicionales}" var="item">
                                             <tr>
-                                                <td style="text-align:left">#{item.concepto}</td>
-                                                <td style="text-align:right">x#{item.cantidad}</td>
-                                                <td style="text-align:right">#{item.importe}€</td>
-                                                <td style="text-align:right">#{item.importeTotal}€</td>
+                                                <td class="textLeft">#{item.concepto}</td>
+                                                <td class="textRight">x#{item.cantidad}</td>
+                                                <td class="textRight">#{item.importe}€</td>
+                                                <td class="textRight">#{item.importeTotal}€</td>
                                             </tr>
                                         </ui:repeat>
                                     </table>
                                 </h:panelGroup>
                             </div>
                         </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:left;font-size:0.8rem">
+                        <div class="ui-g-12 ui-md-6 ui-lg-2 textLeft fonts08rem" >
                             <h:panelGroup 
                                 rendered="#{not empty cc.attrs.value.fechaEntregaPrevista or not empty cc.attrs.value.fechaEntrega}" 
-                                style="display:inline-block;text-align:left"
+                                class="dpinline textLeft" 
                             >
                                 <div><strong>ENTREGA</strong></div>
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.entregaAlbaran}">
-                                    <div style="padding-left:0.5em">
+                                    <div class="padLeft05">
                                         <span>Albaran: </span>
-                                        <span style="font-weight:bold;color:green">#{cc.attrs.value.entregaAlbaran.codigoAlbaran}</span>
+                                        <span class="font-weight-blod color000">#{cc.attrs.value.entregaAlbaran.codigoAlbaran}</span>
                                     </div>
                                 </h:panelGroup>
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.entregaTransporte.empresa}">
-                                    <span style="padding-left:0.5em">
+                                    <span class="padLeft05">
                                         #{cc.attrs.value.entregaTransporte.empresa.nombre}:
                                     </span>
-                                    <p:outputLabel style="padding:0" rendered="#{not empty cc.attrs.value.entregaImporte}" value="#{cc.attrs.value.entregaImporte}€" />
+                                    <p:outputLabel class="padding0" rendered="#{not empty cc.attrs.value.entregaImporte}" value="#{cc.attrs.value.entregaImporte}€" />
                                 </h:panelGroup>
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.fechaEntregaPrevista}">
-                                    <div style="display:flex;justify-content:space-between">
-                                        <span style="padding-left:1em">Prevista: </span>
-                                        <h:outputText value="#{cc.attrs.value.fechaEntregaPrevista}" style="padding-left:0.5em;font-size:1.2em">
+                                    <div class="dpflex jutbetwen">
+                                        <span class="padgLeft1">Prevista: </span>
+                                        <h:outputText value="#{cc.attrs.value.fechaEntregaPrevista}" class="padgLeft05 font-size-12">
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
                                         </h:outputText>
                                     </div>

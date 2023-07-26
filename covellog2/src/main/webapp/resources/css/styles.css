@@ -17,13 +17,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     display: block;
 }
 
+.dpflex{
+    display:flex;
+}
+
 .dpinline{
     display:inline-block;
     width: 180px;    
 }
+.jutbetwen{
+    justify-content: space-between;
+}
 
 .bgcolorjs{
     background-color: #d1dbe8;
+}
+
+color000{
+    color:#000;    
 }
 
 .color333{
@@ -31,6 +42,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 .color666{
     color:#666;
+}
+
+.clboth{
+    clear:both;
 }
 
 .bgcolorAAA{
@@ -45,6 +60,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     margin-left: 0.5em;
 }
 
+marleft1{
+    margin-left: 1em;
+}
+
+.marTop04{
+    margin-top: 4px;
+}
+
 .marTop05{
     margin-top: 0.5em;
 }
@@ -52,6 +75,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .marTop10{
     margin-top: 10px;
 }
+
+.marRight20{
+    margin-right: 20px;
+}
+
+.pos{
+    position:relative;
+}
+
 
 
 .textLeft{
@@ -112,6 +144,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
      font-size:0.9em;
 }
 
+.font-size-1{
+    font-size: 1em;
+}
+
+.fonts1rem{
+    font-size: 1rem
+}
+
+.fonts08rem{
+    font-size: 0.8rem;
+}
+
+
 .font-size-12{
     font-size: 1.2em;
 }
@@ -142,6 +187,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 .font-size-18{
     font-size: 18px;
+}
+
+font-size18{
+    font-size:1.8em;
 }
 
 .font-size-48{
@@ -179,6 +228,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 
 .padding6px10px{
     padding: 6px 10px;
+}
+
+.pad6{
+    padding: 6px;
 }
 
 .pad10{
@@ -240,6 +293,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 padding-left: 0.1em;    
 }
 
+.padgLeft05{
+    padding-left: 0.5em;
+}
+
 .padgLeft1{
     padding-left: 1em;
 }
@@ -259,6 +316,10 @@ padding-left: 0.1em;
 
 .padLeft5em{
     padding-left: 0.5em;
+}
+
+.padLeft2em{
+    padding-left: 2em;
 }
 
 .padLeft06{
@@ -380,6 +441,11 @@ padding-left: 0.1em;
 
 .height171{
     height: 171px;
+}
+
+
+.minheigh1{
+    min-height: 5em;
 }
 
 .min-height70{
