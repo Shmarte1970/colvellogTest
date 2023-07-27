@@ -22,16 +22,15 @@
             <p:panel
                 id="content" 
                 styleClass="#{cc.attrs.updateId}"
-                style="position: relative;min-height: 5em;padding:0px;border: none;text-align: left"
+                class="pos minheigh1 padding0 bordern  textLeft"                
             >
-                <div style="font-size:1.5em">
+                <div class ="font-size-15">
                     <div jsf:rendered="#{not empty cc.attrs.numSerie}">
                         <div class="my-row">
                             <div class="my-col">
-                                <div style="padding: 0.15em 0">
+                                <div class="padding150" >
                                     <h:link 
-                                        class="app-codigo"
-                                        style="padding: 0.2em 0.2em 0.1em 0.2em;border-width: 3px;"
+                                        class="app-codigo pading02x4 borderwidth"                                        
                                         value="#{cc.attrs.numSerie}" 
                                         outcome="/stock/gestion.xhtml"
                                         onclick="event.stopPropagation()"
@@ -41,28 +40,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="font-size:0.5em">
-                            <i class="fa fa-location-dot" style="padding-right: 0.3em"></i>
-                            <p:outputLabel style="padding:0" value="Actual: #{cc.attrs.stock.ubicacion.nombre}" />
+                        <div class="font-size-05">
+                            <i class="fa fa-location-dot padRight03"></i>
+                            <p:outputLabel class="padding0" value="Actual: #{cc.attrs.stock.ubicacion.nombre}" />
                         </div>
                     </div>
                     <div jsf:rendered="#{empty cc.attrs.numSerie}">
                         <strong>
-                            <p:outputLabel style="padding:0;color:red;font-style: italic" value="PENDIENTE ASIGNAR" />
+                            <p:outputLabel class="padding0 color900 font-style-italic " value="PENDIENTE ASIGNAR" />
                         </strong>
                     </div>
                 </div>             
-                <div style="padding-top:0.2em">                 
-                    <div style="font-size: 0.9em">
-                        <div style="float:left" jsf:rendered="#{not empty cc.attrs.ubicacion}">
-                            <i class="fa fa-fw fa-warehouse" style="padding-right: 0.1em"></i>
+                <div class="paddingtop02em">                 
+                    <div class="font-size-09">
+                        <div class="floatLeft" jsf:rendered="#{not empty cc.attrs.ubicacion}">
+                            <i class="fa fa-fw fa-warehouse padRight01"></i>
                             #{cc.attrs.ubicacion.nombre}
-                            <div style="float:right;font-size: 1em;padding:0 0.5em;font-weight: bold;">
+                            <div class="floatRight font-size-1 padding005em font-weight-blod">
                                 <i class="fa-solid fa-circle-arrow-right"></i>
                             </div>
                         </div>
                         
-                        <div style="float:left">
+                        <div class="floatLeft">
                             #{cc.attrs.tipoProducto.familia.nombre}/#{cc.attrs.tipoProducto.id}
                             <h:panelGroup rendered="#{!empty cc.attrs.lote}">
                                 <div>

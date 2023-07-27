@@ -122,8 +122,20 @@ marleft1{
     border: 0;
 }
 
+.borderwidth{
+    border-width: 3px;
+}
+
+.bordern{
+ border:none;   
+}
+
 .border1sb{
     border:1px solid black;
+}
+
+.font-size-05{
+    font-size:0.5em;
 }
 
 .font-size-06{
@@ -195,7 +207,9 @@ font-size18{
     font-size:48px;
 }
 
-
+.pading02x4{
+    padding: 0.2em 0.2em 0.2em 0.2em;
+}
 
 .padding4{
     padding: 4px 0 0 0;
@@ -209,6 +223,9 @@ font-size18{
     padding: 0 0;
 }
 
+.padding150{
+    padding: 0.15em 0;
+}
 
 
 .padding05{

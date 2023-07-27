@@ -26,16 +26,17 @@
                 <div>
                     <div class="floatLeft width50" >
                         <div class="textLeft">
-                            <div class="font-siza-13">
+                            <div class="font-siza-13">                                
                                 #{cc.attrs.value.concepto}
+                                
                             </div>
-                            <s:stockInfoSubPanel 
+                            <s:stockInfoSubPanel                                 
                                 stock="#{cc.attrs.value.stock}"
                                 numSerie="#{cc.attrs.value.numSerie}"
                                 ubicacion="#{cc.attrs.value.ubicacion}"
                                 tipoProducto="#{cc.attrs.value.tipoProducto}"
                                 lote="#{cc.attrs.value.lote}"
-                            />
+                            />                            
                         </div>
                     </div>
                     
@@ -60,7 +61,8 @@
                             </h:panelGroup>
                         </div>
                     </div>
-                    <!--
+                    
+                    <!-- Antiguos links 
                     <a:albaranLink value="#{cc.attrs.value.recogidaAlbaran}" class="marRight20 marTop04"/>
                     <a:albaranLink value="#{cc.attrs.value.entregaAlbaran}" class="marRight20 marTop04" />-->
                     <div class="app-codigo marRight20 marTop04 floatRight font-size-1 extRight">
