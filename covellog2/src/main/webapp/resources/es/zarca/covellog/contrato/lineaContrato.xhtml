@@ -60,8 +60,9 @@
                             </h:panelGroup>
                         </div>
                     </div>
+                    <!--
                     <a:albaranLink value="#{cc.attrs.value.recogidaAlbaran}" class="marRight20 marTop04"/>
-                    <a:albaranLink value="#{cc.attrs.value.entregaAlbaran}" class="marRight20 marTop04" />
+                    <a:albaranLink value="#{cc.attrs.value.entregaAlbaran}" class="marRight20 marTop04" />-->
                     <div class="app-codigo marRight20 marTop04 floatRight font-size-1 extRight">
                         <div class = "font-size-08" >Booking</div>
                         <div>#{cc.attrs.contrato.friendlyId}-#{cc.attrs.value.id}</div>
@@ -125,8 +126,7 @@
                                     <!-- Trabajando con los links -->
                                     <div class="padLeft05">
                                         <span>Albaran: </span>
-                                       
-                                        
+                             
                                         <a 
                                             class="font-weight-blod color000" 
                                             href="/covellog2-test-templates/faces/albaranes/modificar.xhtml?id=#{cc.attrs.value.entregaAlbaran.id}" 
@@ -167,7 +167,19 @@
                                 class="dpinline textLeft"
                                 
                             >
-                                <div><strong>DEVOLUCION</strong></div>
+                                <div><strong>DEVOLUCION</strong>
+                                
+                                <a 
+                                            class="font-weight-blod color000" 
+                                            href="/covellog2-test-templates/faces/albaranes/modificar.xhtml?id=#{cc.attrs.value.recogidaAlbaran.id}" 
+                                            onclick="event.stopPropagation();"
+                                        >
+                                            #{cc.attrs.value.recogidaAlbaran.codigoAlbaran}
+                                        </a>
+                                    
+                                
+                                
+                                </div>
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.recogidaAlbaran}">
                                     <div class="marleft05">
                                         <span>Albaran: </span>
