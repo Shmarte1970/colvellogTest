@@ -27,7 +27,7 @@ function updateTime() {
     var now = new Date();
     var datetimeElement = document.getElementById('datetime');
     var options = {
-        hour12: true,
+        hour12: false,
         hour: '2-digit',
         minute: '2-digit'
     };

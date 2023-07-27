@@ -47,7 +47,7 @@
                     </div>
                     <div jsf:rendered="#{empty cc.attrs.numSerie}">
                         <strong>
-                            <p:outputLabel class="padding0 color900 font-style-italic " value="PENDIENTE ASIGNAR" />
+                            <p:outputLabel class="padding0 font-style-italic " value="PENDIENTE ASIGNAR" />
                         </strong>
                     </div>
                 </div>             
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         
-                        <div class="floatLeft">
+                        <div class="floatLeft ">
                             #{cc.attrs.tipoProducto.familia.nombre}/#{cc.attrs.tipoProducto.id}
                             <h:panelGroup rendered="#{!empty cc.attrs.lote}">
                                 <div>

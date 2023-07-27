@@ -33,7 +33,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     background-color: #d1dbe8;
 }
 
-color000{
+.color000{
     color:#000;    
 }
 
@@ -42,6 +42,10 @@ color000{
 }
 .color666{
     color:#666;
+}
+
+.color900{
+    color:#900;
 }
 
 .clboth{
@@ -79,6 +83,7 @@ marleft1{
 .marRight20{
     margin-right: 20px;
 }
+
 
 .pos{
     position:relative;
@@ -150,6 +155,7 @@ marleft1{
 .font-size-08{
      font-size:0.8em;
 }
+
 
 
 .font-size-09{
@@ -294,6 +300,10 @@ font-size18{
 
 .padRight5{
     padding-right: 5px;
+}
+
+.padRight01{
+    padding-right: 0.1em;
 }
 
 .padRight03{
