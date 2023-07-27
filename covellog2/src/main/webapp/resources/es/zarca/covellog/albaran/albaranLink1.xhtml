@@ -20,17 +20,12 @@
                 onclick="event.stopPropagation();"
             >
                 <div class="my-row">
-                    <div class="my-col" style="font-size: 1.5em;padding-top:0.4em;padding-right:0.2em">
-                        <i jsf:rendered="#{cc.attrs.value.tipo.id eq 'E'}" class="fa-solid fa-circle-up"></i>                       
-                        <i jsf:rendered="#{cc.attrs.value.tipo.id ne 'E'}" class="fa-solid fa-circle-down"></i>
-                    </div>
-                    <div class="my-col">
-                        <div style="font-size:0.8rem">#{cc.attrs.value.tipo.id eq 'E' ? "Albaran Ent" : "Albaran Rec"}</div>
-                        <div>#{cc.attrs.value.codigoAlbaran}</div>
-                        <div style="font-size:0.8rem">#{cc.attrs.value.estado}</div> 
+                   
+                    
+                        <div style="font-size:12px">#{cc.attrs.estado}<i class="fa-solid fa-book"></i></div> 
                     </div>
                     
-                </div>
+                
                 <f:param name="id" value="#{cc.attrs.value.id}" />
             </h:link>
         </composite:implementation>  

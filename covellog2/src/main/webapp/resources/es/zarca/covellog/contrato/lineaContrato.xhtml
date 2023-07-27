@@ -96,7 +96,7 @@
                             <div class="dpinline textRight">
                                 <h:panelGroup layout="block" rendered="#{!empty cc.attrs.value.gastosAdicionales}">
                                     <div class="dpflex jutbetwen">
-                                        <strong>GASTOS ADICIONALES</strong>
+                                        <strong>GASTOS ADICIONALES</strong>                                        
                                         <strong class="padgLeft">#{cc.attrs.value.gastosAdicionalesImporte}€</strong>
                                     </div>
                                     <table class="padgLeft width100">
@@ -113,17 +113,30 @@
                             </div>
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-2 textLeft fonts08rem" >
+                            
                             <h:panelGroup 
+                                
                                 rendered="#{not empty cc.attrs.value.fechaEntregaPrevista or not empty cc.attrs.value.fechaEntrega}" 
                                 class="dpinline textLeft" 
                             >
-                                <div><strong>ENTREGA</strong></div>
+  
+                              
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.entregaAlbaran}">
+                                    <!-- Trabajando con los links -->
                                     <div class="padLeft05">
                                         <span>Albaran: </span>
-                                        <span class="font-weight-blod color000">#{cc.attrs.value.entregaAlbaran.codigoAlbaran}</span>
-                                    </div>
+                                       
+                                        
+                                        <a 
+                                            class="font-weight-blod color000" 
+                                            href="/covellog2-test-templates/faces/albaranes/modificar.xhtml?id=#{cc.attrs.value.entregaAlbaran.id}" 
+                                            onclick="event.stopPropagation();"
+                                        >
+                                            #{cc.attrs.value.entregaAlbaran.codigoAlbaran}
+                                        </a>
+                                    </div>                               
                                 </h:panelGroup>
+                                     
                                 <h:panelGroup layout="block" rendered="#{not empty cc.attrs.value.entregaTransporte.empresa}">
                                     <span class="padLeft05">
                                         #{cc.attrs.value.entregaTransporte.empresa.nombre}:
