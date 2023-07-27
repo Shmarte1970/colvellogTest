@@ -400,12 +400,12 @@
                                     <div class="padgLeft1">
                                         <table class="widht100 border-0 font-size-09"  cellpadding="0" cellspacing="0">
                                             <tr jsf:rendered="#{item.entregaTransporte != null}" class="iluminable">
-                                                <td class="textLeft width60">#{item.entregaTransporte.empresa.nombre} - #{item.entregaTransporte.nombre}</td>
-                                                <td class="textRight width40">#{previsionMesesAlquiler == null ? '0.00' : previsionMesesAlquiler}€</td>
+                                                <td class="textLeft width60 fontsize15" >#{item.entregaTransporte.empresa.nombre} - #{item.entregaTransporte.nombre}</td>
+                                                <td class="textRight width40 fontsize15">#{previsionMesesAlquiler == null ? '0.00' : previsionMesesAlquiler}€</td>
                                             </tr>
                                             <tr jsf:rendered="#{item.entregaTransporte == null}" class="iluminable">
-                                                <td class="textLeft widht60 ">Sus medios</td>
-                                                <td class="textRight width:40">#{previsionMesesAlquiler == null ? '0.00' : previsionMesesAlquiler}€</td>
+                                                <td class="textLeft widht60 fontsize15">Sus medios</td>
+                                                <td class="textRight width40 fontsize15">#{previsionMesesAlquiler == null ? '0.00' : previsionMesesAlquiler}€</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -415,12 +415,12 @@
                                     <div class="padgLeft1">
                                         <table class="width100 border-0 font-size-09"  cellpadding="0" cellspacing="0">
                                             <tr jsf:rendered="#{item.recogidaTransporte != null}" class="iluminable">
-                                                <td class="textLeft width60">#{item.recogidaTransporte.empresa.nombre} - #{item.recogidaTransporte.nombre}</td>
-                                                <td class="textRight width40">#{item.recogidaImporte == null ? '0.00' : item.recogidaImporte}€</td>
+                                                <td class="textLeft width60 fontsize15">#{item.recogidaTransporte.empresa.nombre} - #{item.recogidaTransporte.nombre}</td>
+                                                <td class="textRight width40 fontsize15">#{item.recogidaImporte == null ? '0.00' : item.recogidaImporte}€</td>
                                             </tr>
                                             <tr jsf:rendered="#{item.recogidaTransporte == null}" class="iluminable">
-                                                <td class="textLeft width60">Sus medios</td>
-                                                <td class="textRight width40">#{item.recogidaImporte == null ? '0.00' : item.recogidaImporte}€</td>
+                                                <td class="textLeft width60 fontsize15">Sus medios</td>
+                                                <td class="textRight width40 fontsize15">#{item.recogidaImporte == null ? '0.00' : item.recogidaImporte}€</td>
                                             </tr>
                                         </table>
                                     </div>
