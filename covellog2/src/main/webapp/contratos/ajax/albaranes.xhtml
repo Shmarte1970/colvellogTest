@@ -17,10 +17,10 @@
                 id="AlbaranesEntregaPanel"
                 header="Albaranes Entrega (#{contratoAlbaranesBean.albaranesEntrega.size()})" 
                 styleClass="panel-datatable header-mediano" 
-                
+                style=""
             >
                 <div class="ui-g">
-                    <div class="ui-g-12 ui-md-12 ui-lg-12" class="textRight">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align:right">
                         <p:commandButton
                             disabled="#{empty contratoAlbaranesBean.albaranesEntregaSeleccionados}"
                             class="boton boton-primary boton-peque"
@@ -50,15 +50,14 @@
                 <p:scrollPanel 
                     mode="native" 
                     rendered="#{not empty contratoAlbaranesBean.albaranesEntrega}"
-                    class="max-height60vh bordern"
-                    
+                    style="max-height:60vh;border:none"
                 >
                     <p:outputLabel 
                         value="No hay albaranes" 
                         rendered="#{empty contratoAlbaranesBean.albaranesEntrega}"
                     />
                     <p:selectManyMenu 
-                        class="width100 boxsizing"                      
+                        style="width:100%;box-sizing: border-box" 
                         id="AlbaranesEntrega" 
                         converter="contratoAlbaranDtoConverter"
                         value="#{contratoAlbaranesBean.albaranesEntregaSeleccionados}"

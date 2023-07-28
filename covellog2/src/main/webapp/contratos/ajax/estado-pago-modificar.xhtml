@@ -10,7 +10,7 @@
         <p:dialog id="EstadoPagoModificarDlg" responsive="true" widgetVar="EstadoPagoModificarDialog" modal="true" resizable="false" appendTo="@(body)" header="Modificar Estado Pago">
             <h:form id="EstadoPagoModificarForm">
                 <h:panelGroup id="display">
-                    <div class="width-responsive" class="width360">
+                    <div class="width-responsive" style="width:360px">
                         <div class="ui-g">
                             <div class="ui-g-12 ui-md-3 ui-lg-3 div-label">
                                 <p:outputLabel value="Estado Pago" for="estadoPago" />
@@ -32,7 +32,7 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
-                        <div class="textRight paddingtop16">                            
+                        <div style="text-align: right; padding-top:16px">                            
                             <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-close" value="Cancelar" oncomplete="closeDialog('EstadoPagoModificarDialog')" immediate="true"/>
                             <p:commandButton class="boton boton-primary" icon="fa fa-fw fa-save" actionListener="#{modificarContratoBean.modificarEstadoPago}" value="Guardar" update="panel-interior,:growl" oncomplete="handleSubmit(args,'EstadoPagoModificarDialog');"/>
                         </div>
