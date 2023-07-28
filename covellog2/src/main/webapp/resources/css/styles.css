@@ -60,8 +60,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     background-color: #AAA;
 }
 
+.jusConLeft{
+    justify-content: left;
+}
+
 .margin4px{
     margin: 4px;
+}
+
+.margin6px{
+    margin:6px;
+}
+
+.margin60px{
+    margin:6px 0;
 }
 
 .marleft05{
@@ -74,6 +86,10 @@ marleft1{
 
 .marTop04{
     margin-top: 4px;
+}
+
+.marTop08{
+    margin-top: 8px;
 }
 
 .marTop05{
@@ -96,6 +112,7 @@ marleft1{
 .pos{
     position:relative;
 }
+
 
 
 .textLeft{
@@ -328,8 +345,12 @@ font-size18{
 
 .padRight5{
     padding-right: 5px;
+       
 }
 
+.padRight0{
+    padding-right: 0;
+}
 .padRight01{
     padding-right: 0.1em;
 }
@@ -344,6 +365,10 @@ font-size18{
 
 .padRight08{
     padding-right: 0.8em;
+}
+
+.padLeft0{
+    padding-left: 0;
 }
 
 .padgLeft01{
