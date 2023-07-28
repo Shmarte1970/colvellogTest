@@ -216,14 +216,14 @@
                                                     <p:column>
                                                         <!--align-items: left  -->
                                                         <div class="dpflex jusConLeft">
-                                                            <div style="width:50%">#{p.concepto}</div>
-                                                            <div style="width:10%">#{p.cantidad}</div>
-                                                            <div style="width:20%">#{p.importe}€</div>
-                                                            <div style="width:20%">#{p.importeTotal}€</div>
+                                                            <div class="width50">#{p.concepto}</div>
+                                                            <div class="width10">#{p.cantidad}</div>
+                                                            <div class="width20">#{p.importe}€</div>
+                                                            <div class="width20">#{p.importeTotal}€</div>
                                                         </div>
                                                     </p:column>
                                                 </p:selectManyMenu>
-                                                <div style="text-align:right;padding-top:0.2em">
+                                                <div class="textRight  paddingtop02em">
                                                     <p:commandButton 
                                                         disabled="#{empty contratoLineaModificarBean.complementosSelecteds}"
                                                         class="boton boton-primary boton-peque"
@@ -285,7 +285,7 @@
                                         id="PanelGastosAdicionales"
                                         header="Gastos Adicionales #{contratoLineaModificarBean.gastosAdicionalesImporteTotal} (#{contratoLineaModificarBean.gastosAdicionales.size()})" 
                                         styleClass="panel-datatable header-mediano" 
-                                        style="margin:6px 0"                                        
+                                        class="margin60px"                                                                            
                                     >
                                         <div class="ui-g">
                                             <div class="ui-g-12 ui-md-12 ui-lg-12">
@@ -308,7 +308,7 @@
                                                         itemValue="#{item}"
                                                     />
                                                     <p:column>
-                                                        <div style="display: flex; align-items: left; justify-content: left;">
+                                                        <div class="dpflex jusConLeft" >
                                                             <div style="width:50%">#{p.concepto}</div>
                                                             <div style="width:10%">#{p.cantidad}</div>
                                                             <div style="width:20%">#{p.importe}€</div>
