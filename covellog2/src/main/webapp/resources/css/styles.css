@@ -85,10 +85,13 @@ marleft1{
 }
 
 
+.marBottom20{
+    margin-bottom:20px;
+}
+
 .pos{
     position:relative;
 }
-
 
 
 .textLeft{
@@ -125,6 +128,10 @@ marleft1{
 
 .border-0{
     border: 0;
+}
+
+.bordernone{
+    border: none;
 }
 
 .borderwidth{
@@ -243,6 +250,10 @@ font-size18{
     padding: 0.5em;
 }
 
+.padding80{
+    padding: 8px 0;
+}
+
 .padding005em{
     padding: 0 0.5em;
 }
@@ -293,6 +304,9 @@ font-size18{
     padding-top: 0.75em;
 }
 
+.paddingtop16{
+    padding: 16px;
+}
 
 .pad010{
     padding: 0 10px 10px 10px;
@@ -428,11 +442,19 @@ padding-left: 0.1em;
     width:60%;
 }
 
+.width60px{
+    width:60px;
+}
+
 .width80{
     width: 80%;
 }
 
-.width85{
+.width80px{
+    width:80px;
+}
+
+.width85{   
     width: 85%;
 }
 
@@ -444,9 +466,23 @@ padding-left: 0.1em;
     width:200px;
 }
 
+.width420px{
+    width:420px;
+}
+
+.mx-height700{
+    max-height: 700px;
+}
+
+.mx-height90{
+    max-height: 90%;
+}
+
 .mx-width800{
     max-width: 800px;
 }
+
+
 
 
 .nowrap{

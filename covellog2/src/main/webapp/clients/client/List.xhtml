@@ -26,8 +26,8 @@
             </script>
             <p:panel id="panel-interior"  >
                 <h:form id="ClientListForm">
-                    <div style="text-align: right; padding:8px 0">
-                        <div style="float: right">
+                    <div  class="textRight padding80">
+                        <div class="floatRight">
                             <p:commandButton class="boton boton-primary" id="createButton" icon="fa fa-fw fa-plus" value="#{clientsBundle.Create}" actionListener="#{gestioClientController.prepareCreate}" update=":ClientCreateForm" oncomplete="PF('ClientCreateDialog').show()"/>
                             <p:commandButton class="boton boton-primary" id="editButton" icon="fa fa-fw fa-edit" value="#{clientsBundle.Edit}" update=":ClientEditForm" oncomplete="PF('ClientEditDialog').show()" disabled="#{empty gestioClientController.selected}"/>
                                 <p:commandButton class="boton boton-error" id="deleteButton" icon="fa fa-fw fa-trash"  value="#{clientsBundle.Delete}" actionListener="#{gestioClientController.destroy}" update=":growl,ClientListForm:datalist" disabled="#{empty gestioClientController.selected}">                                
@@ -38,7 +38,7 @@
                                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
                             </p:confirmDialog> 
                         </div>
-                        <div style="clear:both"></div>
+                        <div class="clboth" ></div>
                     </div>
                     <p:dataTable id="datalist" scrollRows="50" virtualScroll="true" scrollHeight="600" 
                                 value="#{gestioClientController.items}" 
