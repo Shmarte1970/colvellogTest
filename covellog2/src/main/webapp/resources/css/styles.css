@@ -37,6 +37,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     color:#000;    
 }
 
+.boxsizing{
+    box-sizing: border-box;
+}
+
 .color333{
     color:#333;
 }
@@ -267,6 +271,11 @@ font-size18{
     padding: 6px 10px;
 }
 
+.paddingbottom0{
+    padding-bottom: 0;
+}
+
+
 .pad6{
     padding: 6px;
 }
@@ -305,7 +314,7 @@ font-size18{
 }
 
 .paddingtop16{
-    padding: 16px;
+    padding-top:  16px;
 }
 
 .pad010{
@@ -466,8 +475,16 @@ padding-left: 0.1em;
     width:200px;
 }
 
+.width360{
+    width:360px;
+}
+
 .width420px{
     width:420px;
+}
+
+.max-height60vh{
+    max-height:60vh;
 }
 
 .mx-height700{
